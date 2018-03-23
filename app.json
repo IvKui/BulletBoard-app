@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "BulletBoard",
+    "slug": "bulletboard",
+    "sdkVersion": "25.0.0",
+    "primaryColor": "#0d6e88",
+    "icon": "./src/images/icon/icon.png",
+    "notification": {
+      "icon": "./src/images/icon/icon_blackwhite.png",
+      "color": "#0d6e88",
+      "androidMode": "collapse"
+    },
+    "splash": {
+      "icon": "./src/images/logo/logo_white.png",
+      "backgroundColor": "#0d6e88",
+      "hideExponentText": true
+    }
+  }
+}
