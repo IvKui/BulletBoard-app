@@ -1,7 +1,25 @@
 {
-  "name": "Mockup",
-  "version": "0.1.0",
-  "private": true,
+  "name": "bulletboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvKui/BulletBoard-app.git"
+  },
+  "author": "IvKui",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IvKui/BulletBoard-app/issues"
+  },
+  "homepage": "https://github.com/IvKui/BulletBoard-app#readme",
   "devDependencies": {
     "babel-eslint": "^8.2.2",
     "eslint": "^4.18.1",
@@ -10,14 +28,6 @@
     "jest-expo": "25.0.0",
     "react-native-scripts": "1.11.1",
     "react-test-renderer": "16.2.0"
-  },
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
-  "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js"
   },
   "jest": {
     "preset": "jest-expo"
