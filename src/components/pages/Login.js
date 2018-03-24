@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions'
 import { Colors } from '../../styles';
 import { workshop } from '../../images';
-import { Container, Block, Input, Svg, Button, Spinner, Form } from '../common';
+import { Container, Block, Input, Svg, Button, Spinner } from '../common';
 
 class Login extends Component {
 	constructor(props) {
@@ -64,9 +64,6 @@ class Login extends Component {
 	render() {
 		return (
 			<Container>
-				<Form>
-					test
-				</Form>
 				<Block>
 					<Svg
 						style={ styles.svg }

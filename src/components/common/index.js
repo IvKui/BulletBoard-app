@@ -7,4 +7,3 @@ export * from './Section';
 export * from './Svg';
 export * from './Circle';
 export * from './Spinner';
-export * from './Form';

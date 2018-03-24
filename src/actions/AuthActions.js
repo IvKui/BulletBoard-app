@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import { NavigationActions } from 'react-navigation';
 import {
 	EMAIL_CHANGED,
 	PASSWORD_CHANGED,
@@ -44,7 +43,9 @@ export const registerUser = ({ email, password }) => {
 }
 
 const loginUserFail = (dispatch) => {
-	dispatch({ type: LOGIN_USER_FAIL });
+	dispatch({
+		type: LOGIN_USER_FAIL
+	});
 };
 
 const loginUserSuccess = (dispatch, user) => {
@@ -52,6 +53,4 @@ const loginUserSuccess = (dispatch, user) => {
 		type: LOGIN_USER_SUCCESS,
 		payload: user
 	});
-
-	NavigationActions.dispatch({ routeName: 'Agenda' });
 };
