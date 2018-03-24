@@ -8,13 +8,12 @@ import { Container, Block, Input, Svg, Button, Spinner } from '../common';
 
 class Login extends Component {
 	constructor(props) {
-		super(props);
-		this.focusNextField = this.focusNextField.bind(this);
-		this.inputs = {};
-	}
+    super(props);
+    this.state = { focusDescriptionInput: false };
+  }
 
-	focusNextField(id) {
-		this.inputs[id].focus();
+	handleTitleInputSubmit() {
+		this.setState(focusDescriptionInput: true)
 	}
 
 	onEmailChange(text) {
@@ -78,13 +77,8 @@ class Login extends Component {
 						placeholder='Email'
 						onChangeText={this.onEmailChange.bind(this)}
 						value={this.props.email}
-						onSubmitEditing={() => {
-							this.focusNextField('password');
-						}}
+						onSubmitEditing={this.handleTitleInputSubmit}
 						returnKeyType={"next"}
-						ref={ input => {
-							this.inputs['email'] = input;
-						}}
 					/>
 				</Block>
 				<Block>
@@ -101,9 +95,8 @@ class Login extends Component {
 						onChangeText={this.onPasswordChange.bind(this)}
 						value={this.props.password}
 						returnKeyType={"done"}
-						ref={ input => {
-							this.inputs['password'] = input;
-						}}
+						onSubmitEditing={this.onRegisterPress}
+						focus={this.state.focusDescriptionInput}
 					/>
 				</Block>
 				<Block>
