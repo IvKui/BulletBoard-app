@@ -1,17 +1,40 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
-import { Colors } from '../../styles'
+import { Svg } from './';
+import { Colors } from '../../styles';
 
-const Input = ({ style, label, value, onChangeText, placeholder, secureTextEntry, autoFocus, keyboardType, onSubmitEditing, returnKeyType, ref }) => {
+const Input = ({
+	style,
+	label,
+	value,
+	onChangeText,
+	placeholder,
+	secureTextEntry,
+	autoFocus,
+	keyboardType,
+	icon,
+	// onSubmitEditing,
+	// returnKeyType,
+	// ref
+}) => {
 	return (
 		<View style={[styles.container, style]}>
+			{icon &&
+				<Svg
+					style={styles.svg }
+					height='30'
+					width='30'
+					fill={ Colors.Secondary }
+					source={ icon }
+				/>
+			}
 			<TextInput
 				autoFocus={autoFocus}
 				keyboardType={keyboardType}
 				secureTextEntry={secureTextEntry}
-				ref={ref}
-				returnKeyType={returnKeyType}
-				onSubmitEditing={onSubmitEditing}
+				// ref={ref}
+				// returnKeyType={returnKeyType}
+				// onSubmitEditing={onSubmitEditing}
 				autoCorrect={false}
 				blurOnSubmit={false}
 				placeholder={placeholder}
@@ -27,7 +50,13 @@ const Input = ({ style, label, value, onChangeText, placeholder, secureTextEntry
 const styles = {
 	container: {
 		flex: 1,
-		height: 30
+		height: 30,
+		flexDirection: 'row'
+	},
+	svg: {
+		height: 30,
+		width: 30,
+		marginRight: 10
 	},
 	input: {
 		flex: 1,

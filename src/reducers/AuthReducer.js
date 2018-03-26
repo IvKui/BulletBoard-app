@@ -1,3 +1,4 @@
+import { NavigationActions } from 'react-navigation';
 import {
 	EMAIL_CHANGED,
 	PASSWORD_CHANGED,
@@ -32,6 +33,7 @@ export default (state = INITIAL_STATE, action) => {
 		case LOGIN_USER_SUCCESS:
 			console.log('logged in');
 			return { ...state, ...INITIAL_STATE, user: action.payload };
+			dispatch(NavigationActions.navigate({ routeName: 'Register' }))
 
 		case LOGIN_USER_FAIL:
 			console.log('error logging in')

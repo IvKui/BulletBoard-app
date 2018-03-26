@@ -15,5 +15,7 @@ export const logo_svg = require('./svg/logo_svg.svg');
 export const person = require('./svg/person.svg');
 export const workshop = require('./svg/workshop.svg');
 export const wrench = require('./svg/wrench.svg');
+export const lock = require('./svg/lock.svg');
+export const envelope = require('./svg/envelope.svg');
 
 // Service images

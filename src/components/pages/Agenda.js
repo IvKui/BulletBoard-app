@@ -10,19 +10,12 @@ class Agenda extends Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
-				<Button onPress={() => this.props.navigation.navigate('Appointment')}>Appointment</Button>
-			</View>
+			<Button onPress={() => this.props.navigation.navigate('Appointment')}>Appointment</Button>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-	container: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		flex: 1
-	}
 });
 
 export default Agenda;

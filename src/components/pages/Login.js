@@ -3,8 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions'
 import { Colors } from '../../styles';
-import { workshop } from '../../images';
-import { Container, Block, Input, Svg, Button, Spinner } from '../common';
+import { envelope, lock } from '../../images';
+import { Container, Block, Input, Button, Spinner } from '../common';
 
 class Login extends Component {
 	constructor(props) {
@@ -27,7 +27,9 @@ class Login extends Component {
 	onLoginPress() {
 		const { email, password } = this.props;
 
-		this.props.loginUser({ email, password });
+		this.props.loginUser({ email, password })
+		this.props.navigation.navigate('MainNav')
+
 	}
 
 	onRegisterPress() {
@@ -55,7 +57,7 @@ class Login extends Component {
 
 		return (
 			<Button onPress={this.onLoginPress.bind(this)}>
-				LogIn
+				Login
 			</Button>
 		);
 	}
@@ -64,39 +66,27 @@ class Login extends Component {
 		return (
 			<Container>
 				<Block>
-					<Svg
-						style={ styles.svg }
-						height='30'
-						width='30'
-						fill={ Colors.Secondary }
-						source={ workshop }
-					/>
 					<Input
 						autoFocus
 						keyboardType='email-address'
 						placeholder='Email'
+						icon={ envelope }
 						onChangeText={this.onEmailChange.bind(this)}
 						value={this.props.email}
-						onSubmitEditing={this.handleTitleInputSubmit}
-						returnKeyType={"next"}
+						// onSubmitEditing={this.handleTitleInputSubmit}
+						// returnKeyType={"next"}
 					/>
 				</Block>
 				<Block>
-					<Svg
-						style={ styles.svg }
-						height='30'
-						width='30'
-						fill={ Colors.Secondary }
-						source={ workshop }
-					/>
 					<Input
 						secureTextEntry
 						placeholder='Wachtwoord'
 						onChangeText={this.onPasswordChange.bind(this)}
 						value={this.props.password}
-						returnKeyType={"done"}
-						onSubmitEditing={this.onRegisterPress}
-						focus={this.state.focusDescriptionInput}
+						icon={ lock }
+						// returnKeyType={"done"}
+						// onSubmitEditing={this.onRegisterPress}
+						// focus={this.state.focusDescriptionInput}
 					/>
 				</Block>
 				<Block>
