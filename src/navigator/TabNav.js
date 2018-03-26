@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import Agenda from '../components/pages/Agenda';
-import MyServices from '../components/pages/MyServices';
+import Services from '../components/pages/Services';
 import Providers from '../components/pages/Providers';
 import { Svg } from '../components/common';
 import { calendar, handshake, workshop } from '../images';
@@ -22,7 +22,7 @@ const AppNav = TabNavigator({
     }
   },
   MyServices: {
-    screen: MyServices,
+    screen: Services,
     navigationOptions: {
       tabBarIcon: (
         <Svg
