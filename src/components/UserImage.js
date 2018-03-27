@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
-import { Rating } from 'react-native-ratings';
+//import { StarRating } from 'react-native-star-rating';
 import { Tags, Write } from './common';
 import { defaultUser, Star } from '../images';
 import { Colors } from '../styles';
@@ -18,15 +18,7 @@ class UserImage extends Component {
         <View>
           <Write style={styles.name}>{this.props.name}</Write>
           <View style={styles.rating}>
-            <Rating
-              type='custom'
-              ratingImage={Star}
-              ratingColor={Colors.Tertiairy}
-              ratingBackgroundColor={Colors.LightGrey}
-              ratingCount={5}
-              imageSize={15}
-              style={styles.star}
-            />
+            <Write>Rating</Write>
           </View>
           <Tags Items={ this.props.items } />
         </View>

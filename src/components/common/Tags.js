@@ -22,7 +22,7 @@ const styles = StyleSheet.create ({
 		fontSize: 14,
 		borderRadius: 10,
 		color: Colors.White,
-		backgroundColor: Colors.Black,
+		backgroundColor: Colors.Primary,
 		paddingTop: 5,
 		paddingRight: 10,
 		paddingBottom: 5,
