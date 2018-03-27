@@ -20,7 +20,10 @@ const styles = {
 		backgroundColor: Colors.White
 	},
 	container: {
-		margin: 40
+		marginTop: 40,
+		marginLeft: 20,
+		marginBottom: 40,
+		marginRight: 20
 	}
 };
 

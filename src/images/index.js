@@ -17,5 +17,16 @@ export const workshop = require('./svg/workshop.svg');
 export const wrench = require('./svg/wrench.svg');
 export const lock = require('./svg/lock.svg');
 export const envelope = require('./svg/envelope.svg');
+export const star = require('./svg/star.svg');
 
 // Service images
+export const babysitting = require('./babysitting.jpg');
+export const barber = require('./barber.jpg');
+export const beauty = require('./beauty.jpg');
+export const catering = require('./catering.jpg');
+export const computer = require('./computer.jpg');
+export const gardener = require('./gardener.jpg');
+
+// Users
+export const defaultUser = require('./defaultUser.png');
+export const myrthe = require('./myrthe.jpg');

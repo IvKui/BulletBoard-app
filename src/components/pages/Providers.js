@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import UserImage from '../UserImage';
 import { View, StyleSheet } from 'react-native';
-import { Button } from '../common';
+import { Button, Container } from '../common';
+import { myrthe } from '../../images';
 import { Colors } from '../../styles';
 
 class Providers extends Component {
@@ -10,19 +12,15 @@ class Providers extends Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
-				<Button onPress={() => this.props.navigation.navigate('Provider')}>Dienstverlener</Button>
-			</View>
+			<Container>
+				<UserImage name='Myrthe Veenstra' image={myrthe} />
+			</Container>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-	container: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		flex: 1
-	}
+
 });
 
 export default Providers;
