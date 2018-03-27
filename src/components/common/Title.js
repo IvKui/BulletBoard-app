@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Write } from './';
 import { Colors } from '../../styles';
 
 const Title = ({ children }) => {
 	return (
-		<Text style={styles.title}>
+		<Write style={styles.title}>
 			{children}
-		</Text>
+		</Write>
 	);
 };
 

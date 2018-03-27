@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
+import { Font } from 'expo';
 import reducers from './src/reducers';
 import AppNav from './src/navigator';
 
@@ -18,6 +19,14 @@ export default class App extends Component {
     };
 
     firebase.initializeApp(config);
+  }
+
+  componentDidMount() {
+    Font.loadAsync({
+      'Montserrat': require('./src/fonts/Montserrat-Regular.ttf'),
+      'Montserrat-Light': require('./src/fonts/Montserrat-Light.ttf'),
+      'Montserrat-Bold': require('./src/fonts/Montserrat-Bold.ttf')
+    });
   }
 
   render() {

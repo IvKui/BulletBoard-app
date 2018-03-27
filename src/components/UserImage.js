@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import { Rating } from 'react-native-ratings';
+import { Tags, Write } from './common';
 import { defaultUser, Star } from '../images';
 import { Colors } from '../styles';
 
@@ -15,7 +16,7 @@ class UserImage extends Component {
           defaultSource={defaultUser}
         />
         <View>
-          <Text style={styles.name}>{this.props.name}</Text>
+          <Write style={styles.name}>{this.props.name}</Write>
           <View style={styles.rating}>
             <Rating
               type='custom'
@@ -27,7 +28,7 @@ class UserImage extends Component {
               style={styles.star}
             />
           </View>
-          <Text style={styles.tags}>Kapper, schoonheidsspecialist, oppasser</Text>
+          <Tags Items={ this.props.items } />
         </View>
       </View>
     );
@@ -36,8 +37,17 @@ class UserImage extends Component {
 
 const styles = {
 	container: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginBottom: 20
 	},
+  image: {
+    borderRadius: 999,
+    height: 80,
+    width: 80,
+    overflow: 'hidden',
+    marginRight: 20,
+    alignSelf: 'center'
+  },
   name: {
     fontSize: 18,
     fontWeight: 'bold'
@@ -49,20 +59,6 @@ const styles = {
   star: {
     borderWidth: 0
   },
-  tags: {
-    color: Colors.LightGrey,
-    fontSize: 16,
-    backgroundColor: 'red',
-    flex: 1,
-    flexWrap: 'wrap'
-  },
-  image: {
-    borderRadius: 40,
-    height: 80,
-    width: 80,
-    overflow: 'hidden',
-    marginRight: 20
-  }
 };
 
 export default UserImage;

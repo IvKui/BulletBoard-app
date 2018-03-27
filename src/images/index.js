@@ -30,3 +30,5 @@ export const gardener = require('./gardener.jpg');
 // Users
 export const defaultUser = require('./defaultUser.png');
 export const myrthe = require('./myrthe.jpg');
+export const elise = require('./elise.png');
+export const erika = require('./erika.jpg');
