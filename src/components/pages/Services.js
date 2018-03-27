@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button } from '../common';
+import { Container, Block } from '../common';
+import { ServiceBlock } from '../ServiceBlock';
 import { Colors } from '../../styles';
 
 class Services extends Component {
@@ -10,19 +11,53 @@ class Services extends Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
-				<Button onPress={() => this.props.navigation.navigate('Main3')}>Main2</Button>
-			</View>
+			<Container style={styles.container}>
+				<View>
+					<ServiceBlock
+						title='Kapper'
+					/>
+					<ServiceBlock
+						title='Schoonmaker'
+					/>
+				</View>
+				<View>
+					<ServiceBlock
+						title='Schoonheidsspecialist'
+					/>
+					<ServiceBlock
+						title='Boekhouder'
+					/>
+				</View>
+				<View>
+					<ServiceBlock
+						title='Autowasser'
+					/>
+					<ServiceBlock
+						title='Loodgieter'
+					/>
+				</View>
+				<View>
+					<ServiceBlock
+						title='Oppasser'
+					/>
+					<ServiceBlock
+						title='Klusjesman'
+					/>
+				</View>
+				<View>
+					<ServiceBlock
+						title='Fietsenmaker'
+					/>
+					<ServiceBlock
+						title='Cateraar'
+					/>
+				</View>
+			</Container>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-	container: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		flex: 1
-	}
 });
 
 export default Services;
