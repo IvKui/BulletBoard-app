@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions'
-import { Colors } from '../../styles';
+import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions';
 import { envelope, lock } from '../../images';
 import { Container, Block, Input, Button, Spinner } from '../common';
 
@@ -103,14 +103,14 @@ class Login extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
 		errorMessage: {
-			backgroundColor: Colors.White
+			backgroundColor: '$white'
 		},
 		errorText: {
 			fontSize: 20,
 			alignSelf: 'center',
-			color: Colors.Secondary
+			color: '$secondaryColor'
 		}
 });
 

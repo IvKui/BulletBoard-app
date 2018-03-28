@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Container, Block } from '../common';
 import ServiceBlock from '../ServiceBlock';
 import { babysitting, barber, beauty, computer, catering, gardener } from '../../images';
-import { Colors } from '../../styles';
 
 const data = [
   {id: '1', value: 'Babysitter', image: babysitting},
@@ -37,7 +37,7 @@ class Services extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
 });
 
 export default Services;

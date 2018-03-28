@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { TouchableHighlight, Text, ImageBackground } from 'react-native';
-import { Colors } from '../styles';
+import { TouchableHighlight, ImageBackground } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Write } from './common';
 
 class ServiceBlock extends Component {
   render() {
     return (
       <TouchableHighlight
-        underlayColor={Colors.Black}
+        underlayColor={EStyleSheet.value('$black')}
         onPress={() => {
           console.log(this.props.title)
         }}
@@ -17,20 +18,20 @@ class ServiceBlock extends Component {
           source={this.props.image}
           resizeMode='contain'
         >
-          <Text style={styles.title}>{ this.props.title }</Text>
+          <Write style={styles.title}>{ this.props.title }</Write>
         </ImageBackground>
       </TouchableHighlight>
     );
   }
 };
 
-const styles = {
+const styles = EStyleSheet.create({
 	container: {
     flex: 1,
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.Black
+    backgroundColor: '$black'
 	},
   image: {
     flex: 1,
@@ -42,10 +43,10 @@ const styles = {
   title: {
     flex: 1,
     position: 'absolute',
-    color: Colors.White,
+    color: '$white',
     fontSize: 18,
     fontWeight: 'bold'
   }
-};
+});
 
 export default ServiceBlock;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Title, Input, Block, Container, Section } from '../common';
 import { workshop } from '../../images';
-import { Colors } from '../../styles';
 
 class Appointment extends Component {
 	static navigationOptions = {
@@ -47,7 +47,7 @@ class Appointment extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
 
 });
 

@@ -1,31 +1,32 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Colors } from '../../styles';
+import { View, TouchableOpacity} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Write } from './';
 
 const Button = ({ onPress, children }) => {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={onPress} style={styles.button}>
-				<Text style={styles.text}>
+				<Write style={styles.text}>
 					{children}
-				</Text>
+				</Write>
 			</TouchableOpacity>
 		</View>
 	);
 };
 
-const styles = StyleSheet.create ({
+const styles = EStyleSheet.create ({
 	container: {
 		flex: 1
 	},
 	button: {
-		backgroundColor: Colors.Secondary,
+		backgroundColor: '$white',
 		borderRadius: 5,
 		margin: 5,
 		alignSelf: 'center'
 	},
 	text: {
-		color: Colors.White,
+		color: '$white',
 		fontSize: 16,
 		textAlign: 'center',
 		fontWeight: '600',

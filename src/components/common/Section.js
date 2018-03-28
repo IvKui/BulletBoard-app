@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Colors } from '../../styles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Section = ({ children }) => {
 	return (
@@ -10,10 +10,10 @@ const Section = ({ children }) => {
 	);
 };
 
-const styles = {
+const styles = EStyleSheet.create({
 	container: {
 		marginBottom: 20,
 	}
-};
+});
 
 export { Section };

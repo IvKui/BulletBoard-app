@@ -1,33 +1,37 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write } from './'
-import { Colors } from '../../styles';
 
 const Tags = ({ Items }) => {
 	return (
-		<ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.container}>
+		<ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scroller}>
 			{Items.map(function(Item, index){
-				return <Write style={styles.item} key={index}>{Item}</Write>
+				return <View key={index} style={styles.itemContainer}>
+					<Write style={styles.item}>{Item}</Write>
+				</View>
 			})}
 		</ScrollView>
 	);
 };
 
-const styles = StyleSheet.create ({
-	container: {
-		flex: 1,
-		flexWrap: 'wrap'
+const styles = EStyleSheet.create ({
+	scroller: {
+		flexDirection: 'row',
+		marginRight: -20,
+		flex: 1
+	},
+	itemContainer: {
+		marginRight: 20
 	},
 	item: {
-		fontSize: 14,
-		borderRadius: 10,
-		color: Colors.White,
-		backgroundColor: Colors.Primary,
+		borderRadius: 999,
 		paddingTop: 5,
 		paddingRight: 10,
 		paddingBottom: 5,
 		paddingLeft: 10,
-		marginRight: 5
+		color: '$white',
+		backgroundColor: '$primaryColor'
 	}
 });
 

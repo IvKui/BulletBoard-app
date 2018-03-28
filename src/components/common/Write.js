@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
-import { Colors } from '../../styles';
+import { Text } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Write = ({ children, style }) => {
 	return (
@@ -10,10 +10,10 @@ const Write = ({ children, style }) => {
 	);
 };
 
-const styles = StyleSheet.create ({
+const styles = EStyleSheet.create ({
 	text: {
-		color: Colors.Black,
-		fontFamily: 'Montserrat',
+		color: '$black',
+		//fontFamily: 'Montserrat',
 		fontSize: 16
 	}
 });

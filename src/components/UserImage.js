@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
-//import { StarRating } from 'react-native-star-rating';
-import { Tags, Write } from './common';
-import { defaultUser, Star } from '../images';
-import { Colors } from '../styles';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import StarRating from 'react-native-star-rating';
+import { Tags, Write, Svg } from './common';
+import { defaultUser, star } from '../images';
 
 class UserImage extends Component {
   render() {
@@ -15,10 +15,16 @@ class UserImage extends Component {
           source={this.props.image}
           defaultSource={defaultUser}
         />
-        <View>
+        <View style={styles.contentContainer}>
           <Write style={styles.name}>{this.props.name}</Write>
           <View style={styles.rating}>
-            <Write>Rating</Write>
+            <StarRating
+              maxStars={5}
+              rating={this.props.rating}
+              starSize={15}
+              fullStarColor={EStyleSheet.value('$tertiairyColor')}
+              emptyStarColor={EStyleSheet.value('$tertiairyColor')}
+            />
           </View>
           <Tags Items={ this.props.items } />
         </View>
@@ -27,7 +33,7 @@ class UserImage extends Component {
   }
 };
 
-const styles = {
+const styles = EStyleSheet.create({
 	container: {
     flexDirection: 'row',
     marginBottom: 20
@@ -40,6 +46,9 @@ const styles = {
     marginRight: 20,
     alignSelf: 'center'
   },
+  contentContainer: {
+    flex: 1
+  },
   name: {
     fontSize: 18,
     fontWeight: 'bold'
@@ -47,10 +56,7 @@ const styles = {
   rating: {
     flexDirection: 'row',
     marginBottom: 10
-  },
-  star: {
-    borderWidth: 0
-  },
-};
+  }
+});
 
 export default UserImage;

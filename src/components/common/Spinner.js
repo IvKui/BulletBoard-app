@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Spinner = ({ size }) => {
 	return (
@@ -9,12 +10,12 @@ const Spinner = ({ size }) => {
 	);
 };
 
-const styles = {
+const styles = EStyleSheet.create({
 	spinner: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
 	}
-};
+});
 
 export { Spinner };

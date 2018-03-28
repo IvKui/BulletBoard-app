@@ -1,11 +1,11 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import Agenda from '../components/pages/Agenda';
 import Services from '../components/pages/Services';
 import Providers from '../components/pages/Providers';
 import { Svg } from '../components/common';
 import { calendar, handshake, workshop } from '../images';
-import { Colors } from '../styles';
 
 const AppNav = TabNavigator({
   Agenda: {
@@ -15,7 +15,6 @@ const AppNav = TabNavigator({
         <Svg
           height= '20'
           width= '20'
-          fill= { Colors.White }
           source={ calendar }
         />
       )
@@ -28,7 +27,6 @@ const AppNav = TabNavigator({
         <Svg
           height= '25'
           width= '25'
-          fill= { Colors.White }
           source={ handshake }
         />
       )
@@ -41,7 +39,6 @@ const AppNav = TabNavigator({
         <Svg
           height= '22'
           width= '22'
-          fill= { Colors.White }
           source={ workshop }
         />
       )
@@ -51,14 +48,14 @@ const AppNav = TabNavigator({
 {
   initialRouteName: 'Agenda',
   tabBarOptions: {
-    activeTintColor: Colors.Secondary,
+    // activeTintColor: EStyleSheet.value('$secondaryColor'),
     showIcon: true,
     showLabel: false,
     indicatorStyle: {
-      backgroundColor: Colors.Secondary
+      // backgroundColor: EStyleSheet.value('$secondaryColor')
     },
     style: {
-      backgroundColor: Colors.Primary
+      backgroundColor: () => EStyleSheet.value('$primaryColor')
     },
     iconStyle: {
       height: 60,

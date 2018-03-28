@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { Colors } from '../../styles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Container = ({ children }) => {
 	return (
@@ -15,9 +15,9 @@ const Container = ({ children }) => {
 	);
 };
 
-const styles = {
+const styles = EStyleSheet.create({
 	scrollView: {
-		backgroundColor: Colors.White
+		backgroundColor: '$white'
 	},
 	container: {
 		marginTop: 40,
@@ -25,6 +25,6 @@ const styles = {
 		marginBottom: 40,
 		marginRight: 20
 	}
-};
+});
 
 export { Container };

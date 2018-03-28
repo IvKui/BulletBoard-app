@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextInput, View, Text } from 'react-native';
-import { Svg } from './';
-import { Colors } from '../../styles';
+import { TextInput, View} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Svg, Write } from './';
 
 const Input = ({
 	style,
@@ -24,7 +24,7 @@ const Input = ({
 					style={styles.svg }
 					height='30'
 					width='30'
-					fill={ Colors.Secondary }
+					fill={ EStyleSheet.value('$secondaryColor')}
 					source={ icon }
 				/>
 			}
@@ -47,7 +47,7 @@ const Input = ({
 	);
 };
 
-const styles = {
+const styles = EStyleSheet.create({
 	container: {
 		flex: 1,
 		height: 30,
@@ -60,14 +60,14 @@ const styles = {
 	},
 	input: {
 		flex: 1,
-		color: Colors.Black,
+		color: '$black',
 		paddingBottom: 2,
 		paddingLeft: 5,
 		borderBottomWidth: 1,
-		borderBottomColor: Colors.Primary,
+		borderBottomColor: '$primaryColor',
 		fontSize: 18,
 		lineHeight: 20
 	}
-};
+});
 
 export { Input };

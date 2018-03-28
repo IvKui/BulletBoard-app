@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Title } from '../common';
-import { Colors } from '../../styles';
 
 class Provider extends Component {
 	static navigationOptions = {
@@ -15,7 +15,7 @@ class Provider extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
 
 });
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button } from '../common';
-import { Colors } from '../../styles';
 
 class Confirmation extends Component {
 	static navigationOptions = {
@@ -17,7 +17,7 @@ class Confirmation extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
 	container: {
 		justifyContent: 'center',
 		alignItems: 'center',

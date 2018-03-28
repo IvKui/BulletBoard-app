@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import UserImage from '../UserImage';
-import { View, StyleSheet } from 'react-native';
 import { Button, Container } from '../common';
 import { myrthe, elise, erika } from '../../images';
-import { Colors } from '../../styles';
 
 class Providers extends Component {
 	static navigationOptions = {
@@ -16,39 +16,45 @@ class Providers extends Component {
 				<UserImage
 					name='Myrthe Veenstra'
 					image={myrthe}
-					items={['Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser']}
+					rating={4.5}
+					items={['Kapper', 'Schoonheidsspecialist', 'Oppasser']}
 				/>
 				<UserImage
 					name='Elise Boon'
 					image={elise}
-					items={['Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser']}
+					rating={4}
+					items={['Kapper', 'Thuishulp']}
 				/>
 				<UserImage
 					name='Erika Hamersma'
 					image={erika}
-					items={['oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser']}
+					rating={4}
+					items={['Kapper', 'Oppasser', 'Cateraar']}
 				/>
 				<UserImage
 					name='Myrthe Veenstra'
 					image={myrthe}
-					items={['Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser']}
+					rating={3}
+					items={['Kapper', 'Schoonheidsspecialist', 'oppasser']}
 				/>
 				<UserImage
 					name='Elise Boon'
 					image={elise}
-					items={['Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser']}
+					rating={2.5}
+					items={['Kapper', 'Thuishulp']}
 				/>
 				<UserImage
 					name='Erika Hamersma'
 					image={erika}
-					items={['oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser', 'Kapper', 'Schoonheidsspecialist', 'oppasser']}
+					rating={2}
+					items={['Kapper', 'Oppasser', 'Cateraar']}
 				/>
 			</Container>
 		);
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
 
 });
 

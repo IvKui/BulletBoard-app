@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Colors } from '../../styles';
+import { View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { workshop } from '../../images';
 import { Container, Section, Block, Circle, Svg, Input, Button } from '../common';
 
@@ -13,7 +13,7 @@ class RegisterForm extends Component {
 						<Svg
 							height='30'
 							width='30'
-							fill={ Colors.Secondary }
+							fill={ EStyleSheet.value('$secondaryColor') }
 							source={ workshop }
 						/>
 					</Circle>
@@ -70,7 +70,7 @@ class RegisterForm extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
 	shortInput: {
 		width: 60,
 		flex: 0,

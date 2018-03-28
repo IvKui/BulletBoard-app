@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write } from './';
-import { Colors } from '../../styles';
 
 const Title = ({ children }) => {
 	return (
@@ -11,9 +10,9 @@ const Title = ({ children }) => {
 	);
 };
 
-const styles = StyleSheet.create ({
+const styles = EStyleSheet.create ({
 	title: {
-		color: Colors.Primary,
+		color: '$primaryColor',
 		fontSize: 20,
 		fontWeight: 'bold',
     marginBottom: 10

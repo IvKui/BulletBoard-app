@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';;
 import AuthNav from './AuthNav';
-import { Colors } from '../styles';
 
 const ModalNav = StackNavigator({
   AuthNav: {
@@ -14,7 +13,7 @@ const ModalNav = StackNavigator({
   headerMode: 'none',
 });
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   MenuIcon: {
     paddingLeft: 15
   }
