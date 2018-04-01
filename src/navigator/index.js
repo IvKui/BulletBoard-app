@@ -12,10 +12,12 @@ const AppNav = DrawerNavigator({
   MainNav: {
     screen: MainNav,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        // backgroundColor: EStyleSheet.value('$primaryColor')
-      },
-      // headerTitleColor: EStyleSheet.value('$primaryColor'),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: EStyleSheet.value('$primaryColor')
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$primaryColor'),
+      }),
       headerLeft:
       <View style={styles.MenuIcon}>
         <Icon
@@ -35,9 +37,9 @@ const AppNav = DrawerNavigator({
 },
 {
   initialRouteName: 'MainNav',
-  contentOptions: {
-    // activeTintColor: EStyleSheet.value('$primaryColor')
-  }
+  contentOptions: EStyleSheet.create({
+    activeTintColor: () => EStyleSheet.value('$primaryColor')
+  })
 });
 
 const styles = EStyleSheet.create({

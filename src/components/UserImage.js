@@ -51,7 +51,8 @@ const styles = EStyleSheet.create({
   },
   name: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: 3
   },
   rating: {
     flexDirection: 'row',

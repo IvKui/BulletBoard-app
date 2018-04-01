@@ -11,26 +11,28 @@ const MessageNav = StackNavigator({
   Messages: {
     screen: Messages,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        // backgroundColor: EStyleSheet.value('$primaryColor')
-      },
-      // headerTitleColor: EStyleSheet.value('$primaryColor'),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor')
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$primaryColor')
+      }),
       headerLeft:
-      <View style={styles.MenuIcon}>
-        <Icon
-          name="menu"
-          size={30}
-          onPress={() => navigation.navigate('DrawerOpen')}
-        />
-      </View>
+        <View style={styles.MenuIcon}>
+          <Icon
+            name="menu"
+            size={30}
+            onPress={() => navigation.navigate('DrawerOpen')}
+          />
+        </View>
     })
   },
   Chat: {
     screen: Chat,
     navigationOptions: {
-      headerStyle: {
-        // backgroundColor: EStyleSheet.value('$primaryColor')
-      },
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor')
+      }),
     }
   }
 });

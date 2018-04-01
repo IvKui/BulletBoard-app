@@ -12,51 +12,59 @@ const MainNav = StackNavigator({
   TabNav: {
     screen: TabNav,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        // backgroundColor: EStyleSheet.value('$primaryColor'),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
         elevation: 0
-      },
-      // headerTitleColor: EStyleSheet.value('$primaryColor'),
-      // headerTintColor: EStyleSheet.value('$white'),
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+      headerTintStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
       headerLeft:
-      <View style={styles.MenuIcon}>
-        <Icon
-          name="menu"
-          size={30}
-          color={ EStyleSheet.value('$white') }
-          onPress={() => navigation.navigate('DrawerOpen')}
-        />
-      </View>
+        <View style={styles.MenuIcon}>
+          <Icon
+            name="menu"
+            size={30}
+            color={ EStyleSheet.value('$white') }
+            onPress={() => navigation.navigate('DrawerOpen')}
+          />
+        </View>
     })
   },
   Provider: {
     screen: Provider,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        // backgroundColor: EStyleSheet.value('$primaryColor'),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
         elevation: 0
-      },
-      // headerTitleColor: EStyleSheet.value('$primaryColor'),
+      }),
+      headerTitleColor: () => EStyleSheet.value('$primaryColor'),
     })
   },
   Appointment: {
     screen: Appointment,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        // backgroundColor: EStyleSheet.value('$primaryColor'),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
         elevation: 0
-      },
-      // headerTitleColor: EStyleSheet.value('$primaryColor'),
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$primaryColor'),
+      })
     })
   },
   Service: {
     screen: Service,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        // backgroundColor: EStyleSheet.value('$primaryColor'),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: EStyleSheet.value('$primaryColor'),
         elevation: 0
-      },
-      // headerTitleColor: EStyleSheet.value('$primaryColor'),
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () =>  EStyleSheet.value('$primaryColor'),
+      })
     })
   }
 },

@@ -22,7 +22,7 @@ const styles = EStyleSheet.create ({
 		flex: 1
 	},
 	itemContainer: {
-		marginRight: 20
+		marginRight: 10
 	},
 	item: {
 		borderRadius: 999,

@@ -11,8 +11,9 @@ const AppNav = TabNavigator({
   Agenda: {
     screen: Agenda,
     navigationOptions: {
-      tabBarIcon: (
+      tabBarIcon: () => (
         <Svg
+          fill= { EStyleSheet.value('$white') }
           height= '20'
           width= '20'
           source={ calendar }
@@ -23,8 +24,9 @@ const AppNav = TabNavigator({
   MyServices: {
     screen: Services,
     navigationOptions: {
-      tabBarIcon: (
+      tabBarIcon: () => (
         <Svg
+          fill= { EStyleSheet.value('$white') }
           height= '25'
           width= '25'
           source={ handshake }
@@ -35,8 +37,9 @@ const AppNav = TabNavigator({
   Providers: {
     screen: Providers,
     navigationOptions: {
-      tabBarIcon: (
+      tabBarIcon: () => (
         <Svg
+          fill= { EStyleSheet.value('$white') }
           height= '22'
           width= '22'
           source={ workshop }
@@ -47,16 +50,16 @@ const AppNav = TabNavigator({
 },
 {
   initialRouteName: 'Agenda',
-  tabBarOptions: {
-    // activeTintColor: EStyleSheet.value('$secondaryColor'),
+  tabBarOptions: EStyleSheet.create({
+    activeTintColor: () => EStyleSheet.value('$secondaryColor'),
     showIcon: true,
     showLabel: false,
-    indicatorStyle: {
-      // backgroundColor: EStyleSheet.value('$secondaryColor')
-    },
-    style: {
+    indicatorStyle: EStyleSheet.create({
+      backgroundColor: () => EStyleSheet.value('$secondaryColor')
+    }),
+    style: EStyleSheet.create({
       backgroundColor: () => EStyleSheet.value('$primaryColor')
-    },
+    }),
     iconStyle: {
       height: 60,
       width: 60
@@ -64,7 +67,7 @@ const AppNav = TabNavigator({
     tabStyle: {
       height: 60
     }
-  }
+  })
 });
 
 export default AppNav;

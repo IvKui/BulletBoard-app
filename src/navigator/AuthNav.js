@@ -22,12 +22,12 @@ const AuthNav = StackNavigator({
   },
   RegisterForm: {
     screen: RegisterForm,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation }) => EStyleSheet.create({
       title: null,
       headerStyle: {
         elevation: 0
       },
-      // headerTintColor: EStyleSheet.value('$primaryColor'),
+      headerTintColor: EStyleSheet.value('$primaryColor'),
     })
   }
 });

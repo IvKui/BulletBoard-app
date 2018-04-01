@@ -21,8 +21,6 @@ export default class App extends Component {
       $black: '#323232'
     })
 
-    console.log(EStyleSheet)
-
   }
 
   componentWillMount() {

@@ -20,7 +20,7 @@ const styles = EStyleSheet.create ({
 		flex: 1
 	},
 	button: {
-		backgroundColor: '$white',
+		backgroundColor: '$secondaryColor',
 		borderRadius: 5,
 		margin: 5,
 		alignSelf: 'center'
