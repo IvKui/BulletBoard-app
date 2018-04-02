@@ -12,8 +12,7 @@ const Block = ({ children }) => {
 
 const styles = EStyleSheet.create({
 	container: {
-		marginBottom: 15,
-		flexDirection: 'row'
+		marginBottom: 20
 	}
 });
 

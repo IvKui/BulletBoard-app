@@ -3,33 +3,35 @@ import { ScrollView, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write } from './'
 
-const Tags = ({ Items }) => {
+const Tags = ({ items }) => {
 	return (
-		<ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scroller}>
-			{Items.map(function(Item, index){
+		<View style={styles.container}>
+			{items.map(function(item, index){
 				return <View key={index} style={styles.itemContainer}>
-					<Write style={styles.item}>{Item}</Write>
+					<Write style={styles.item}>{item}</Write>
 				</View>
 			})}
-		</ScrollView>
+		</View>
 	);
 };
 
 const styles = EStyleSheet.create ({
-	scroller: {
+	container: {
 		flexDirection: 'row',
-		marginRight: -20,
+		flexWrap: 'wrap',
 		flex: 1
 	},
 	itemContainer: {
-		marginRight: 10
+		marginRight: 5,
+		marginBottom: 5
 	},
 	item: {
+		fontSize: 12,
 		borderRadius: 999,
-		paddingTop: 5,
-		paddingRight: 10,
-		paddingBottom: 5,
-		paddingLeft: 10,
+		paddingTop: 3,
+		paddingRight: 8,
+		paddingBottom: 3,
+		paddingLeft: 8,
 		color: '$white',
 		backgroundColor: '$primaryColor'
 	}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableWithoutFeedback } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import StarRating from 'react-native-star-rating';
 import UserImage from './UserImage';
@@ -9,7 +9,7 @@ import { defaultUser, star } from '../images';
 class UserListItem extends Component {
   render() {
     return (
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         onPress={this.props.onPress}
       >
         <View style={styles.container}>
@@ -21,6 +21,7 @@ class UserListItem extends Component {
             <Write style={styles.name}>{this.props.name}</Write>
             <View style={styles.rating}>
               <StarRating
+                buttonStyle={styles.star}
                 maxStars={5}
                 rating={this.props.rating}
                 starSize={15}
@@ -28,10 +29,10 @@ class UserListItem extends Component {
                 emptyStarColor={EStyleSheet.value('$tertiairyColor')}
               />
             </View>
-            <Tags Items={ this.props.items } />
+            <Tags items={ this.props.items } />
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   }
 };
@@ -39,7 +40,8 @@ class UserListItem extends Component {
 const styles = EStyleSheet.create({
 	container: {
     flexDirection: 'row',
-    marginBottom: 20
+    marginBottom: 20,
+    alignItems: 'center'
 	},
   image: {
     marginRight: 20
@@ -55,7 +57,11 @@ const styles = EStyleSheet.create({
   rating: {
     flexDirection: 'row',
     marginBottom: 10
-  }
+  },
+	star: {
+		marginRight: 1,
+		marginLeft: 1
+	}
 });
 
 export default UserListItem;

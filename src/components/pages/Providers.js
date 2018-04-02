@@ -13,7 +13,7 @@ class Providers extends Component {
 	}
 
 	onProviderClick() {
-		this.props.providerSelected(this.name, this.image);
+		// this.props.providerSelected(this.name, this.image);
 		this.props.navigation.navigate('Provider')
 	}
 
