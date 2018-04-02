@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import UserImage from '../UserImage';
+import { connect } from 'react-redux';
+import { providerSelected } from '../../actions';
+import UserListItem from '../UserListItem';
 import { Button, Container } from '../common';
 import { myrthe, elise, erika } from '../../images';
 
@@ -10,40 +12,46 @@ class Providers extends Component {
 		title: 'Dienstverleners'
 	}
 
+	onProviderClick() {
+		this.props.providerSelected(this.name, this.image);
+		this.props.navigation.navigate('Provider')
+	}
+
 	render() {
 		return (
 			<Container>
-				<UserImage
+				<UserListItem
+	        onPress={this.onProviderClick.bind(this)}
 					name='Myrthe Veenstra'
 					image={myrthe}
 					rating={4.5}
 					items={['Kapper', 'Schoonheidsspecialist', 'Oppasser']}
 				/>
-				<UserImage
+				<UserListItem
 					name='Elise Boon'
 					image={elise}
 					rating={4}
 					items={['Kapper', 'Thuishulp']}
 				/>
-				<UserImage
+				<UserListItem
 					name='Erika Hamersma'
 					image={erika}
 					rating={4}
 					items={['Kapper', 'Oppasser', 'Cateraar']}
 				/>
-				<UserImage
+				<UserListItem
 					name='Myrthe Veenstra'
 					image={myrthe}
 					rating={3}
 					items={['Kapper', 'Schoonheidsspecialist', 'oppasser']}
 				/>
-				<UserImage
+				<UserListItem
 					name='Elise Boon'
 					image={elise}
 					rating={2.5}
 					items={['Kapper', 'Thuishulp']}
 				/>
-				<UserImage
+				<UserListItem
 					name='Erika Hamersma'
 					image={erika}
 					rating={2}
@@ -58,4 +66,13 @@ const styles = EStyleSheet.create({
 
 });
 
-export default Providers;
+const mapStateToProps = state => {
+	return {
+		name: state.auth.name,
+		image: state.auth.image
+	};
+};
+
+export default connect(mapStateToProps, {
+	providerSelected
+})(Providers);

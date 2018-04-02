@@ -3,11 +3,11 @@ import { View, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write } from './';
 
-const Button = ({ onPress, children }) => {
+const Button = ({ small, onPress, children }) => {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity onPress={onPress} style={styles.button}>
-				<Write style={styles.text}>
+			<TouchableOpacity onPress={onPress} style={!small && styles.bigButton}>
+				<Write style={small ? styles.smallButtonText : styles.bigButtonText}>
 					{children}
 				</Write>
 			</TouchableOpacity>
@@ -19,13 +19,18 @@ const styles = EStyleSheet.create ({
 	container: {
 		flex: 1
 	},
-	button: {
+	bigButton: {
 		backgroundColor: '$secondaryColor',
 		borderRadius: 5,
 		margin: 5,
 		alignSelf: 'center'
 	},
-	text: {
+	smallButtonText: {
+		color: '$secondaryColor',
+		fontSize: 17,
+		textAlign: 'center'
+	},
+	bigButtonText: {
 		color: '$white',
 		fontSize: 16,
 		textAlign: 'center',

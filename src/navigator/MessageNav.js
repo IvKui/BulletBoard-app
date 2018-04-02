@@ -15,11 +15,12 @@ const MessageNav = StackNavigator({
         backgroundColor: () => EStyleSheet.value('$primaryColor')
       }),
       headerTitleStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$primaryColor')
+        color: () => EStyleSheet.value('$white')
       }),
       headerLeft:
         <View style={styles.MenuIcon}>
           <Icon
+            color={ EStyleSheet.value('$white') }
             name="menu"
             size={30}
             onPress={() => navigation.navigate('DrawerOpen')}

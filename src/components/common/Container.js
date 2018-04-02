@@ -2,10 +2,10 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const Container = ({ children }) => {
+const Container = ({ style, children }) => {
 	return (
 		<ScrollView
-			style={styles.scrollView}
+			style={[styles.scrollView, style]}
 			showsVerticalScrollIndicator={false}
 		>
 			<View style={styles.container}>

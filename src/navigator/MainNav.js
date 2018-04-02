@@ -40,7 +40,12 @@ const MainNav = StackNavigator({
         backgroundColor: () => EStyleSheet.value('$primaryColor'),
         elevation: 0
       }),
-      headerTitleColor: () => EStyleSheet.value('$primaryColor'),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+      headerTintStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
     })
   },
   Appointment: {
@@ -51,8 +56,11 @@ const MainNav = StackNavigator({
         elevation: 0
       }),
       headerTitleStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$primaryColor'),
-      })
+        color: () => EStyleSheet.value('$white'),
+      }),
+      headerTintStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
     })
   },
   Service: {
@@ -63,9 +71,12 @@ const MainNav = StackNavigator({
         elevation: 0
       }),
       headerTitleStyle: EStyleSheet.create({
-        color: () =>  EStyleSheet.value('$primaryColor'),
+        color: () =>  EStyleSheet.value('$white'),
       })
-    })
+    }),
+    headerTintStyle: EStyleSheet.create({
+      color: () => EStyleSheet.value('$white')
+    }),
   }
 },
 {
