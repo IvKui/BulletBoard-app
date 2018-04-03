@@ -11,10 +11,10 @@ class ServiceBlock extends Component {
         onPress={() => {
           console.log(this.props.title)
         }}
-        style={styles.container}
+        style={[styles.container, this.props.style]}
       >
         <ImageBackground
-          style={styles.image}
+          style={[styles.image]}
           source={this.props.image}
           resizeMode='contain'
         >
@@ -29,6 +29,8 @@ const styles = EStyleSheet.create({
 	container: {
     flex: 1,
     aspectRatio: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '$black'
@@ -45,7 +47,8 @@ const styles = EStyleSheet.create({
     position: 'absolute',
     color: '$white',
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    padding: 10
   }
 });
 

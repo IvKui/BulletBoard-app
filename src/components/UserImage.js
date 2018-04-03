@@ -7,7 +7,11 @@ class UserImage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.imageContainer, this.props.big && styles.big, this.props.style]}>
+        <View style={[
+          styles.imageContainer,
+          this.props.big && styles.big,
+          this.props.small && styles.small,
+          this.props.style]}>
           <Image
             style={styles.image}
             resizeMode='contain'
@@ -35,6 +39,10 @@ const styles = EStyleSheet.create({
     width: 120,
     borderWidth: 4,
     borderColor: '$primaryColor'
+  },
+  small: {
+    height: 60,
+    width: 60
   },
   image: {
     width: '100%',

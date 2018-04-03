@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { providerSelected } from '../../actions';
-import UserListItem from '../UserListItem';
+import UserBlock from '../UserBlock';
 import { Button, Container } from '../common';
 import { myrthe, elise, erika } from '../../images';
 
@@ -14,44 +14,44 @@ class Providers extends Component {
 
 	onProviderClick() {
 		// this.props.providerSelected(this.name, this.image);
-		this.props.navigation.navigate('Provider')
+		this.props.navigation.navigate('ProviderService')
 	}
 
 	render() {
 		return (
 			<Container>
-				<UserListItem
+				<UserBlock
 	        onPress={this.onProviderClick.bind(this)}
 					name='Myrthe Veenstra'
 					image={myrthe}
 					rating={4.5}
 					items={['Kapper', 'Schoonheidsspecialist', 'Oppasser']}
 				/>
-				<UserListItem
+				<UserBlock
 					name='Elise Boon'
 					image={elise}
 					rating={4}
 					items={['Kapper', 'Thuishulp']}
 				/>
-				<UserListItem
+				<UserBlock
 					name='Erika Hamersma'
 					image={erika}
 					rating={4}
 					items={['Kapper', 'Oppasser', 'Cateraar']}
 				/>
-				<UserListItem
+				<UserBlock
 					name='Myrthe Veenstra'
 					image={myrthe}
 					rating={3}
 					items={['Kapper', 'Schoonheidsspecialist', 'oppasser']}
 				/>
-				<UserListItem
+				<UserBlock
 					name='Elise Boon'
 					image={elise}
 					rating={2.5}
 					items={['Kapper', 'Thuishulp']}
 				/>
-				<UserListItem
+				<UserBlock
 					name='Erika Hamersma'
 					image={erika}
 					rating={2}

@@ -6,7 +6,7 @@ import UserImage from './UserImage';
 import { Tags, Write, Svg } from './common';
 import { defaultUser, star } from '../images';
 
-class UserListItem extends Component {
+class UserBlock extends Component {
   render() {
     return (
       <TouchableWithoutFeedback
@@ -14,22 +14,27 @@ class UserListItem extends Component {
       >
         <View style={styles.container}>
           <UserImage
+            small={this.props.small}
             style={ styles.image }
             image={ this.props.image }
           />
           <View style={styles.contentContainer}>
             <Write style={styles.name}>{this.props.name}</Write>
-            <View style={styles.rating}>
-              <StarRating
+            {this.props.rating &&
+              <View style={styles.rating}>
+                <StarRating
                 buttonStyle={styles.star}
                 maxStars={5}
                 rating={this.props.rating}
                 starSize={15}
                 fullStarColor={EStyleSheet.value('$tertiairyColor')}
                 emptyStarColor={EStyleSheet.value('$tertiairyColor')}
-              />
-            </View>
-            <Tags items={ this.props.items } />
+                />
+              </View>
+    				}
+            {this.props.items &&
+              <Tags items={ this.props.items } />
+    				}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -64,4 +69,4 @@ const styles = EStyleSheet.create({
 	}
 });
 
-export default UserListItem;
+export default UserBlock;

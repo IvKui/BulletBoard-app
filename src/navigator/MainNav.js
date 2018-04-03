@@ -7,6 +7,7 @@ import TabNav from './TabNav';
 import Appointment from '../components/pages/Appointment';
 import Service from '../components/pages/Service';
 import Provider from '../components/pages/Provider';
+import ProviderService from '../components/pages/ProviderService';
 
 const MainNav = StackNavigator({
   TabNav: {
@@ -35,6 +36,21 @@ const MainNav = StackNavigator({
   },
   Provider: {
     screen: Provider,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
+        elevation: 0
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+      headerTintStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+    })
+  },
+  ProviderService: {
+    screen: ProviderService,
     navigationOptions: ({ navigation }) => ({
       headerStyle: EStyleSheet.create({
         backgroundColor: () => EStyleSheet.value('$primaryColor'),

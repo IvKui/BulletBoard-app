@@ -3,12 +3,17 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
-import * as Expo from 'expo';
+import { Font } from 'expo';
 import reducers from './src/reducers';
 import AppNav from './src/navigator';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Splash from './src/components/pages/Splash';
 
 export default class App extends Component {
+  state = {
+      fontLoaded: false
+  }
+
   constructor(props) {
     super(props);
 
@@ -20,10 +25,9 @@ export default class App extends Component {
       $lightGrey: '#e6e6e6',
       $black: '#323232'
     })
-
   }
 
-  componentWillMount() {
+  async componentWillMount() {
 		const config = {
       apiKey: 'AIzaSyCLm6ciw0SC9yOMsN-iF_TOqRkZaZVQGs0',
       authDomain: 'bulletboard-b2d9a.firebaseapp.com',
@@ -33,23 +37,25 @@ export default class App extends Component {
       messagingSenderId: '674009547561'
     };
     firebase.initializeApp(config);
-  }
 
-  // componentDidMount() {
-  //   Expo.Font.loadAsync({
-  //     'Montserrat': require('./src/fonts/Montserrat-Regular.ttf'),
-  //     'Montserrat-Light': require('./src/fonts/Montserrat-Light.ttf'),
-  //     'Montserrat-Bold': require('./src/fonts/Montserrat-Bold.ttf')
-  //   });
-  // }
+    await Font.loadAsync({
+      'Montserrat': require('./src/fonts/Montserrat-Regular.ttf')
+    });
+    this.setState({ fontLoaded: true })
+  }
 
   render() {
 		const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+    if(!this.state.fontLoaded){
+  		return (
+        <Splash />
+      )
+    }
 
-		return (
-			<Provider store={store}>
-  		  <AppNav />
-			</Provider>
-		);
+    return (
+      <Provider store={store}>
+        <AppNav />
+      </Provider>
+    );
 	}
 }

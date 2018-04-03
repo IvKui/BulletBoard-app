@@ -13,7 +13,7 @@ const Write = ({ children, style }) => {
 const styles = EStyleSheet.create ({
 	text: {
 		color: '$black',
-		//fontFamily: 'Montserrat',
+		fontFamily: 'Montserrat',
 		fontSize: 16
 	}
 });

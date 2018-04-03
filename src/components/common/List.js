@@ -19,7 +19,8 @@ const List = ({ style, items }) => {
 const styles = EStyleSheet.create ({
 	row: {
 		justifyContent: 'space-between',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		marginBottom: 2
 	},
 	textRight: {
 		textAlign: 'right',

@@ -12,7 +12,7 @@ const Block = ({ children }) => {
 
 const styles = EStyleSheet.create({
 	container: {
-		marginBottom: 20
+		marginBottom: 40
 	}
 });
 
