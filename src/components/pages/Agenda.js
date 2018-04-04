@@ -41,6 +41,11 @@ class Agenda extends Component {
 				>
 					Confirmation
 				</Button>
+				<Button
+					onPress={() => this.props.navigation.navigate('AddService')}
+				>
+					Add service
+				</Button>
 			</Container>
 		);
 	}

@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import TabNav from './TabNav';
 import Appointment from '../components/pages/Appointment';
 import Service from '../components/pages/Service';
+import AddService from '../components/pages/AddService';
 import Provider from '../components/pages/Provider';
 import Confirmation from '../components/pages/Confirmation';
 import ProviderService from '../components/pages/ProviderService';
@@ -104,11 +105,26 @@ const MainNav = StackNavigator({
       }),
       headerTitleStyle: EStyleSheet.create({
         color: () =>  EStyleSheet.value('$white'),
-      })
-    }),
-    headerTintStyle: EStyleSheet.create({
-      color: () => EStyleSheet.value('$white')
-    }),
+      }),
+      headerTintStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+    })
+  },
+  AddService: {
+    screen: AddService,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: EStyleSheet.create({
+        backgroundColor: EStyleSheet.value('$primaryColor'),
+        elevation: 0
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () =>  EStyleSheet.value('$white'),
+      }),
+      headerTintStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+    })
   }
 },
 {
