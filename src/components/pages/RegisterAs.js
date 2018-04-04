@@ -1,27 +1,45 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Button } from '../common';
+import RegisterAsBlock from '../RegisterAsBlock';
+import { Button, Container } from '../common';
+import { workshop, person } from '../../images';
 
 class RegisterAs extends Component {
 	static navigationOptions = {
 		title: 'Registreren als ...'
 	}
 
+	onBlockPress() {
+		this.props.navigation.navigate('Register')
+	}
+
 	render() {
 		return (
-			<View style={styles.container}>
-				<Button onPress={() => this.props.navigation.navigate('Main3')}>Main2</Button>
-			</View>
+			<Container center style={styles.container}>
+				<RegisterAsBlock
+					onPress={this.onBlockPress.bind(this)}
+					icon={workshop}
+					title={'Dienstverlener'}
+					description={'Biedt een dienst aan'}
+				/>
+				<RegisterAsBlock
+					style={styles.lastBlock}
+					onPress={this.onBlockPress.bind(this)}
+					icon={person}
+					title={'Consument'}
+					description={'Zoekt een dienst'}
+				/>
+			</Container>
 		);
 	}
 }
 
 const styles = EStyleSheet.create({
 	container: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		flex: 1
+	},
+	lastBlock: {
+		marginBottom: 0
 	}
 });
 

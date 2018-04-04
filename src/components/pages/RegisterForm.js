@@ -1,40 +1,43 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { workshop } from '../../images';
-import { Container, Section, Block, Circle, Svg, Input, Button } from '../common';
+import UserImage from '../UserImage';
+import { pencil } from '../../images';
+import { Container, Section, Block, Svg, Input, Button } from '../common';
 
 class RegisterForm extends Component {
+	onEditImagePress() {
+		console.log('Change Image')
+	}
+
 	render() {
 		return (
-			<Container>
-				<Section>
-					<Circle>
-						<Svg
-							height='30'
-							width='30'
-							fill={ EStyleSheet.value('$secondaryColor') }
-							source={ workshop }
-						/>
-					</Circle>
+			<Container style={styles.container}>
+				<Section style={styles.userImage}>
+					<UserImage big>
+						<TouchableWithoutFeedback	onPress={this.onEditImagePress.bind(this)}>
+							<View style={styles.editImage}>
+								<Svg
+									height='15'
+									width='15'
+									fill={ EStyleSheet.value('$white')}
+									source={ pencil }
+								/>
+							</View>
+						</TouchableWithoutFeedback>
+					</UserImage>
 				</Section>
 				<Section>
-					<Block>
-						<Input
-							placeholder='Naam'
-						/>
-					</Block>
-					<Block>
-						<Input
-							placeholder='Email'
-						/>
-					</Block>
-					<Block>
-						<Input
-							placeholder='Telefoonnr.'
-						/>
-					</Block>
-					<Block>
+					<Input
+						placeholder='Naam'
+					/>
+					<Input
+						placeholder='Email'
+					/>
+					<Input
+						placeholder='Telefoonnr.'
+					/>
+					<View style={styles.multipleInputs}>
 						<Input
 							placeholder='Straatnaam'
 						/>
@@ -42,27 +45,19 @@ class RegisterForm extends Component {
 							style={styles.shortInput}
 							placeholder='Huisnr.'
 						/>
-					</Block>
-					<Block>
-						<Input
-							placeholder='Woonplaats'
-						/>
-					</Block>
-					<Block>
-						<Input
-							placeholder='Postcode'
-						/>
-					</Block>
-					<Block>
-						<Input
-							placeholder='Wachtwoord'
-						/>
-					</Block>
-					<Block>
-						<Input
-							placeholder='Wachtwoord herhalen'
-						/>
-					</Block>
+					</View>
+					<Input
+						placeholder='Woonplaats'
+					/>
+					<Input
+						placeholder='Postcode'
+					/>
+					<Input
+						placeholder='Wachtwoord'
+					/>
+					<Input
+						placeholder='Wachtwoord herhalen'
+					/>
 				</Section>
 				<Button onPress={() => this.props.navigation.navigate('Main1')}>Register</Button>
 			</Container>
@@ -71,10 +66,31 @@ class RegisterForm extends Component {
 }
 
 const styles = EStyleSheet.create({
+	container: {
+		paddingRight: 40,
+		paddingLeft: 40
+	},
+	multipleInputs: {
+		flexDirection: 'row'
+	},
 	shortInput: {
 		width: 60,
 		flex: 0,
 		marginLeft: 10
+	},
+	userImage: {
+		position: 'relative'
+	},
+	editImage: {
+		height: 40,
+		width: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 20,
+		backgroundColor: '$secondaryColor',
+		position: 'absolute',
+		right: 0,
+		top: 0
 	}
 });
 

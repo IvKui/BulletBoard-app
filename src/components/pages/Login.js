@@ -33,9 +33,10 @@ class Login extends Component {
 	}
 
 	onRegisterPress() {
-		const { email, password } = this.props;
-
-		this.props.registerUser({ email, password });
+		// const { email, password } = this.props;
+		//
+		// this.props.registerUser({ email, password });
+		this.props.navigation.navigate('RegisterAs')
 	}
 
 	renderError() {
@@ -65,39 +66,29 @@ class Login extends Component {
 	render() {
 		return (
 			<Container>
-				<Block>
-					<Input
-						autoFocus
-						keyboardType='email-address'
-						placeholder='Email'
-						icon={ envelope }
-						onChangeText={this.onEmailChange.bind(this)}
-						value={this.props.email}
-						// onSubmitEditing={this.handleTitleInputSubmit}
-						// returnKeyType={"next"}
-					/>
-				</Block>
-				<Block>
-					<Input
-						secureTextEntry
-						placeholder='Wachtwoord'
-						onChangeText={this.onPasswordChange.bind(this)}
-						value={this.props.password}
-						icon={ lock }
-						// returnKeyType={"done"}
-						// onSubmitEditing={this.onRegisterPress}
-						// focus={this.state.focusDescriptionInput}
-					/>
-				</Block>
-				<Block>
-					{this.renderError()}
-				</Block>
-				<Block>
-					{this.renderButton()}
-				</Block>
-				<Block>
-					<Button onPress={this.onRegisterPress.bind(this)}>Register</Button>
-				</Block>
+				<Input
+					autoFocus
+					keyboardType='email-address'
+					placeholder='Email'
+					icon={ envelope }
+					onChangeText={this.onEmailChange.bind(this)}
+					value={this.props.email}
+					// onSubmitEditing={this.handleTitleInputSubmit}
+					// returnKeyType={"next"}
+				/>
+				<Input
+					secureTextEntry
+					placeholder='Wachtwoord'
+					onChangeText={this.onPasswordChange.bind(this)}
+					value={this.props.password}
+					icon={ lock }
+					// returnKeyType={"done"}
+					// onSubmitEditing={this.onRegisterPress}
+					// focus={this.state.focusDescriptionInput}
+				/>
+				{this.renderError()}
+				{this.renderButton()}
+				<Button small onPress={this.onRegisterPress.bind(this)}>Registeren</Button>
 			</Container>
 		);
 	}

@@ -10,3 +10,4 @@ export * from './Spinner';
 export * from './Tags';
 export * from './Write';
 export * from './List';
+export * from './Data';

@@ -9,15 +9,18 @@ class UserImage extends Component {
       <View style={styles.container}>
         <View style={[
           styles.imageContainer,
-          this.props.big && styles.big,
-          this.props.small && styles.small,
           this.props.style]}>
           <Image
-            style={styles.image}
+            style={[
+              styles.image,
+              this.props.big && styles.big,
+              this.props.small && styles.small,
+            ]}
             resizeMode='contain'
             source={ this.props.image || defaultUser }
             defaultSource={defaultUser}
           />
+          {this.props.children}
         </View>
       </View>
     );
@@ -29,24 +32,21 @@ const styles = EStyleSheet.create({
     alignItems: 'center'
   },
   imageContainer: {
-    height: 80,
+  },
+  image: {
     width: 80,
-    borderRadius: 999,
-    overflow: 'hidden'
+    height: 80,
+    borderRadius: 40
   },
   big: {
     height: 120,
     width: 120,
-    borderWidth: 4,
-    borderColor: '$primaryColor'
+    borderRadius: 60
   },
   small: {
     height: 60,
-    width: 60
-  },
-  image: {
-    width: '100%',
-    height: '100%'
+    width: 60,
+    borderRadius: 30
   }
 });
 

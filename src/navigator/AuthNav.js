@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator, HeaderBackButton } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Login from '../components/pages/Login';
+import RegisterAs from '../components/pages/RegisterAs';
 import RegisterForm from '../components/pages/RegisterForm';
 
 const AuthNav = StackNavigator({
@@ -20,7 +21,17 @@ const AuthNav = StackNavigator({
       },
     })
   },
-  RegisterForm: {
+  RegisterAs: {
+    screen: RegisterAs,
+    navigationOptions: ({ navigation }) => EStyleSheet.create({
+      title: 'Registreren als ...',
+      headerStyle: {
+        elevation: 0
+      },
+      headerTintColor: EStyleSheet.value('$primaryColor'),
+    })
+  },
+  Register: {
     screen: RegisterForm,
     navigationOptions: ({ navigation }) => EStyleSheet.create({
       title: null,

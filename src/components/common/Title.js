@@ -2,9 +2,9 @@ import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write } from './';
 
-const Title = ({ children }) => {
+const Title = ({ children, style }) => {
 	return (
-		<Write style={styles.title}>
+		<Write style={[styles.title, style]}>
 			{children}
 		</Write>
 	);

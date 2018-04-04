@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import MapView, { Marker } from 'react-native-maps';
 import StarRating from 'react-native-star-rating';
@@ -7,7 +7,7 @@ import call from 'react-native-phone-call';
 import UserImage from '../UserImage';
 import ServiceBlock from '../ServiceBlock';
 import Review from '../Review';
-import { Title, Container, Button, Block, Write, List } from '../common';
+import { Title, Container, Button, Block, Write, List, Data } from '../common';
 import { myrthe, antoinette, phone, email, barber, beauty, babysitting } from '../../images';
 
 class Provider extends Component {
@@ -28,10 +28,15 @@ class Provider extends Component {
 	}
 
 	onCallPress() {
+		console.log('call pressed')
 		call({
 			number: '0598202994',
 			prompt: false
 		})
+	}
+
+	onEmailPress() {
+		console.log('email pressed')
 	}
 
 	render() {
@@ -44,6 +49,18 @@ class Provider extends Component {
 						style={styles.image}
 					/>
 					<Write style={styles.name}>Myrthe Veenstra</Write>
+					<TouchableOpacity onPress={this.onEmailPress.bind(this)}>
+						<Data
+							text={'myrtheveenstra@gmail.com'}
+							icon={email}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={this.onCallPress.bind(this)}>
+						<Data
+							text={'06 12345678'}
+							icon={phone}
+						/>
+					</TouchableOpacity>
 				</Block>
 				<Block>
 					<View style={styles.mapContainer}>

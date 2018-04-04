@@ -51,7 +51,8 @@ const styles = EStyleSheet.create({
 	container: {
 		flex: 1,
 		height: 30,
-		flexDirection: 'row'
+		flexDirection: 'row',
+		marginBottom: 20
 	},
 	svg: {
 		height: 30,

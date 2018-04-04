@@ -18,7 +18,10 @@ export const wrench = require('./svg/wrench.svg');
 export const lock = require('./svg/lock.svg');
 export const envelope = require('./svg/envelope.svg');
 export const star = require('./svg/star.svg');
+export const pencil = require('./svg/pencil.svg');
 export const phone = require('./svg/phone.svg');
+export const email = require('./svg/email.svg');
+export const check = require('./svg/check.svg');
 
 // Service images
 export const babysitting = require('./babysitting.jpg');
