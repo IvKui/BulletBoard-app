@@ -20,7 +20,8 @@ const Container = ({ style, center, children }) => {
 
 const styles = EStyleSheet.create({
 	scrollView: {
-		flex: 1
+		flex: 1,
+		backgroundColor: '$white'
 	},
 	center: {
 		flex: 1,

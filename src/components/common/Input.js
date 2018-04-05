@@ -30,7 +30,7 @@ const Input = ({
 			}
 			<TextInput
 				autoFocus={autoFocus}
-				keyboardType={keyboardType}
+				keyboardType={keyboardType || 'default'}
 				secureTextEntry={secureTextEntry}
 				// ref={ref}
 				// returnKeyType={returnKeyType}

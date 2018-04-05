@@ -33,9 +33,6 @@ class Login extends Component {
 	}
 
 	onRegisterPress() {
-		// const { email, password } = this.props;
-		//
-		// this.props.registerUser({ email, password });
 		this.props.navigation.navigate('RegisterAs')
 	}
 

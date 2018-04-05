@@ -1,51 +1,58 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import ServiceBlock from '../ServiceBlock';
-import RegisterAsBlock from '../RegisterAsBlock';
-import { Container, Block, Button, Title } from '../common';
-import { barber, beauty, babysitting, workshop, person } from '../../images';
+import AgendaItem from '../AgendaItem';
+import { Container } from '../common';
+import { myrthe, elise, erika, antoinette } from '../../images';
 
 class Agenda extends Component {
 	static navigationOptions = {
 		title: 'Agenda'
 	}
 
+	onItemPress() {
+		console.log(this)
+	}
+
 	render() {
 		return (
 			<Container>
-				<Block>
-					<Title>Diensten</Title>
-					<ScrollView
-						horizontal
-						showsHorizontalScrollIndicator={false}
-						style={styles.scrollView}
-					>
-						<ServiceBlock title={'Kapper'} image={barber} style={styles.service} />
-						<ServiceBlock title={'Schoonheidsspecialist'} image={beauty} style={styles.service} />
-						<ServiceBlock title={'Oppasser'} image={babysitting} style={styles.service} />
-					</ScrollView>
-				</Block>
-				<RegisterAsBlock
-					icon={workshop}
-					title={'Dienstverlener'}
-					description={'Biedt een dienst aan'}
+				<AgendaItem
+					name={'Myrthe Veenstra'}
+					image={myrthe}
+					service={'Kapper'}
+					day={'Do'}
+					date={'12 Apr'}
+					time={'15:45'}
+					onPress={this.onItemPress.bind(this)}
 				/>
-				<RegisterAsBlock
-					icon={person}
-					title={'Consument'}
-					description={'Zoekt een dienst'}
+				<AgendaItem
+					name={'Elise Boon'}
+					image={elise}
+					service={'Oppasser'}
+					day={'Di'}
+					date={'24 Apr'}
+					time={'09:00'}
+					onPress={this.onItemPress.bind(this)}
 				/>
-				<Button
-					onPress={() => this.props.navigation.navigate('Confirmation')}
-				>
-					Confirmation
-				</Button>
-				<Button
-					onPress={() => this.props.navigation.navigate('AddService')}
-				>
-					Add service
-				</Button>
+				<AgendaItem
+					name={'Erika Hamersma'}
+					image={erika}
+					service={'Schoonheidsspecialist'}
+					day={'Ma'}
+					date={'7 Mei'}
+					time={'11:15'}
+					onPress={this.onItemPress.bind(this)}
+				/>
+				<AgendaItem
+					name={'Antoinette de Jong'}
+					image={antoinette}
+					service={'Fysiotherapeut'}
+					day={'We'}
+					date={'23 Mei'}
+					time={'13:30'}
+					onPress={this.onItemPress.bind(this)}
+				/>
 			</Container>
 		);
 	}

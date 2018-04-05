@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
+import { roleChanged } from '../../actions';
 import RegisterAsBlock from '../RegisterAsBlock';
 import { Button, Container } from '../common';
 import { workshop, person } from '../../images';
@@ -10,7 +12,13 @@ class RegisterAs extends Component {
 		title: 'Registreren als ...'
 	}
 
-	onBlockPress() {
+	onProviderPress() {
+		this.props.roleChanged('provider')
+		this.props.navigation.navigate('Register')
+	}
+
+	onUserPress() {
+		this.props.roleChanged('user')
 		this.props.navigation.navigate('Register')
 	}
 
@@ -18,14 +26,14 @@ class RegisterAs extends Component {
 		return (
 			<Container center style={styles.container}>
 				<RegisterAsBlock
-					onPress={this.onBlockPress.bind(this)}
+					onPress={this.onProviderPress.bind(this)}
 					icon={workshop}
 					title={'Dienstverlener'}
 					description={'Biedt een dienst aan'}
 				/>
 				<RegisterAsBlock
 					style={styles.lastBlock}
-					onPress={this.onBlockPress.bind(this)}
+					onPress={this.onUserPress.bind(this)}
 					icon={person}
 					title={'Consument'}
 					description={'Zoekt een dienst'}
@@ -43,4 +51,14 @@ const styles = EStyleSheet.create({
 	}
 });
 
-export default RegisterAs;
+
+
+const mapStateToProps = state => {
+	return {
+		role: state.auth.role
+	};
+};
+
+export default connect(mapStateToProps, {
+	roleChanged
+})(RegisterAs);
