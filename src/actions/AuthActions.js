@@ -114,8 +114,8 @@ const loginUserSuccess = (dispatch, user) => {
 const registerUserSuccess = (dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
 	const { currentUser } = firebase.auth();
 
-	firebase.database().ref(`/${role}s/${currentUser.uid}/data`)
-    .push({
+	firebase.database().ref(`/${role}s/${currentUser.uid}`)
+    .set({
 			name,
 			email,
 			phone,
