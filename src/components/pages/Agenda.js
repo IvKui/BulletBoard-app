@@ -20,6 +20,7 @@ class Agenda extends Component {
 				<AgendaItem
 					name={'Myrthe Veenstra'}
 					image={myrthe}
+					rating={4.5}
 					service={'Kapper'}
 					day={'Do'}
 					date={'12 Apr'}
@@ -29,6 +30,7 @@ class Agenda extends Component {
 				<AgendaItem
 					name={'Elise Boon'}
 					image={elise}
+					rating={4.5}
 					service={'Oppasser'}
 					day={'Di'}
 					date={'24 Apr'}
@@ -38,6 +40,7 @@ class Agenda extends Component {
 				<AgendaItem
 					name={'Erika Hamersma'}
 					image={erika}
+					rating={3.5}
 					service={'Schoonheidsspecialist'}
 					day={'Ma'}
 					date={'7 Mei'}
@@ -47,6 +50,7 @@ class Agenda extends Component {
 				<AgendaItem
 					name={'Antoinette de Jong'}
 					image={antoinette}
+					rating={4}
 					service={'Fysiotherapeut'}
 					day={'We'}
 					date={'23 Mei'}

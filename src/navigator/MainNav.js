@@ -7,6 +7,7 @@ import TabNav from './TabNav';
 import Appointment from '../components/pages/Appointment';
 import AddService from '../components/pages/AddService';
 import Provider from '../components/pages/Provider';
+import Providers from '../components/pages/Providers';
 import Confirmation from '../components/pages/Confirmation';
 import ProviderService from '../components/pages/ProviderService';
 
@@ -64,6 +65,19 @@ const MainNav = StackNavigator({
         color: () => EStyleSheet.value('$white')
       }),
     })
+  },
+  Providers: {
+    screen: Providers,
+    navigationOptions: {
+      tabBarIcon: () => (
+        <Svg
+          fill= { EStyleSheet.value('$white') }
+          height= '22'
+          width= '22'
+          source={ workshop }
+        />
+      )
+    }
   },
   Appointment: {
     screen: Appointment,

@@ -20,6 +20,18 @@ class AgendaItem extends Component {
           />
           <View style={styles.contentContainer}>
             <Write style={styles.name}>{this.props.name}</Write>
+            {this.props.rating &&
+              <View style={styles.rating}>
+                <StarRating
+                  buttonStyle={styles.star}
+                  maxStars={5}
+                  rating={this.props.rating}
+                  starSize={15}
+                  fullStarColor={EStyleSheet.value('$tertiairyColor')}
+                  emptyStarColor={EStyleSheet.value('$tertiairyColor')}
+                />
+              </View>
+    				}
             <Write style={styles.service}>{this.props.service}</Write>
           </View>
           <View style={styles.dateContainer}>

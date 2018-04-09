@@ -23,12 +23,12 @@ class UserBlock extends Component {
             {this.props.rating &&
               <View style={styles.rating}>
                 <StarRating
-                buttonStyle={styles.star}
-                maxStars={5}
-                rating={this.props.rating}
-                starSize={15}
-                fullStarColor={EStyleSheet.value('$tertiairyColor')}
-                emptyStarColor={EStyleSheet.value('$tertiairyColor')}
+                  buttonStyle={styles.star}
+                  maxStars={5}
+                  rating={this.props.rating}
+                  starSize={15}
+                  fullStarColor={EStyleSheet.value('$tertiairyColor')}
+                  emptyStarColor={EStyleSheet.value('$tertiairyColor')}
                 />
               </View>
     				}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableWithoutFeedback } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
+import { ImagePicker } from 'expo';
 import {
 	nameChanged,
 	emailChanged,
@@ -13,14 +14,28 @@ import {
 	passwordChanged,
 	registerUser
 } from '../../actions';
-import UserImage from '../UserImage';
+import { UserImage } from '../UserImage';
 import { pencil } from '../../images';
 import { Container, Section, Block, Svg, Input, Button } from '../common';
 
 class RegisterForm extends Component {
-	onEditImagePress() {
-		console.log('Change Image')
+	constructor(props) {
+		super(props)
+		this.state = {
+			uri: 'http://lorempixel.com/output/cats-h-c-320-640-1.jpg'
+		}
+
+    this._setImage = this._setImage.bind(this)
+    this._selectPicture = this._selectPicture.bind(this)
+    this._takePicture = this._takePicture.bind(this)
 	}
+
+	async onEditImagePress() {
+  	const result = await ImagePicker.launchImageLibraryAsync()
+		if (!result.cancelled) {
+			await console.log(result.uri)
+		}
+  };
 
 	onRegisterPress() {
 		console.log('registering...')
