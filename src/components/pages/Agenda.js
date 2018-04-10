@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AgendaItem from '../AgendaItem';
+import ServiceBlock from '../ServiceBlock';
 import { Container } from '../common';
-import { myrthe, elise, erika, antoinette } from '../../images';
+import { myrthe, elise, erika, antoinette, barber } from '../../images';
 
 class Agenda extends Component {
 	static navigationOptions = {
@@ -11,7 +12,7 @@ class Agenda extends Component {
 	}
 
 	onItemPress() {
-		console.log(this)
+		this.props.navigation.navigate('ProviderService')
 	}
 
 	render() {

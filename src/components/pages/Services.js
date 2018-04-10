@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, TouchableHighlight } from 'react-native';
+import { FlatList, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Container, Block } from '../common';
 import ServiceBlock from '../ServiceBlock';
@@ -32,13 +32,15 @@ class Services extends Component {
 			<FlatList
     		data={data}
 	      renderItem={({item}) => (
-          <TouchableHighlight
-            underlayColor={EStyleSheet.value('$black')}
-            onPress={this.onServicePress.bind(this)}
-            style={styles.container}
-          >
-					  <ServiceBlock title={item.value} image={item.image} />
-          </TouchableHighlight>
+          <View style={styles.container}>
+					  <ServiceBlock
+              title={item.value}
+              image={item.image}
+              style={styles.service}
+              imageStyle={styles.image}
+              onPress={this.onServicePress.bind(this)}
+            />
+          </View>
     		)}
       	keyExtractor={item => item.id}
       	numColumns= {2}
@@ -56,7 +58,18 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '$black'
-	}
+	},
+  service: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    backgroundColor:'yellow'
+  },
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%'
+  }
 });
 
 export default Services;

@@ -6,13 +6,19 @@ import { Write } from './common';
 class ServiceBlock extends Component {
   render() {
     return (
-      <ImageBackground
-        style={[styles.image]}
-        source={this.props.image}
-        resizeMode='contain'
+      <TouchableHighlight
+        underlayColor={EStyleSheet.value('$black')}
+        onPress={this.props.onPress}
+        style={this.props.style}
       >
-        <Write style={styles.title}>{ this.props.title }</Write>
-      </ImageBackground>
+        <ImageBackground
+          style={[styles.image, this.props.imageStyle]}
+          source={this.props.image}
+          resizeMode='cover'
+        >
+          <Write style={styles.title}>{ this.props.title }</Write>
+        </ImageBackground>
+      </TouchableHighlight>
     );
   }
 };
@@ -20,10 +26,11 @@ class ServiceBlock extends Component {
 const styles = EStyleSheet.create({
   image: {
     flex: 1,
-    width: '100%',
-    height: '100%',
+    width: 140,
+    height: 140,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'red'
   },
   title: {
     flex: 1,

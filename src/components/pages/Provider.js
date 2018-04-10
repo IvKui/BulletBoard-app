@@ -27,6 +27,10 @@ class Provider extends Component {
 		)
 	}
 
+	onServicePress() {
+		this.props.navigation.navigate('ProviderService')
+	}
+
 	onCallPress() {
 		console.log('call pressed')
 		call({
@@ -89,9 +93,24 @@ class Provider extends Component {
 				showsHorizontalScrollIndicator={false}
 				style={styles.scrollView}
 				>
-					<ServiceBlock title={'Kapper'} image={barber} style={styles.service} />
-					<ServiceBlock title={'Schoonheidsspecialist'} image={beauty} style={styles.service} />
-					<ServiceBlock title={'Oppasser'} image={babysitting} style={styles.service} />
+					<ServiceBlock
+						title={'Kapper'}
+						image={barber}
+						style={styles.service}
+						onPress={this.onServicePress.bind(this)}
+					/>
+					<ServiceBlock
+						title={'Schoonheidsspecialist'}
+						image={beauty}
+						style={styles.service}
+						onPress={this.onServicePress.bind(this)}
+					/>
+					<ServiceBlock
+						title={'Oppasser'}
+						image={babysitting}
+						style={styles.service}
+						onPress={this.onServicePress.bind(this)}
+					/>
 				</ScrollView>
 				<Title>Recensies</Title>
 				<ScrollView
@@ -167,14 +186,14 @@ const styles = EStyleSheet.create({
 		marginBottom: 20
 	},
 	service: {
-		height: 150,
 		borderRadius: 4,
 		overflow: 'hidden',
 		marginRight: 20
 	},
 	review: {
 		width: 280,
-		marginRight: 20
+		marginRight: 20,
+		marginBottom: 20
 	}
 });
 

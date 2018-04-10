@@ -22,9 +22,7 @@ const MainNav = StackNavigator({
       headerTitleStyle: EStyleSheet.create({
         color: () => EStyleSheet.value('$white')
       }),
-      headerTintStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$white')
-      }),
+      headerTintColor: EStyleSheet.value('$white'),
       headerLeft:
         <View style={styles.MenuIcon}>
           <Icon
@@ -46,9 +44,7 @@ const MainNav = StackNavigator({
       headerTitleStyle: EStyleSheet.create({
         color: () => EStyleSheet.value('$white')
       }),
-      headerTintStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$white')
-      }),
+      headerTintColor: EStyleSheet.value('$white'),
     })
   },
   ProviderService: {
@@ -61,9 +57,7 @@ const MainNav = StackNavigator({
       headerTitleStyle: EStyleSheet.create({
         color: () => EStyleSheet.value('$white')
       }),
-      headerTintStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$white')
-      }),
+      headerTintColor: EStyleSheet.value('$white'),
     })
   },
   Providers: {
@@ -89,9 +83,7 @@ const MainNav = StackNavigator({
       headerTitleStyle: EStyleSheet.create({
         color: () => EStyleSheet.value('$white'),
       }),
-      headerTintStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$white')
-      }),
+      headerTintColor: EStyleSheet.value('$white'),
     })
   },
   Confirmation: {
@@ -104,9 +96,7 @@ const MainNav = StackNavigator({
       headerTitleStyle: EStyleSheet.create({
         color: () => EStyleSheet.value('$white'),
       }),
-      headerTintStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$white')
-      }),
+      headerTintColor: EStyleSheet.value('$white'),
     })
   },
   AddService: {
@@ -119,9 +109,7 @@ const MainNav = StackNavigator({
       headerTitleStyle: EStyleSheet.create({
         color: () =>  EStyleSheet.value('$white'),
       }),
-      headerTintStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$white')
-      }),
+      headerTintColor: EStyleSheet.value('$white'),
     })
   }
 },

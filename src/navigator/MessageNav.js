@@ -30,12 +30,17 @@ const MessageNav = StackNavigator({
   },
   Chat: {
     screen: Chat,
-    navigationOptions: {
+    navigationOptions: ({ navigation }) => ({
       headerStyle: EStyleSheet.create({
-        backgroundColor: () => EStyleSheet.value('$primaryColor')
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
+        elevation: 0
       }),
-    }
-  }
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white'),
+      }),
+      headerTintColor: EStyleSheet.value('$white'),
+    })
+  },
 });
 
 const styles = EStyleSheet.create({

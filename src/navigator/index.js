@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { DrawerNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Profile from '../components/pages/Profile';
 import AuthNav from './AuthNav';
 import MainNav from './MainNav';
 import MessageNav from './MessageNav';
