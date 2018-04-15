@@ -29,8 +29,7 @@ const styles = EStyleSheet.create({
     width: 140,
     height: 140,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red'
+    alignItems: 'center'
   },
   title: {
     flex: 1,

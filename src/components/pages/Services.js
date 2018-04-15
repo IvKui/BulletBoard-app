@@ -62,8 +62,7 @@ const styles = EStyleSheet.create({
   service: {
     flex: 1,
     width: '100%',
-    height: '100%',
-    backgroundColor:'yellow'
+    height: '100%'
   },
   image: {
     flex: 1,

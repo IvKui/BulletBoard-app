@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableHighlight } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
@@ -14,28 +14,14 @@ import {
 	passwordChanged,
 	registerUser
 } from '../../actions';
-import { UserImage } from '../UserImage';
+import UserImage from '../UserImage';
 import { pencil } from '../../images';
 import { Container, Section, Block, Svg, Input, Button } from '../common';
 
 class RegisterForm extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			uri: 'http://lorempixel.com/output/cats-h-c-320-640-1.jpg'
-		}
-
-    this._setImage = this._setImage.bind(this)
-    this._selectPicture = this._selectPicture.bind(this)
-    this._takePicture = this._takePicture.bind(this)
+	onEditImagePress() {
+		onNameChange('test')
 	}
-
-	async onEditImagePress() {
-  	const result = await ImagePicker.launchImageLibraryAsync()
-		if (!result.cancelled) {
-			await console.log(result.uri)
-		}
-  };
 
 	onRegisterPress() {
 		console.log('registering...')
@@ -91,18 +77,19 @@ class RegisterForm extends Component {
 		return (
 			<Container style={styles.container}>
 				<Section style={styles.userImage}>
-					<UserImage big>
-						<TouchableWithoutFeedback	onPress={this.onEditImagePress.bind(this)}>
+					<TouchableHighlight onPress={() => this.onEditImagePress.bind(this)}>
+						<UserImage big>
 							<View style={styles.editImage}>
 								<Svg
+									style={styles.svg}
 									height='15'
 									width='15'
 									fill={ EStyleSheet.value('$white')}
 									source={ pencil }
 								/>
 							</View>
-						</TouchableWithoutFeedback>
-					</UserImage>
+						</UserImage>
+					</TouchableHighlight>
 				</Section>
 				<Section>
 					<Input
@@ -186,6 +173,10 @@ const styles = EStyleSheet.create({
 		position: 'absolute',
 		right: 0,
 		top: 0
+	},
+	svg: {
+		padding: 10,
+		borderRadius: 999
 	}
 });
 
