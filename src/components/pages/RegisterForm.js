@@ -141,7 +141,7 @@ class RegisterForm extends Component {
 						value={this.props.password}
 					/>
 				</Section>
-				<Button onPress={this.onRegisterPress.bind(this)}>Register</Button>
+				<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
 			</Container>
 		);
 	}
@@ -149,8 +149,6 @@ class RegisterForm extends Component {
 
 const styles = EStyleSheet.create({
 	container: {
-		paddingRight: 40,
-		paddingLeft: 40
 	},
 	multipleInputs: {
 		flexDirection: 'row'
