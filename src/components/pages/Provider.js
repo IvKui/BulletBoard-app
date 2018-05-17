@@ -16,6 +16,7 @@ class Provider extends Component {
 			<View style={styles.headerTitle}>
 				<Write style={styles.headerTitleText}>Myrthe Veenstra</Write>
 				<StarRating
+					disabled
 					buttonStyle={styles.star}
 					maxStars={5}
 					rating={4.5}
@@ -46,13 +47,12 @@ class Provider extends Component {
 	render() {
 		return (
 			<Container style={styles.container}>
-				<Block>
-					<UserImage
-						big
-						image={myrthe}
-						style={styles.image}
-					/>
-					<Write style={styles.name}>Myrthe Veenstra</Write>
+				<UserImage
+					big
+					image={myrthe}
+					style={styles.image}
+				/>
+				<View style={styles.data}>
 					<TouchableOpacity onPress={this.onEmailPress.bind(this)}>
 						<Data
 							text={'myrtheveenstra@gmail.com'}
@@ -65,7 +65,7 @@ class Provider extends Component {
 							icon={phone}
 						/>
 					</TouchableOpacity>
-				</Block>
+				</View>
 				<Block>
 					<View style={styles.mapContainer}>
 						<MapView
@@ -163,13 +163,12 @@ const styles = EStyleSheet.create({
 	image: {
 		flex: 1,
 		alignItems: 'center',
-		marginBottom: 5
+		marginBottom: 20
 	},
-	name: {
-		fontSize: 22,
-		textAlign: 'center',
-		fontWeight: 'bold',
-		marginBottom: 2
+	data: {
+		alignItems: 'flex-start',
+		marginLeft: 40,
+		marginBottom: 10
 	},
 	mapContainer: {
 		borderRadius: 4,

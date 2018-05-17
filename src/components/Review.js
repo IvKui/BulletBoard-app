@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import StarRating from 'react-native-star-rating';
 import UserBlock from './UserBlock';
 import { Write } from './common';
 

@@ -1,50 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { TextInput, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Svg, Write } from './';
 
-const Input = ({
-	style,
-	label,
-	value,
-	onChangeText,
-	placeholder,
-	secureTextEntry,
-	autoFocus,
-	keyboardType,
-	icon,
-	onSubmitEditing,
-	returnKeyType,
-	key
-}) => {
-	return (
-		<View style={[styles.container, style]}>
-			{icon &&
-				<Svg
-					style={styles.svg }
-					height='30'
-					width='30'
-					fill={ EStyleSheet.value('$secondaryColor')}
-					source={ icon }
+class Input extends Component {
+	render(){
+		return (
+			<View style={[styles.container, style]}>
+				{icon &&
+					<Svg
+						style={styles.svg }
+						height='30'
+						width='30'
+						fill={ EStyleSheet.value('$primaryColor')}
+						source={ icon }
+					/>
+				}
+				<TextInput
+					autoFocus={autoFocus}
+					keyboardType={keyboardType || 'default'}
+					secureTextEntry={secureTextEntry}
+					key={key}
+					returnKeyType={returnKeyType}
+					onSubmitEditing={onSubmitEditing}
+					autoCorrect={false}
+					blurOnSubmit={false}
+					placeholder={placeholder}
+					value={value}
+					onChangeText={onChangeText}
+					style={styles.input}
+					underlineColorAndroid='transparent'
 				/>
-			}
-			<TextInput
-				autoFocus={autoFocus}
-				keyboardType={keyboardType || 'default'}
-				secureTextEntry={secureTextEntry}
-				key={key}
-				returnKeyType={returnKeyType}
-				onSubmitEditing={onSubmitEditing}
-				autoCorrect={false}
-				blurOnSubmit={false}
-				placeholder={placeholder}
-				value={value}
-				onChangeText={onChangeText}
-				style={styles.input}
-				underlineColorAndroid='transparent'
-			/>
-		</View>
-	);
+			</View>
+		);
+	}
 };
 
 const styles = EStyleSheet.create({
@@ -71,4 +60,4 @@ const styles = EStyleSheet.create({
 	}
 });
 
-export { Input };
+export default Input;

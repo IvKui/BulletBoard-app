@@ -12,6 +12,7 @@ class ProviderService extends Component {
 			<View style={styles.headerTitle}>
 				<Write style={styles.headerTitleText}>Myrthe Veenstra</Write>
 				<StarRating
+					disabled
 					buttonStyle={styles.star}
 					maxStars={5}
 					rating={4.5}

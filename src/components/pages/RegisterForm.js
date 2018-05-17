@@ -112,7 +112,7 @@ class RegisterForm extends Component {
 							onChangeText={this.onNameChange.bind(this)}
 							value={this.props.name}
 							onSubmitEditing= {() => {
-								this.focusNextField('two');
+								console.log(this.refs)
 							}}
 							returnKeyType={'next'}
 						/>
@@ -120,7 +120,7 @@ class RegisterForm extends Component {
 							placeholder='Email'
 							onChangeText={this.onEmailChange.bind(this)}
 							value={this.props.email}
-							key={ input => {
+							ref={ input => {
 								this.inputs['two'] = input;
 							}}
 						/>

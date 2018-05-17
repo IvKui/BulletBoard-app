@@ -23,6 +23,7 @@ class UserBlock extends Component {
             {this.props.rating &&
               <View style={styles.rating}>
                 <StarRating
+                  disabled
                   buttonStyle={styles.star}
                   maxStars={5}
                   rating={this.props.rating}

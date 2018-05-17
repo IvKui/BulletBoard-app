@@ -23,6 +23,7 @@ const Data = ({ style, text, icon }) => {
 const styles = EStyleSheet.create({
 	container: {
 		justifyContent: 'center',
+		alignItems: 'center',
 		flexDirection: 'row',
 		marginBottom: 20
 	},

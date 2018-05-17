@@ -1,5 +1,4 @@
 export * from './Button';
-export * from './Input';
 export * from './Block';
 export * from './Title';
 export * from './Container';

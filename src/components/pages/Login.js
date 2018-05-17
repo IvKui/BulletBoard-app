@@ -4,7 +4,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions';
 import { envelope, lock } from '../../images';
-import { Container, Block, Input, Button, Spinner } from '../common';
+import { Form, TextInput } from 'react-native-form-idable';
+import { Container, Block, Button, Spinner } from '../common';
 
 class Login extends Component {
 	constructor(props) {
@@ -63,7 +64,7 @@ class Login extends Component {
 	render() {
 		return (
 			<Container>
-				<Input
+				<TextInput
 					autoFocus
 					keyboardType='email-address'
 					placeholder='Email'
@@ -73,7 +74,7 @@ class Login extends Component {
 					// onSubmitEditing={this.handleTitleInputSubmit}
 					// returnKeyType={"next"}
 				/>
-				<Input
+				<TextInput
 					secureTextEntry
 					placeholder='Wachtwoord'
 					onChangeText={this.onPasswordChange.bind(this)}
