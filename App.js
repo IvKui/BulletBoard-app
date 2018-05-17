@@ -18,8 +18,8 @@ export default class App extends Component {
     super(props);
 
     EStyleSheet.build({
-      $primaryColor: '#0d6e88',
-      $secondaryColor: '#f86448',
+      $primaryColor: '#523C80',
+      $secondaryColor: '#FA333B',
       $tertiairyColor: '#ffa03f',
       $white: '#fff',
       $lightGrey: '#e6e6e6',

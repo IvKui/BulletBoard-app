@@ -1,20 +1,20 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Container = ({ style, center, children }) => {
 	return (
-		<ScrollView
-			style={ styles.scrollView }
-			contentContainerStyle={
-				center && styles.center
-			}
-			showsVerticalScrollIndicator={false}
-		>
-			<View style={[styles.container, style]}>
-				{children}
-			</View>
-		</ScrollView>
+			<ScrollView
+				style={ styles.scrollView }
+				contentContainerStyle={
+					center && styles.center
+				}
+				showsVerticalScrollIndicator={false}
+			>
+				<View style={[styles.container, style]}>
+					{children}
+				</View>
+			</ScrollView>
 	);
 };
 

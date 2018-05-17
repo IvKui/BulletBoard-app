@@ -1,7 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.build({
-  $primaryColor: '#0d6e88',
+  $primaryColor: '#523C80',
   $white: '#f86448',
   $tertiairyColor: '#ffa03f',
   $white: '#fff',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight } from 'react-native';
+import { View, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { ImagePicker } from 'expo';
@@ -16,9 +16,21 @@ import {
 } from '../../actions';
 import UserImage from '../UserImage';
 import { pencil } from '../../images';
-import { Container, Section, Block, Svg, Input, Button } from '../common';
+import { Container, Section, Block, Svg, Input, Button, Write } from '../common';
 
 class RegisterForm extends Component {
+	constructor(props) {
+		super(props);
+
+		this.focusNextField = this.focusNextField.bind(this);
+		this.inputs = {};
+	}
+
+	focusNextField(id) {
+		console.log(this.inputs['one'])
+		//this.inputs[id].wrappedInstance.focus();
+	}
+
 	onEditImagePress() {
 		onNameChange('test')
 	}
@@ -75,73 +87,82 @@ class RegisterForm extends Component {
 
 	render() {
 		return (
-			<Container style={styles.container}>
-				<Section style={styles.userImage}>
-					<TouchableHighlight onPress={() => this.onEditImagePress.bind(this)}>
-						<UserImage big>
-							<View style={styles.editImage}>
-								<Svg
-									style={styles.svg}
-									height='15'
-									width='15'
-									fill={ EStyleSheet.value('$white')}
-									source={ pencil }
-								/>
-							</View>
-						</UserImage>
-					</TouchableHighlight>
-				</Section>
-				<Section>
-					<Input
-						autoFocus
-						keyboardType='email-address'
-						placeholder='Naam'
-						onChangeText={this.onNameChange.bind(this)}
-						value={this.props.name}
-					/>
-					<Input
-						placeholder='Email'
-						onChangeText={this.onEmailChange.bind(this)}
-						value={this.props.email}
-					/>
-					<Input
-						keyboardType='numeric'
-						placeholder='Telefoonnr.'
-						onChangeText={this.onPhoneChange.bind(this)}
-						value={this.props.phone}
-					/>
-					<View style={styles.multipleInputs}>
+			<Container>
+				<KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
+					<Section style={styles.userImage}>
+						<TouchableHighlight onPress={() => this.onEditImagePress.bind(this)}>
+							<UserImage big>
+								<View style={styles.editImage}>
+									<Svg
+										style={styles.svg}
+										height='15'
+										width='15'
+										fill={ EStyleSheet.value('$white')}
+										source={ pencil }
+									/>
+								</View>
+							</UserImage>
+						</TouchableHighlight>
+					</Section>
+					<Section>
 						<Input
-							placeholder='Straatnaam'
-							onChangeText={this.onStreetChange.bind(this)}
-							value={this.props.street}
+							autoFocus
+							keyboardType='email-address'
+							placeholder='Naam'
+							onChangeText={this.onNameChange.bind(this)}
+							value={this.props.name}
+							onSubmitEditing= {() => {
+								this.focusNextField('two');
+							}}
+							returnKeyType={'next'}
 						/>
 						<Input
-							style={styles.shortInput}
+							placeholder='Email'
+							onChangeText={this.onEmailChange.bind(this)}
+							value={this.props.email}
+							key={ input => {
+								this.inputs['two'] = input;
+							}}
+						/>
+						<Input
 							keyboardType='numeric'
-							placeholder='Huisnr.'
-							onChangeText={this.onHouseNrChange.bind(this)}
-							value={this.props.houseNr}
+							placeholder='Telefoonnr.'
+							onChangeText={this.onPhoneChange.bind(this)}
+							value={this.props.phone}
 						/>
-					</View>
-					<Input
-						placeholder='Woonplaats'
-						onChangeText={this.onHometownChange.bind(this)}
-						value={this.props.hometown}
-					/>
-					<Input
-						placeholder='Postcode'
-						onChangeText={this.onPostalChange.bind(this)}
-						value={this.props.postal}
-					/>
-					<Input
-						secureTextEntry
-						placeholder='Wachtwoord'
-						onChangeText={this.onPasswordChange.bind(this)}
-						value={this.props.password}
-					/>
-				</Section>
-				<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
+						<View style={styles.multipleInputs}>
+							<Input
+								placeholder='Straatnaam'
+								onChangeText={this.onStreetChange.bind(this)}
+								value={this.props.street}
+							/>
+							<Input
+								style={styles.shortInput}
+								keyboardType='numeric'
+								placeholder='Huisnr.'
+								onChangeText={this.onHouseNrChange.bind(this)}
+								value={this.props.houseNr}
+							/>
+						</View>
+						<Input
+							placeholder='Woonplaats'
+							onChangeText={this.onHometownChange.bind(this)}
+							value={this.props.hometown}
+						/>
+						<Input
+							placeholder='Postcode'
+							onChangeText={this.onPostalChange.bind(this)}
+							value={this.props.postal}
+						/>
+						<Input
+							secureTextEntry
+							placeholder='Wachtwoord'
+							onChangeText={this.onPasswordChange.bind(this)}
+							value={this.props.password}
+						/>
+					</Section>
+					<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
+				</KeyboardAvoidingView>
 			</Container>
 		);
 	}
@@ -149,6 +170,7 @@ class RegisterForm extends Component {
 
 const styles = EStyleSheet.create({
 	container: {
+		flex: 1
 	},
 	multipleInputs: {
 		flexDirection: 'row'
@@ -171,6 +193,9 @@ const styles = EStyleSheet.create({
 		position: 'absolute',
 		right: 0,
 		top: 0
+	},
+	input: {
+		flex: 1
 	},
 	svg: {
 		padding: 10,

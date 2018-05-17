@@ -13,9 +13,9 @@ const Input = ({
 	autoFocus,
 	keyboardType,
 	icon,
-	// onSubmitEditing,
-	// returnKeyType,
-	// ref
+	onSubmitEditing,
+	returnKeyType,
+	key
 }) => {
 	return (
 		<View style={[styles.container, style]}>
@@ -32,9 +32,9 @@ const Input = ({
 				autoFocus={autoFocus}
 				keyboardType={keyboardType || 'default'}
 				secureTextEntry={secureTextEntry}
-				// ref={ref}
-				// returnKeyType={returnKeyType}
-				// onSubmitEditing={onSubmitEditing}
+				key={key}
+				returnKeyType={returnKeyType}
+				onSubmitEditing={onSubmitEditing}
 				autoCorrect={false}
 				blurOnSubmit={false}
 				placeholder={placeholder}
