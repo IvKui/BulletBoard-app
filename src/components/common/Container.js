@@ -10,6 +10,7 @@ const Container = ({ style, center, children }) => {
 					center && styles.center
 				}
 				showsVerticalScrollIndicator={false}
+				keyboardShouldPersistTaps='always'
 			>
 				<View style={[styles.container, style]}>
 					{children}

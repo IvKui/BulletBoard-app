@@ -20,7 +20,8 @@ class Input extends Component {
 					autoFocus={autoFocus}
 					keyboardType={keyboardType || 'default'}
 					secureTextEntry={secureTextEntry}
-					key={key}
+					ref={ref}
+					TextInputRef={TextInputRef}
 					returnKeyType={returnKeyType}
 					onSubmitEditing={onSubmitEditing}
 					autoCorrect={false}

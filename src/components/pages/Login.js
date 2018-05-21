@@ -4,17 +4,28 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions';
 import { envelope, lock } from '../../images';
-import { Form, TextInput } from 'react-native-form-idable';
+import t from 'tcomb-form-native';
 import { Container, Block, Button, Spinner } from '../common';
 
-class Login extends Component {
-	constructor(props) {
-    super(props);
-    this.state = { focusDescriptionInput: false };
-  }
+const Form = t.form.Form;
 
-	handleTitleInputSubmit() {
-		this.setState(focusDescriptionInput: true)
+const User = t.struct({
+	email: t.String,
+	password: t.String
+});
+
+const options = {
+	fields: {
+		email: {
+			error: 'We hebben toch echt een email nodig'
+		},
+		password: 'WACHTWOORD!!'
+	}
+}
+
+class Login extends Component {
+	onChange(text) {
+		console.log(text)
 	}
 
 	onEmailChange(text) {
@@ -26,10 +37,13 @@ class Login extends Component {
 	}
 
 	onLoginPress() {
-		const { email, password } = this.props;
+		const value = this._form.getValue();
+		console.log(value['email']);
 
-		this.props.loginUser({ email, password })
-		this.props.navigation.navigate('MainNav')
+		// const { email, password } = this.props;
+		//
+		// this.props.loginUser({ email, password })
+		// this.props.navigation.navigate('MainNav')
 
 	}
 
@@ -64,25 +78,11 @@ class Login extends Component {
 	render() {
 		return (
 			<Container>
-				<TextInput
-					autoFocus
-					keyboardType='email-address'
-					placeholder='Email'
-					icon={ envelope }
-					onChangeText={this.onEmailChange.bind(this)}
-					value={this.props.email}
-					// onSubmitEditing={this.handleTitleInputSubmit}
-					// returnKeyType={"next"}
-				/>
-				<TextInput
-					secureTextEntry
-					placeholder='Wachtwoord'
-					onChangeText={this.onPasswordChange.bind(this)}
-					value={this.props.password}
-					icon={ lock }
-					// returnKeyType={"done"}
-					// onSubmitEditing={this.onRegisterPress}
-					// focus={this.state.focusDescriptionInput}
+				<Form
+					ref={c => this._form = c}
+					type={User}
+					options={options}
+					onChange={this.onChange}
 				/>
 				{this.renderError()}
 				{this.renderButton()}

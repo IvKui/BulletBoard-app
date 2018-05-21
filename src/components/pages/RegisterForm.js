@@ -92,7 +92,12 @@ class RegisterForm extends Component {
 					<Section style={styles.userImage}>
 						<TouchableHighlight onPress={() => this.onEditImagePress.bind(this)}>
 							<UserImage big>
-								<View style={styles.editImage}>
+								<View
+									style={styles.editImage}
+									ref={ input => {
+										this.inputs['two'] = input;
+									}}
+								>
 									<Svg
 										style={styles.svg}
 										height='15'
@@ -120,9 +125,6 @@ class RegisterForm extends Component {
 							placeholder='Email'
 							onChangeText={this.onEmailChange.bind(this)}
 							value={this.props.email}
-							ref={ input => {
-								this.inputs['two'] = input;
-							}}
 						/>
 						<Input
 							keyboardType='numeric'
