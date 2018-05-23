@@ -88,7 +88,6 @@ class RegisterForm extends Component {
 	render() {
 		return (
 			<Container>
-				<KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
 					<Section style={styles.userImage}>
 						<TouchableHighlight onPress={() => this.onEditImagePress.bind(this)}>
 							<UserImage big>
@@ -164,7 +163,6 @@ class RegisterForm extends Component {
 						/>
 					</Section>
 					<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
-				</KeyboardAvoidingView>
 			</Container>
 		);
 	}

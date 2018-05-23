@@ -4,22 +4,32 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Container = ({ style, center, children }) => {
 	return (
-			<ScrollView
-				style={ styles.scrollView }
-				contentContainerStyle={
-					center && styles.center
-				}
-				showsVerticalScrollIndicator={false}
-				keyboardShouldPersistTaps='always'
+			<KeyboardAvoidingView
+				enabled
+				behavior='padding'
+				style={styles.keyboardView}
+        keyboardVerticalOffset={120}
 			>
-				<View style={[styles.container, style]}>
-					{children}
-				</View>
-			</ScrollView>
+				<ScrollView
+					style={ styles.scrollView }
+					contentContainerStyle={
+						center && styles.center
+					}
+					showsVerticalScrollIndicator={false}
+					keyboardShouldPersistTaps='always'
+				>
+					<View style={[styles.container, style]}>
+						{children}
+					</View>
+				</ScrollView>
+			</KeyboardAvoidingView>
 	);
 };
 
 const styles = EStyleSheet.create({
+	keyboardView: {
+		flex: 1
+	},
 	scrollView: {
 		flex: 1,
 		backgroundColor: '$white'

@@ -4,10 +4,24 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Agenda from '../components/pages/Agenda';
 import Services from '../components/pages/Services';
 import Providers from '../components/pages/Providers';
+import TestForm from '../components/pages/TestForm';
 import { Svg } from '../components/common';
 import { calendar, handshake, workshop } from '../images';
 
 const AppNav = TabNavigator({
+  TestForm: {
+    screen: TestForm,
+    navigationOptions: {
+      tabBarIcon: () => (
+        <Svg
+          fill= { EStyleSheet.value('$white') }
+          height= '20'
+          width= '20'
+          source={ calendar }
+        />
+      )
+    }
+  },
   Agenda: {
     screen: Agenda,
     navigationOptions: {
@@ -49,7 +63,7 @@ const AppNav = TabNavigator({
   }
 },
 {
-  initialRouteName: 'Agenda',
+  initialRouteName: 'TestForm',
   tabBarOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$secondaryColor'),
     showIcon: true,
