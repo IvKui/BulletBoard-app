@@ -36,9 +36,13 @@ const AuthNav = StackNavigator({
     navigationOptions: ({ navigation }) => EStyleSheet.create({
       title: null,
       headerStyle: {
-        elevation: 0
+        elevation: 0,
+        backgroundColor: EStyleSheet.value('$primaryColor')
       },
-      headerTintColor: EStyleSheet.value('$primaryColor'),
+      headerTitleStyle: {
+        color: EStyleSheet.value('$white')
+      },
+      headerTintColor: EStyleSheet.value('$white'),
     })
   }
 });

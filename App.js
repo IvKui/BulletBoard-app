@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ignoreWarnings from 'react-native-ignore-warnings';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
@@ -9,11 +10,13 @@ import AppNav from './src/navigator';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Splash from './src/components/pages/Splash';
 
+ignoreWarnings('Setting a timer')
+
 export default class App extends Component {
   state = {
       fontLoaded: false
   }
-
+  
   constructor(props) {
     super(props);
 

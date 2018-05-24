@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
+import { View, TextInput } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { ImagePicker } from 'expo';
 import {
 	nameChanged,
 	emailChanged,
@@ -14,11 +13,13 @@ import {
 	passwordChanged,
 	registerUser
 } from '../../actions';
-import UserImage from '../UserImage';
-import { pencil } from '../../images';
-import { Container, Section, Block, Svg, Input, Button, Write } from '../common';
+import { Button, Container, Write, Alert } from '../common';
 
 class RegisterForm extends Component {
+	static navigationOptions = {
+		title: 'Registeren'
+	}
+
 	constructor(props) {
 		super(props);
 
@@ -27,12 +28,7 @@ class RegisterForm extends Component {
 	}
 
 	focusNextField(id) {
-		console.log(this.inputs['one'])
-		//this.inputs[id].wrappedInstance.focus();
-	}
-
-	onEditImagePress() {
-		onNameChange('test')
+		this.inputs[id].focus();
 	}
 
 	onRegisterPress() {
@@ -85,84 +81,143 @@ class RegisterForm extends Component {
 		this.props.passwordChanged(text);
 	}
 
+	renderError() {
+		if (this.props.registerError) {
+			return (
+				<Alert confirm>
+					{this.props.registerError}
+				</Alert>
+			);
+		}
+	}
+
 	render() {
 		return (
-			<Container>
-					<Section style={styles.userImage}>
-						<TouchableHighlight onPress={() => this.onEditImagePress.bind(this)}>
-							<UserImage big>
-								<View
-									style={styles.editImage}
-									ref={ input => {
-										this.inputs['two'] = input;
-									}}
-								>
-									<Svg
-										style={styles.svg}
-										height='15'
-										width='15'
-										fill={ EStyleSheet.value('$white')}
-										source={ pencil }
-									/>
-								</View>
-							</UserImage>
-						</TouchableHighlight>
-					</Section>
-					<Section>
-						<Input
-							autoFocus
-							keyboardType='email-address'
-							placeholder='Naam'
-							onChangeText={this.onNameChange.bind(this)}
-							value={this.props.name}
-							onSubmitEditing= {() => {
-								console.log(this.refs)
-							}}
-							returnKeyType={'next'}
-						/>
-						<Input
-							placeholder='Email'
-							onChangeText={this.onEmailChange.bind(this)}
-							value={this.props.email}
-						/>
-						<Input
-							keyboardType='numeric'
-							placeholder='Telefoonnr.'
-							onChangeText={this.onPhoneChange.bind(this)}
-							value={this.props.phone}
-						/>
-						<View style={styles.multipleInputs}>
-							<Input
-								placeholder='Straatnaam'
-								onChangeText={this.onStreetChange.bind(this)}
-								value={this.props.street}
-							/>
-							<Input
-								style={styles.shortInput}
-								keyboardType='numeric'
-								placeholder='Huisnr.'
-								onChangeText={this.onHouseNrChange.bind(this)}
-								value={this.props.houseNr}
-							/>
-						</View>
-						<Input
-							placeholder='Woonplaats'
-							onChangeText={this.onHometownChange.bind(this)}
-							value={this.props.hometown}
-						/>
-						<Input
-							placeholder='Postcode'
-							onChangeText={this.onPostalChange.bind(this)}
-							value={this.props.postal}
-						/>
-						<Input
-							secureTextEntry
-							placeholder='Wachtwoord'
-							onChangeText={this.onPasswordChange.bind(this)}
-							value={this.props.password}
-						/>
-					</Section>
-					<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
+			<Container style={styles.container}>
+				{this.renderError()}
+				<View style={styles.form}>
+					<Write style={styles.label}>Naam</Write>
+					<TextInput
+						style={styles.input}
+						onFocus={() => {console.log('focus')}}
+						keyboardType='default'
+						onChangeText={this.onNameChange.bind(this)}
+						value={this.props.name}
+						blurOnSubmit={ false }
+						onSubmitEditing={() => {
+							this.focusNextField('email');
+						}}
+						returnKeyType={ "next" }
+						ref={ input => {
+							this.inputs['name'] = input;
+						}}
+					/>
+					<Write style={styles.label}>Email</Write>
+					<TextInput
+						style={styles.input}
+						keyboardType='email-address'
+						onChangeText={this.onEmailChange.bind(this)}
+						value={this.props.email}
+						blurOnSubmit={ false }
+						onSubmitEditing={() => {
+							this.focusNextField('phone');
+						}}
+						returnKeyType={ "next" }
+						ref={ input => {
+							this.inputs['email'] = input;
+						}}
+					/>
+					<Write style={styles.label}>Telefoonnr.</Write>
+					<TextInput
+						style={styles.input}
+						keyboardType='phone-pad'
+						onChangeText={this.onPhoneChange.bind(this)}
+						value={this.props.phone}
+						blurOnSubmit={ false }
+						onSubmitEditing={() => {
+							this.focusNextField('street');
+						}}
+						returnKeyType={ "next" }
+						ref={ input => {
+							this.inputs['phone'] = input;
+						}}
+					/>
+					<Write style={styles.label}>Straatnaam</Write>
+					<TextInput
+						style={styles.input}
+						keyboardType='default'
+						onChangeText={this.onStreetChange.bind(this)}
+						value={this.props.street}
+						blurOnSubmit={ false }
+						onSubmitEditing={() => {
+							this.focusNextField('house');
+						}}
+						returnKeyType={ "next" }
+						ref={ input => {
+							this.inputs['street'] = input;
+						}}
+					/>
+					<Write style={styles.label}>Huisnr.</Write>
+					<TextInput
+						style={styles.input}
+						keyboardType='default'
+						onChangeText={this.onHouseNrChange.bind(this)}
+						value={this.props.houseNr}
+						blurOnSubmit={ false }
+						onSubmitEditing={() => {
+							this.focusNextField('city');
+						}}
+						returnKeyType={ "next" }
+						ref={ input => {
+							this.inputs['house'] = input;
+						}}
+					/>
+					<Write style={styles.label}>Woonplaats</Write>
+					<TextInput
+						style={styles.input}
+						keyboardType='default'
+						onChangeText={this.onHometownChange.bind(this)}
+						value={this.props.hometown}
+						blurOnSubmit={ false }
+						onSubmitEditing={() => {
+							this.focusNextField('post');
+						}}
+						returnKeyType={ "next" }
+						ref={ input => {
+							this.inputs['city'] = input;
+						}}
+					/>
+					<Write style={styles.label}>Postcode</Write>
+					<TextInput
+						style={styles.input}
+						keyboardType='default'
+						onChangeText={this.onPostalChange.bind(this)}
+						value={this.props.postal}
+						blurOnSubmit={ false }
+						onSubmitEditing={() => {
+							this.focusNextField('pass');
+						}}
+						returnKeyType={ "next" }
+						ref={ input => {
+							this.inputs['post'] = input;
+						}}
+					/>
+					<Write style={styles.label}>Wachtwoord</Write>
+					<TextInput
+						style={styles.input}
+						secureTextEntry
+						keyboardType='default'
+						onChangeText={this.onPasswordChange.bind(this)}
+						value={this.props.password}
+						blurOnSubmit={ true }
+						onSubmitEditing={this.onRegisterPress.bind(this)}
+						returnKeyType={ "done" }
+						ref={ input => {
+							this.inputs['pass'] = input;
+						}}
+					/>
+				</View>
+				<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
 			</Container>
 		);
 	}
@@ -170,36 +225,28 @@ class RegisterForm extends Component {
 
 const styles = EStyleSheet.create({
 	container: {
-		flex: 1
+		backgroundColor: '$primaryColor'
 	},
-	multipleInputs: {
-		flexDirection: 'row'
+	form: {
+		marginBottom: 20,
+		paddingRight: 20,
+		paddingLeft: 20
 	},
-	shortInput: {
-		width: 60,
-		flex: 0,
-		marginLeft: 10
-	},
-	userImage: {
-		position: 'relative'
-	},
-	editImage: {
-		height: 40,
-		width: 40,
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 20,
-		backgroundColor: '$secondaryColor',
-		position: 'absolute',
-		right: 0,
-		top: 0
+	label: {
+		fontWeight: 'bold',
+		color: '$white',
+		marginLeft: 5,
+		marginBottom: 10
 	},
 	input: {
-		flex: 1
-	},
-	svg: {
-		padding: 10,
-		borderRadius: 999
+		backgroundColor: '$white',
+		borderRadius: 4,
+		paddingTop: 5,
+		paddingRight: 10,
+		paddingBottom: 5,
+		paddingLeft: 10,
+		fontSize: 16,
+		marginBottom: 20
 	}
 });
 
@@ -214,7 +261,7 @@ const mapStateToProps = state => {
 		postal: state.auth.postal,
 		password: state.auth.password,
 		role: state.auth.role,
-		error: state.auth.error,
+		registerError: state.auth.registerError,
 		loading: state.auth.loading,
 		user: state.auth.user
 	};

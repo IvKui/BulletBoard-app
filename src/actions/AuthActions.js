@@ -94,7 +94,7 @@ export const registerUser = ({ name, email, phone, street, houseNr, hometown, po
 
 		firebase.auth().createUserWithEmailAndPassword(email, password)
 			.then(user => registerUserSuccess(dispatch, user, name, email, phone, street, houseNr, hometown, postal, role))
-			.catch(() => loginUserSuccess(dispatch));
+			.catch(() => loginUserFail(dispatch));
 	}
 }
 
@@ -113,7 +113,7 @@ const loginUserSuccess = (dispatch, user) => {
 
 const registerUserSuccess = (dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
 	const { currentUser } = firebase.auth();
-
+	if(role==='') {role='user'};
 	firebase.database().ref(`/${role}s/${currentUser.uid}`)
     .set({
 			name,

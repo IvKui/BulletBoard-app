@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
+import {
+	nameChanged,
+	emailChanged,
+	phoneChanged,
+	streetChanged,
+	houseNrChanged,
+	hometownChanged,
+	postalChanged,
+	passwordChanged,
+	registerUser
+} from '../../actions';
 import { Button, Container } from '../common';
 
 class TestForm extends Component {
@@ -19,8 +31,22 @@ class TestForm extends Component {
 		this.inputs[id].focus();
 	}
 
-	onPress() {
-		console.log('test')
+	onRegisterPress() {
+		console.log('registering...')
+		const {
+			name,
+			email,
+			phone,
+			street,
+			houseNr,
+			hometown,
+			postal,
+			password,
+			role
+		} = this.props;
+
+		this.props.registerUser({ name, email, phone, street, houseNr, hometown, postal, password, role })
+		this.props.navigation.navigate('Agenda')
 	}
 
 	onNameChange(text) {
@@ -137,7 +163,7 @@ class TestForm extends Component {
 						value={this.props.hometown}
 						blurOnSubmit={ false }
 						onSubmitEditing={() => {
-							this.focusNextField('pass');
+							this.focusNextField('post');
 						}}
 						returnKeyType={ "next" }
 						style={styles.textInput}
@@ -167,7 +193,7 @@ class TestForm extends Component {
 						onChangeText={this.onPasswordChange.bind(this)}
 						value={this.props.password}
 						blurOnSubmit={ true }
-						onSubmitEditing={this.onPress.bind(this)}
+						onSubmitEditing={this.onRegisterPress.bind(this)}
 						returnKeyType={ "done" }
 						style={styles.textInput}
 						ref={ input => {
@@ -175,7 +201,7 @@ class TestForm extends Component {
 						}}
 					/>
 				</View>
-				<Button onPress={this.onPress.bind(this)}>Registreren</Button>
+				<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
 			</Container>
 		);
 	}
@@ -187,4 +213,31 @@ const styles = EStyleSheet.create({
 	}
 });
 
-export default TestForm;
+const mapStateToProps = state => {
+	return {
+		name: state.auth.name,
+		email: state.auth.email,
+		phone: state.auth.phone,
+		street: state.auth.street,
+		houseNr: state.auth.houseNr,
+		hometown: state.auth.hometown,
+		postal: state.auth.postal,
+		password: state.auth.password,
+		role: state.auth.role,
+		error: state.auth.error,
+		loading: state.auth.loading,
+		user: state.auth.user
+	};
+};
+
+export default connect(mapStateToProps, {
+	nameChanged,
+	emailChanged,
+	phoneChanged,
+	streetChanged,
+	houseNrChanged,
+	hometownChanged,
+	postalChanged,
+	passwordChanged,
+	registerUser
+})(TestForm);

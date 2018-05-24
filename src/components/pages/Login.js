@@ -52,11 +52,11 @@ class Login extends Component {
 	}
 
 	renderError() {
-		if (this.props.error) {
+		if (this.props.loginError) {
 			return (
 				<View style={styles.errorMessage}>
 					<Text style={styles.errorText}>
-						{this.props.error}
+						{this.props.loginError}
 					</Text>
 				</View>
 			);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Container = ({ style, center, children }) => {
@@ -8,9 +9,9 @@ const Container = ({ style, center, children }) => {
 				enabled
 				behavior='padding'
 				style={styles.keyboardView}
-        keyboardVerticalOffset={120}
+        keyboardVerticalOffset={80}
 			>
-				<ScrollView
+				<KeyboardAwareScrollView
 					style={ styles.scrollView }
 					contentContainerStyle={
 						center && styles.center
@@ -21,7 +22,7 @@ const Container = ({ style, center, children }) => {
 					<View style={[styles.container, style]}>
 						{children}
 					</View>
-				</ScrollView>
+				</KeyboardAwareScrollView>
 			</KeyboardAvoidingView>
 	);
 };
@@ -41,10 +42,10 @@ const styles = EStyleSheet.create({
 		alignItems: 'center',
 	},
 	container: {
-		marginTop: 40,
-		marginLeft: 20,
-		marginBottom: 40,
-		marginRight: 20,
+		paddingTop: 40,
+		paddingLeft: 20,
+		paddingBottom: 40,
+		paddingRight: 20,
 	}
 });
 

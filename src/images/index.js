@@ -22,6 +22,7 @@ export const pencil = require('./svg/pencil.svg');
 export const phone = require('./svg/phone.svg');
 export const email = require('./svg/email.svg');
 export const check = require('./svg/check.svg');
+export const alert = require('./svg/alert.svg');
 
 // Service images
 export const babysitting = require('./babysitting.jpg');

@@ -12,6 +12,7 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	REGISTER_USER_FAIL,
 	REGISTER_USER
 } from '../actions/types';
 
@@ -26,7 +27,8 @@ const INITIAL_STATE = {
 	password: '',
 	role: '',
 	user: null,
-	error: '',
+	loginError: '',
+	registerError: 'ERROR!!!',
 	loading: false
 };
 
@@ -65,13 +67,17 @@ export default (state = INITIAL_STATE, action) => {
 		case REGISTER_USER:
 			return { ...state, loading: true, error: '' };
 
+		case REGISTER_USER_FAIL:
+			console.log('error registation')
+			return { ...state, registerError: 'Registation Failed.', loading: false };
+
 		case LOGIN_USER_SUCCESS:
 			console.log('logged in');
 			return { ...state, ...INITIAL_STATE, user: action.payload };
 
 		case LOGIN_USER_FAIL:
 			console.log('error logging in')
-			return { ...state, error: 'Authentication Failed.', password: '', loading: false };
+			return { ...state, loginError: 'Authentication Failed.', password: '', loading: false };
 
 		default:
 			return state;
