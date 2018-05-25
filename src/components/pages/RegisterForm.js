@@ -2,15 +2,25 @@ import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
+import { firebase } from 'firebase';
 import {
 	nameChanged,
+	nameError,
 	emailChanged,
+	emailError,
 	phoneChanged,
+	phoneError,
 	streetChanged,
+	streetError,
 	houseNrChanged,
+	houseNrError,
 	hometownChanged,
+	hometownError,
 	postalChanged,
+	postalError,
 	passwordChanged,
+	passwordError,
+	resetErrors,
 	registerUser
 } from '../../actions';
 import { Button, Container, Write, Alert } from '../common';
@@ -45,8 +55,12 @@ class RegisterForm extends Component {
 			role
 		} = this.props;
 
-		this.props.registerUser({ name, email, phone, street, houseNr, hometown, postal, password, role })
-		this.props.navigation.navigate('MainNav')
+		const error = this.validateForm();
+		if (!error) {
+			console.log('No errors')
+			this.props.registerUser({ name, email, phone, street, houseNr, hometown, postal, password, role })
+			this.props.navigation.navigate('MainNav')
+		}
 	}
 
 	onNameChange(text) {
@@ -81,141 +95,232 @@ class RegisterForm extends Component {
 		this.props.passwordChanged(text);
 	}
 
-	renderError() {
+	renderAlert() {
 		if (this.props.registerError) {
 			return (
-				<Alert confirm>
+				<Alert error>
 					{this.props.registerError}
 				</Alert>
 			);
 		}
 	}
 
+	validateForm() {
+		console.log('Validating...')
+		this.props.resetErrors();
+		let isError = false;
+		const {
+			name,
+			email,
+			phone,
+			street,
+			houseNr,
+			hometown,
+			postal,
+			password,
+			role
+		} = this.props;
+
+		if (name.length === 0) {
+			this.props.nameError('Vul uw naam in');
+			isError = true
+		}
+
+		if (email.length === 0) {
+			this.props.emailError('Vul een geldig emailadres in: gebruiker@domein.nl')
+			isError = true
+		}
+
+		if (phone.length === 0) {
+			this.props.phoneError('Vul een geldig telefoonnummer in: 0612345678')
+			isError = true
+		}
+
+		if (street.length === 0) {
+			this.props.streetError('Vul uw straatnaam in')
+			isError = true
+		}
+
+		if (houseNr.length === 0) {
+			this.props.houseNrError('Vul uw huisnummer in')
+			isError = true
+		}
+
+		if (hometown.length === 0) {
+			this.props.hometownError('Vul uw woonplaats in')
+			isError = true
+		}
+
+		if (postal.length === 0) {
+			this.props.postalError('Vul uw postcode in')
+			isError = true
+		}
+
+		if (postal.length > 0 && !postal.match(/^[1-9][0-9]{3}[ ]?([A-RT-Za-rt-z][A-Za-z]|[sS][BCbcE-Re-rT-Zt-z])$/) ) {
+			this.props.postalError('Vul een geldige postcode in: 1234AB')
+			isError = true
+		}
+
+		if (password.length < 6) {
+			if (password.length === 0) {
+				this.props.passwordError('Vul een wachtwoord in')
+			} else {
+				this.props.passwordError('Het wachtwoord moet minimaal 6 tekens bevatten')
+			}
+			isError = true
+		}
+
+		return isError;
+	}
+
 	render() {
 		return (
 			<Container style={styles.container}>
-				{this.renderError()}
+				{this.renderAlert()}
 				<View style={styles.form}>
-					<Write style={styles.label}>Naam</Write>
-					<TextInput
-						style={styles.input}
-						onFocus={() => {console.log('focus')}}
-						keyboardType='default'
-						onChangeText={this.onNameChange.bind(this)}
-						value={this.props.name}
-						blurOnSubmit={ false }
-						onSubmitEditing={() => {
-							this.focusNextField('email');
-						}}
-						returnKeyType={ "next" }
-						ref={ input => {
-							this.inputs['name'] = input;
-						}}
-					/>
-					<Write style={styles.label}>Email</Write>
-					<TextInput
-						style={styles.input}
-						keyboardType='email-address'
-						onChangeText={this.onEmailChange.bind(this)}
-						value={this.props.email}
-						blurOnSubmit={ false }
-						onSubmitEditing={() => {
-							this.focusNextField('phone');
-						}}
-						returnKeyType={ "next" }
-						ref={ input => {
-							this.inputs['email'] = input;
-						}}
-					/>
-					<Write style={styles.label}>Telefoonnr.</Write>
-					<TextInput
-						style={styles.input}
-						keyboardType='phone-pad'
-						onChangeText={this.onPhoneChange.bind(this)}
-						value={this.props.phone}
-						blurOnSubmit={ false }
-						onSubmitEditing={() => {
-							this.focusNextField('street');
-						}}
-						returnKeyType={ "next" }
-						ref={ input => {
-							this.inputs['phone'] = input;
-						}}
-					/>
-					<Write style={styles.label}>Straatnaam</Write>
-					<TextInput
-						style={styles.input}
-						keyboardType='default'
-						onChangeText={this.onStreetChange.bind(this)}
-						value={this.props.street}
-						blurOnSubmit={ false }
-						onSubmitEditing={() => {
-							this.focusNextField('house');
-						}}
-						returnKeyType={ "next" }
-						ref={ input => {
-							this.inputs['street'] = input;
-						}}
-					/>
-					<Write style={styles.label}>Huisnr.</Write>
-					<TextInput
-						style={styles.input}
-						keyboardType='default'
-						onChangeText={this.onHouseNrChange.bind(this)}
-						value={this.props.houseNr}
-						blurOnSubmit={ false }
-						onSubmitEditing={() => {
-							this.focusNextField('city');
-						}}
-						returnKeyType={ "next" }
-						ref={ input => {
-							this.inputs['house'] = input;
-						}}
-					/>
-					<Write style={styles.label}>Woonplaats</Write>
-					<TextInput
-						style={styles.input}
-						keyboardType='default'
-						onChangeText={this.onHometownChange.bind(this)}
-						value={this.props.hometown}
-						blurOnSubmit={ false }
-						onSubmitEditing={() => {
-							this.focusNextField('post');
-						}}
-						returnKeyType={ "next" }
-						ref={ input => {
-							this.inputs['city'] = input;
-						}}
-					/>
-					<Write style={styles.label}>Postcode</Write>
-					<TextInput
-						style={styles.input}
-						keyboardType='default'
-						onChangeText={this.onPostalChange.bind(this)}
-						value={this.props.postal}
-						blurOnSubmit={ false }
-						onSubmitEditing={() => {
-							this.focusNextField('pass');
-						}}
-						returnKeyType={ "next" }
-						ref={ input => {
-							this.inputs['post'] = input;
-						}}
-					/>
-					<Write style={styles.label}>Wachtwoord</Write>
-					<TextInput
-						style={styles.input}
-						secureTextEntry
-						keyboardType='default'
-						onChangeText={this.onPasswordChange.bind(this)}
-						value={this.props.password}
-						blurOnSubmit={ true }
-						onSubmitEditing={this.onRegisterPress.bind(this)}
-						returnKeyType={ "done" }
-						ref={ input => {
-							this.inputs['pass'] = input;
-						}}
-					/>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Naam</Write>
+						<TextInput
+							style={styles.input}
+							keyboardType='default'
+							onChangeText={this.onNameChange.bind(this)}
+							value={this.props.name}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('email');
+							}}
+							returnKeyType={ "next" }
+							ref={ input => {
+								this.inputs['name'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.nameErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Email</Write>
+						<TextInput
+							style={styles.input}
+							keyboardType='email-address'
+							onChangeText={this.onEmailChange.bind(this)}
+							value={this.props.email}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('phone');
+							}}
+							returnKeyType={ "next" }
+							ref={ input => {
+								this.inputs['email'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.emailErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Telefoonnr.</Write>
+						<TextInput
+							style={styles.input}
+							keyboardType='phone-pad'
+							onChangeText={this.onPhoneChange.bind(this)}
+							value={this.props.phone}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('street');
+							}}
+							returnKeyType={ "next" }
+							ref={ input => {
+								this.inputs['phone'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.phoneErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Straatnaam</Write>
+						<TextInput
+							style={styles.input}
+							keyboardType='default'
+							onChangeText={this.onStreetChange.bind(this)}
+							value={this.props.street}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('house');
+							}}
+							returnKeyType={ "next" }
+							ref={ input => {
+								this.inputs['street'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.streetErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Huisnr.</Write>
+						<TextInput
+							style={styles.input}
+							keyboardType='default'
+							onChangeText={this.onHouseNrChange.bind(this)}
+							value={this.props.houseNr}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('city');
+							}}
+							returnKeyType={ "next" }
+							ref={ input => {
+								this.inputs['house'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.houseNrErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Woonplaats</Write>
+						<TextInput
+							style={styles.input}
+							keyboardType='default'
+							onChangeText={this.onHometownChange.bind(this)}
+							value={this.props.hometown}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('post');
+							}}
+							returnKeyType={ "next" }
+							ref={ input => {
+								this.inputs['city'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.hometownErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Postcode</Write>
+						<TextInput
+							style={styles.input}
+							keyboardType='default'
+							onChangeText={this.onPostalChange.bind(this)}
+							value={this.props.postal}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('pass');
+							}}
+							returnKeyType={ "next" }
+							ref={ input => {
+								this.inputs['post'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.postalErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Wachtwoord</Write>
+						<TextInput
+							style={styles.input}
+							secureTextEntry
+							keyboardType='default'
+							onChangeText={this.onPasswordChange.bind(this)}
+							value={this.props.password}
+							blurOnSubmit={ true }
+							onSubmitEditing={this.onRegisterPress.bind(this)}
+							returnKeyType={ "done" }
+							ref={ input => {
+								this.inputs['pass'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.passwordErrorText}</Write>
+					</View>
 				</View>
 				<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
 			</Container>
@@ -232,10 +337,12 @@ const styles = EStyleSheet.create({
 		paddingRight: 20,
 		paddingLeft: 20
 	},
+	inputContainer: {
+		marginBottom: 20
+	},
 	label: {
 		fontWeight: 'bold',
 		color: '$white',
-		marginLeft: 5,
 		marginBottom: 10
 	},
 	input: {
@@ -246,20 +353,32 @@ const styles = EStyleSheet.create({
 		paddingBottom: 5,
 		paddingLeft: 10,
 		fontSize: 16,
-		marginBottom: 20
+		marginBottom: 5
+	},
+	error: {
+		color: '$secondaryColor',
+		textDecorationLine: 'underline'
 	}
 });
 
 const mapStateToProps = state => {
 	return {
 		name: state.auth.name,
+		nameErrorText: state.auth.nameErrorText,
 		email: state.auth.email,
+		emailErrorText: state.auth.emailErrorText,
 		phone: state.auth.phone,
+		phoneErrorText: state.auth.phoneErrorText,
 		street: state.auth.street,
+		streetErrorText: state.auth.streetErrorText,
 		houseNr: state.auth.houseNr,
+		houseNrErrorText: state.auth.houseNrErrorText,
 		hometown: state.auth.hometown,
+		hometownErrorText: state.auth.hometownErrorText,
 		postal: state.auth.postal,
+		postalErrorText: state.auth.postalErrorText,
 		password: state.auth.password,
+		passwordErrorText: state.auth.passwordErrorText,
 		role: state.auth.role,
 		registerError: state.auth.registerError,
 		loading: state.auth.loading,
@@ -269,12 +388,21 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
 	nameChanged,
+	nameError,
 	emailChanged,
+	emailError,
 	phoneChanged,
+	phoneError,
 	streetChanged,
+	streetError,
 	houseNrChanged,
+	houseNrError,
 	hometownChanged,
+	hometownError,
 	postalChanged,
+	postalError,
 	passwordChanged,
+	passwordError,
+	resetErrors,
 	registerUser
 })(RegisterForm);
