@@ -19,6 +19,7 @@ export const ROLE_CHANGED = 'role_changed';
 export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
+export const LOGOUT_USER = 'logout_user';
 export const LOGIN_ERROR = 'login_error';
 export const REGISTER_USER_FAIL = 'register_user_fail';
 export const REGISTER_USER = 'register_user';

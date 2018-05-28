@@ -21,6 +21,7 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	LOGOUT_USER,
 	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
 	REGISTER_USER
@@ -45,6 +46,7 @@ const INITIAL_STATE = {
 	passwordErrorText: '',
 	role: '',
 	user: null,
+	isLoggedIn: false,
 	loginError: '',
 	registerError: '',
 	loading: false
@@ -122,6 +124,9 @@ export default (state = INITIAL_STATE, action) => {
 		case LOGIN_USER:
 			return { ...state, loading: true, loginError: '' };
 
+		case LOGOUT_USER:
+			return { ...state, user: null, isLoggedIn: false };
+
 		case REGISTER_USER:
 			return { ...state, loading: true, registerError: '' };
 
@@ -131,7 +136,7 @@ export default (state = INITIAL_STATE, action) => {
 
 		case LOGIN_USER_SUCCESS:
 			console.log('logged in');
-			return { ...state, ...INITIAL_STATE, user: action.payload };
+			return { ...state, ...INITIAL_STATE, loading: false, isLoggedIn: true, user: action.payload };
 
 		case LOGIN_USER_FAIL:
 			console.log('error logging in')

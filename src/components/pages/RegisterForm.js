@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { firebase } from 'firebase';
 import {
 	nameChanged,
 	nameError,
@@ -23,7 +22,7 @@ import {
 	resetErrors,
 	registerUser
 } from '../../actions';
-import { Button, Container, Write, Alert } from '../common';
+import { Button, Container, Write, Alert, Spinner } from '../common';
 
 class RegisterForm extends Component {
 	static navigationOptions = {
@@ -103,6 +102,18 @@ class RegisterForm extends Component {
 				</Alert>
 			);
 		}
+	}
+
+	renderButton() {
+		if (this.props.loading) {
+			return <Spinner />;
+		}
+
+		return (
+			<Button onPress={this.onRegisterPress.bind(this)}>
+				Registreren
+			</Button>
+		);
 	}
 
 	validateForm() {
@@ -322,7 +333,7 @@ class RegisterForm extends Component {
 						<Write style={styles.error}>{this.props.passwordErrorText}</Write>
 					</View>
 				</View>
-				<Button onPress={this.onRegisterPress.bind(this)}>Registreren</Button>
+				{this.renderButton()}
 			</Container>
 		);
 	}

@@ -2,20 +2,29 @@ import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions';
+import { emailChanged, passwordChanged, loginUser, logoutUser, registerUser } from '../../actions';
 import { envelope, lock } from '../../images';
 import { Container, Block, Button, Spinner, Write, Alert } from '../common';
 
 class Login extends Component {
-	static navigationOptions = {
-		title: 'Login'
-	}
-
 	constructor(props) {
 		super(props);
 
 		this.focusNextField = this.focusNextField.bind(this);
 		this.inputs = {};
+
+		if(this.props.isLoggedIn) {
+			this.props.logoutUser();
+			this.props.navigation.navigate('MainNav');
+		}
+	}
+
+	static navigationOptions = {
+		...(this.props.isLoggedIn ? {
+			title: 'Logout'
+		} : {
+			title: 'Login'
+		})
 	}
 
 	focusNextField(id) {
@@ -167,7 +176,8 @@ const mapStateToProps = state => {
 		password: state.auth.password,
 		loginError: state.auth.loginError,
 		loading: state.auth.loading,
-		user: state.auth.user
+		user: state.auth.user,
+		isLoggedIn: state.auth.isLoggedIn
 	};
 };
 
@@ -175,5 +185,6 @@ export default connect(mapStateToProps, {
 	emailChanged,
 	passwordChanged,
 	loginUser,
+	logoutUser,
 	registerUser
 })(Login);

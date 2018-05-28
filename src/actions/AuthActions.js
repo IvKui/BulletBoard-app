@@ -21,6 +21,7 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	LOGOUT_USER,
 	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
 	REGISTER_USER
@@ -158,6 +159,14 @@ export const loginUser = ({ email, password }) => {
 		firebase.auth().signInWithEmailAndPassword(email, password)
 			.then(user => loginUserSuccess(dispatch, user))
 			.catch(() => loginUserFail(dispatch));
+	};
+};
+
+export const logoutUser = () => {
+	return (dispatch) => {
+		dispatch({
+			type: LOGOUT_USER
+		});
 	};
 };
 
