@@ -21,6 +21,7 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
 	REGISTER_USER
 } from '../actions/types';
@@ -99,6 +100,9 @@ export default (state = INITIAL_STATE, action) => {
 		case PASSWORD_ERROR:
 			return { ...state, passwordErrorText: action.payload };
 
+		case LOGIN_ERROR:
+			return { ...state, loginError: action.payload };
+
 		case RESET_ERRORS:
 			return {
 				...state,
@@ -116,10 +120,10 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, role: action.payload };
 
 		case LOGIN_USER:
-			return { ...state, loading: true, error: '' };
+			return { ...state, loading: true, loginError: '' };
 
 		case REGISTER_USER:
-			return { ...state, loading: true, error: '' };
+			return { ...state, loading: true, registerError: '' };
 
 		case REGISTER_USER_FAIL:
 			console.log('error registation')
@@ -131,7 +135,7 @@ export default (state = INITIAL_STATE, action) => {
 
 		case LOGIN_USER_FAIL:
 			console.log('error logging in')
-			return { ...state, loginError: 'Authentication Failed.', password: '', loading: false };
+			return { ...state, loginError: 'Onjuiste combinatie emailadres en wachtwoord', password: '', loading: false };
 
 		default:
 			return state;

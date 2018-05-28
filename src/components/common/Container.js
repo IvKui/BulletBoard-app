@@ -12,14 +12,14 @@ const Container = ({ style, center, children }) => {
         keyboardVerticalOffset={80}
 			>
 				<KeyboardAwareScrollView
-					style={ styles.scrollView }
+					style={[styles.scrollView, style]}
 					contentContainerStyle={
 						center && styles.center
 					}
 					showsVerticalScrollIndicator={false}
 					keyboardShouldPersistTaps='always'
 				>
-					<View style={[styles.container, style]}>
+					<View style={styles.container}>
 						{children}
 					</View>
 				</KeyboardAwareScrollView>
@@ -42,6 +42,7 @@ const styles = EStyleSheet.create({
 		alignItems: 'center',
 	},
 	container: {
+		flex: 1,
 		paddingTop: 40,
 		paddingLeft: 20,
 		paddingBottom: 40,

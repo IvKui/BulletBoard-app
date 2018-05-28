@@ -17,7 +17,7 @@ class RegisterAsBlock extends Component {
             style={styles.svg }
             height='40'
             width='40'
-            fill={ EStyleSheet.value('$white')}
+            fill={ EStyleSheet.value('$secondaryColor')}
             source={ this.props.icon }
           />
           <View style={styles.textContainer}>
@@ -34,7 +34,7 @@ const styles = EStyleSheet.create({
   container: {
     flexDirection: 'row',
     padding: 20,
-    backgroundColor: '$primaryColor',
+    backgroundColor: '$white',
     borderRadius: 4,
     marginBottom: 20
   },
@@ -50,7 +50,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between'
   },
   text: {
-    color: '$white',
+    color: '$black',
     marginBottom: 0
   }
 });

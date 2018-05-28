@@ -14,12 +14,12 @@ class RegisterAs extends Component {
 
 	onProviderPress() {
 		this.props.roleChanged('provider')
-		this.props.navigation.navigate('Register')
+		this.props.navigation.push('Register')
 	}
 
 	onUserPress() {
 		this.props.roleChanged('user')
-		this.props.navigation.navigate('Register')
+		this.props.navigation.push('Register')
 	}
 
 	render() {
@@ -45,6 +45,7 @@ class RegisterAs extends Component {
 
 const styles = EStyleSheet.create({
 	container: {
+		backgroundColor: '$primaryColor'
 	},
 	lastBlock: {
 		marginBottom: 0

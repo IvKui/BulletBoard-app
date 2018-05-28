@@ -16,7 +16,7 @@ export default class App extends Component {
   state = {
       fontLoaded: false
   }
-  
+
   constructor(props) {
     super(props);
 

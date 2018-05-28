@@ -338,7 +338,7 @@ const styles = EStyleSheet.create({
 		paddingLeft: 20
 	},
 	inputContainer: {
-		marginBottom: 20
+		marginBottom: 10
 	},
 	label: {
 		fontWeight: 'bold',

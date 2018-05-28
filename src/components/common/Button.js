@@ -3,7 +3,7 @@ import { View, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write, Svg } from './';
 
-const Button = ({ style, small, onPress, icon, children }) => {
+const Button = ({ style, small, white, onPress, icon, children }) => {
 	return (
 		<View style={[styles.container, style]}>
 			<TouchableOpacity
@@ -20,7 +20,7 @@ const Button = ({ style, small, onPress, icon, children }) => {
 						source={ icon }
 					/>
 				}
-				<Write style={small ? styles.smallButtonText : styles.bigButtonText}>
+				<Write style={[small ? styles.smallButtonText : styles.bigButtonText, white && styles.whiteButtonText]}>
 					{children}
 				</Write>
 			</TouchableOpacity>
@@ -53,6 +53,9 @@ const styles = EStyleSheet.create ({
 		fontSize: 16,
 		textAlign: 'center',
 		fontWeight: '600',
+	},
+	whiteButtonText: {
+		color: '$white'
 	},
 	svg: {
 		marginRight: 10

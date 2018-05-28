@@ -11,30 +11,35 @@ const AuthNav = StackNavigator({
   Login: {
     screen: Login,
     navigationOptions: ({ navigation }) => ({
-      title: null,
   		headerLeft: <HeaderBackButton
-        tintColor={ EStyleSheet.value('$primaryColor') }
+        tintColor={ EStyleSheet.value('$white') }
         onPress={() => navigation.goBack(null)}
       />,
       headerStyle: {
-        elevation: 0
+        elevation: 0,
+        backgroundColor: EStyleSheet.value('$primaryColor')
       },
+      headerTitleStyle: {
+        color: EStyleSheet.value('$white')
+      }
     })
   },
   RegisterAs: {
     screen: RegisterAs,
     navigationOptions: ({ navigation }) => EStyleSheet.create({
-      title: 'Registreren als ...',
       headerStyle: {
-        elevation: 0
+        elevation: 0,
+        backgroundColor: EStyleSheet.value('$primaryColor')
       },
-      headerTintColor: EStyleSheet.value('$primaryColor'),
+      headerTitleStyle: {
+        color: EStyleSheet.value('$white')
+      },
+      headerTintColor: EStyleSheet.value('$white'),
     })
   },
   Register: {
     screen: RegisterForm,
     navigationOptions: ({ navigation }) => EStyleSheet.create({
-      title: null,
       headerStyle: {
         elevation: 0,
         backgroundColor: EStyleSheet.value('$primaryColor')

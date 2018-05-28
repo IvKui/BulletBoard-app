@@ -1,29 +1,27 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, TextInput } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser, registerUser } from '../../actions';
 import { envelope, lock } from '../../images';
-import t from 'tcomb-form-native';
-import { Container, Block, Button, Spinner } from '../common';
-
-const Form = t.form.Form;
-
-const User = t.struct({
-	email: t.String,
-	password: t.String
-});
-
-const options = {
-	fields: {
-		email: {
-			error: 'We hebben toch echt een email nodig'
-		},
-		password: 'WACHTWOORD!!'
-	}
-}
+import { Container, Block, Button, Spinner, Write, Alert } from '../common';
 
 class Login extends Component {
+	static navigationOptions = {
+		title: 'Login'
+	}
+
+	constructor(props) {
+		super(props);
+
+		this.focusNextField = this.focusNextField.bind(this);
+		this.inputs = {};
+	}
+
+	focusNextField(id) {
+		this.inputs[id].focus();
+	}
+
 	onChange(text) {
 		console.log(text)
 	}
@@ -36,29 +34,36 @@ class Login extends Component {
 		this.props.passwordChanged(text);
 	}
 
-	onLoginPress() {
-		const value = this._form.getValue();
-		console.log(value['email']);
+	onLoginPress = async() => {
+		console.log('Logging in...')
+		const { email, password } = this.props;
 
-		// const { email, password } = this.props;
-		//
-		// this.props.loginUser({ email, password })
-		// this.props.navigation.navigate('MainNav')
-
+		this.props.loginUser({ email, password })
+		this.props.navigation.navigate('MainNav')
 	}
 
 	onRegisterPress() {
-		this.props.navigation.navigate('RegisterAs')
+		this.props.navigation.push('RegisterAs')
 	}
 
 	renderError() {
 		if (this.props.loginError) {
 			return (
 				<View style={styles.errorMessage}>
-					<Text style={styles.errorText}>
+					<Write style={styles.errorText}>
 						{this.props.loginError}
-					</Text>
+					</Write>
 				</View>
+			);
+		}
+	}
+
+	renderAlert() {
+		if (this.props.loginError) {
+			return (
+				<Alert error>
+					{this.props.loginError}
+				</Alert>
 			);
 		}
 	}
@@ -69,7 +74,7 @@ class Login extends Component {
 		}
 
 		return (
-			<Button onPress={this.onLoginPress.bind(this)}>
+			<Button onPress={this.onLoginPress.bind(this)} style={styles.loginButton}>
 				Login
 			</Button>
 		);
@@ -77,37 +82,90 @@ class Login extends Component {
 
 	render() {
 		return (
-			<Container>
-				<Form
-					ref={c => this._form = c}
-					type={User}
-					options={options}
-					onChange={this.onChange}
-				/>
-				{this.renderError()}
+			<Container style={styles.container}>
+				{this.renderAlert()}
+				<View style={styles.form}>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Email</Write>
+						<TextInput
+							style={styles.input}
+							underlineColorAndroid='transparent'
+							keyboardType='email-address'
+							onChangeText={this.onEmailChange.bind(this)}
+							value={this.props.email}
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('password');
+							}}
+							returnKeyType={ "next" }
+						/>
+						</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Wachtwoord</Write>
+						<TextInput
+							secureTextEntry
+							style={styles.input}
+							underlineColorAndroid='transparent'
+							keyboardType='default'
+							onChangeText={this.onPasswordChange.bind(this)}
+							value={this.props.password}
+							blurOnSubmit={ false }
+							onSubmitEditing={
+								this.onLoginPress.bind(this)
+							}
+							returnKeyType={ "done" }
+							ref={ input => {
+								this.inputs['password'] = input;
+							}}
+						/>
+					</View>
+				</View>
 				{this.renderButton()}
-				<Button small onPress={this.onRegisterPress.bind(this)}>Registeren</Button>
+				<Button small white	onPress={this.onRegisterPress.bind(this)}>
+					Registeren
+				</Button>
 			</Container>
 		);
 	}
 }
 
 const styles = EStyleSheet.create({
-		errorMessage: {
-			backgroundColor: '$white'
-		},
-		errorText: {
-			fontSize: 20,
-			alignSelf: 'center',
-			color: '$secondaryColor'
-		}
+	container: {
+		backgroundColor: '$primaryColor'
+	},
+	form: {
+		marginBottom: 20,
+		paddingRight: 20,
+		paddingLeft: 20
+	},
+	inputContainer: {
+		marginBottom: 10
+	},
+	label: {
+		fontWeight: 'bold',
+		color: '$white',
+		marginBottom: 10
+	},
+	input: {
+		backgroundColor: '$white',
+		borderRadius: 4,
+		paddingTop: 5,
+		paddingRight: 10,
+		paddingBottom: 5,
+		paddingLeft: 10,
+		fontSize: 16,
+		marginBottom: 5
+	},
+	loginButton: {
+		marginBottom: 10
+	}
 });
 
 const mapStateToProps = state => {
 	return {
 		email: state.auth.email,
 		password: state.auth.password,
-		error: state.auth.error,
+		loginError: state.auth.loginError,
 		loading: state.auth.loading,
 		user: state.auth.user
 	};

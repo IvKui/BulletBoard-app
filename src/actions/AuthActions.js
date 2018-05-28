@@ -21,6 +21,7 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
 	REGISTER_USER
 } from './types';
@@ -177,6 +178,7 @@ const loginUserFail = (dispatch) => {
 };
 
 const loginUserSuccess = (dispatch, user) => {
+	console.log(user)
 	dispatch({
 		type: LOGIN_USER_SUCCESS,
 		payload: user
@@ -185,7 +187,7 @@ const loginUserSuccess = (dispatch, user) => {
 
 const registerUserSuccess = (dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
 	const { currentUser } = firebase.auth();
-	if(role==='') {role='user'};
+	if (role === '') { role='user' };
 	firebase.database().ref(`/${role}s/${currentUser.uid}`)
     .set({
 			name,
