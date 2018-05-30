@@ -8,6 +8,7 @@ import { Container, Block, Button, Spinner, Write, Alert } from '../common';
 
 class Login extends Component {
 	constructor(props) {
+		console.log('constructor')
 		super(props);
 
 		this.focusNextField = this.focusNextField.bind(this);
@@ -19,12 +20,8 @@ class Login extends Component {
 		}
 	}
 
-	static navigationOptions = {
-		...(this.props.isLoggedIn ? {
-			title: 'Logout'
-		} : {
-			title: 'Login'
-		})
+	static navigationOptions = ({ navigation }) => {
+		console.log(navigation)
 	}
 
 	focusNextField(id) {
@@ -43,7 +40,7 @@ class Login extends Component {
 		this.props.passwordChanged(text);
 	}
 
-	onLoginPress = async() => {
+	onLoginPress() {
 		console.log('Logging in...')
 		const { email, password } = this.props;
 

@@ -21,7 +21,6 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
-	LOGOUT_USER,
 	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
 	REGISTER_USER
@@ -162,14 +161,6 @@ export const loginUser = ({ email, password }) => {
 	};
 };
 
-export const logoutUser = () => {
-	return (dispatch) => {
-		dispatch({
-			type: LOGOUT_USER
-		});
-	};
-};
-
 export const registerUser = ({ name, email, phone, street, houseNr, hometown, postal, password, role }) => {
 	return (dispatch) => {
 		dispatch({ type: REGISTER_USER });
@@ -187,7 +178,6 @@ const loginUserFail = (dispatch) => {
 };
 
 const loginUserSuccess = (dispatch, user) => {
-	console.log(user)
 	dispatch({
 		type: LOGIN_USER_SUCCESS,
 		payload: user
@@ -196,7 +186,7 @@ const loginUserSuccess = (dispatch, user) => {
 
 const registerUserSuccess = (dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
 	const { currentUser } = firebase.auth();
-	if (role === '') { role='user' };
+	if(role==='') {role='user'};
 	firebase.database().ref(`/${role}s/${currentUser.uid}`)
     .set({
 			name,

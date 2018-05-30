@@ -1,4 +1,3 @@
-import { NavigationActions } from 'react-navigation';
 import {
 	NAME_CHANGED,
 	NAME_ERROR,
