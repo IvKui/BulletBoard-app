@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Container, Block } from '../common';
+import { connect } from 'react-redux';
+import { Container, Block, Write } from '../common';
 import ServiceBlock from '../ServiceBlock';
 import { babysitting, barber, beauty, computer, catering, gardener } from '../../images';
 
@@ -18,7 +19,7 @@ const data = [
   {id: '10', value: 'Cateraar', image: barber}
 ];
 
-class Services extends Component {
+class MyServices extends Component {
 	static navigationOptions = {
 		title: 'Diensten'
 	}
@@ -27,8 +28,18 @@ class Services extends Component {
     this.props.navigation.navigate('Providers')
   }
 
+  renderText() {
+    if(this.props.isLoggedIn) {
+      return <Write>jaaaaaa</Write>
+    } else {
+      return <Write>nee..</Write>
+    }
+  }
+
 	render() {
 		return (
+      <View>
+      {this.renderText()}
 			<FlatList
     		data={data}
 	      renderItem={({item}) => (
@@ -45,6 +56,7 @@ class Services extends Component {
       	keyExtractor={item => item.id}
       	numColumns= {2}
 			/>
+      </View>
 		);
 	}
 }
@@ -71,4 +83,10 @@ const styles = EStyleSheet.create({
   }
 });
 
-export default Services;
+const mapStateToProps = state => {
+	return {
+		isLoggedIn: state.auth.isLoggedIn
+	};
+};
+
+export default connect(mapStateToProps)(MyServices);

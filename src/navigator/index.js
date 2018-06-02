@@ -1,50 +1,22 @@
 import React from 'react';
-import { View } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { DrawerNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import AuthNav from './AuthNav';
-import MainNav from './MainNav';
-import MessageNav from './MessageNav';
+import { SwitchNavigator } from 'react-navigation';
+import UnregisteredUserNav from './UnregisteredUserNav';
+import ConsumerNav from './ConsumerNav';
+import ProviderNav from './ProviderNav';
 
-const AppNav = DrawerNavigator({
-  MainNav: {
-    screen: MainNav,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle: EStyleSheet.create({
-        backgroundColor: EStyleSheet.value('$primaryColor')
-      }),
-      headerTitleStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$primaryColor'),
-      }),
-      headerLeft:
-      <View style={styles.MenuIcon}>
-        <Icon
-          name="menu"
-          size={30}
-          onPress={() => navigation.navigate('DrawerOpen')}
-        />
-      </View>
-    })
+export const createRootNavigator = (role) => {
+  return SwitchNavigator({
+    UnregisteredUserNav: {
+      screen: UnregisteredUserNav
+    },
+    ConsumerNav: {
+      screen: ConsumerNav
+    },
+    ProviderNav: {
+      screen: ProviderNav
+    },
   },
-  MessageNav: {
-    screen: MessageNav
-  },
-  Login: {
-    screen: AuthNav
-  },
-},
-{
-  initialRouteName: 'MainNav',
-  contentOptions: EStyleSheet.create({
-    activeTintColor: () => EStyleSheet.value('$primaryColor')
+  {
+    initialRouteName: role === 'provider' ? 'ProviderNav' : role === 'user' ? 'ConsumerNav' : 'UnregisteredUserNav'
   })
-});
-
-const styles = EStyleSheet.create({
-  MenuIcon: {
-    paddingLeft: 15
-  }
-})
-
-export default AppNav;
+}

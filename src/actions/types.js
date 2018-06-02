@@ -23,5 +23,6 @@ export const LOGOUT_USER = 'logout_user';
 export const LOGIN_ERROR = 'login_error';
 export const REGISTER_USER_FAIL = 'register_user_fail';
 export const REGISTER_USER = 'register_user';
+export const USER_KEY = 'user_key';
 
 export const PROVIDER_SELECTED = 'provider_selected';

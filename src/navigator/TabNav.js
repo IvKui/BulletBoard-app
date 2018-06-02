@@ -3,13 +3,14 @@ import { TabNavigator } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Agenda from '../components/pages/Agenda';
 import Services from '../components/pages/Services';
+import MyServices from '../components/pages/MyServices';
 import Providers from '../components/pages/Providers';
 import { Svg } from '../components/common';
 import { calendar, handshake, workshop } from '../images';
 
 const AppNav = TabNavigator({
-  Agenda: {
-    screen: Agenda,
+  MyServices: {
+    screen: MyServices,
     navigationOptions: {
       tabBarIcon: () => (
         <Svg
@@ -21,7 +22,7 @@ const AppNav = TabNavigator({
       )
     }
   },
-  MyServices: {
+  Services: {
     screen: Services,
     navigationOptions: {
       tabBarIcon: () => (
@@ -49,7 +50,7 @@ const AppNav = TabNavigator({
   }
 },
 {
-  initialRouteName: 'Agenda',
+  initialRouteName: 'MyServices',
   tabBarOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$secondaryColor'),
     showIcon: true,

@@ -23,7 +23,8 @@ import {
 	LOGOUT_USER,
 	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
-	REGISTER_USER
+	REGISTER_USER,
+	USER_KEY
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -124,7 +125,7 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, loading: true, loginError: '' };
 
 		case LOGOUT_USER:
-			return { ...state, user: null, isLoggedIn: false };
+			return { ...state, ...INITIAL_STATE, user: null, isLoggedIn: false };
 
 		case REGISTER_USER:
 			return { ...state, loading: true, registerError: '' };

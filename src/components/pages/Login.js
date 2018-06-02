@@ -8,20 +8,14 @@ import { Container, Block, Button, Spinner, Write, Alert } from '../common';
 
 class Login extends Component {
 	constructor(props) {
-		console.log('constructor')
 		super(props);
 
+		console.log(this.props)
 		this.focusNextField = this.focusNextField.bind(this);
 		this.inputs = {};
-
-		if(this.props.isLoggedIn) {
-			this.props.logoutUser();
-			this.props.navigation.navigate('MainNav');
-		}
 	}
 
 	static navigationOptions = ({ navigation }) => {
-		console.log(navigation)
 	}
 
 	focusNextField(id) {
@@ -49,7 +43,8 @@ class Login extends Component {
 	}
 
 	onRegisterPress() {
-		this.props.navigation.push('RegisterAs')
+		this.props.logoutUser();
+		this.props.navigation.push('RegisterAs');
 	}
 
 	renderError() {
@@ -174,7 +169,9 @@ const mapStateToProps = state => {
 		loginError: state.auth.loginError,
 		loading: state.auth.loading,
 		user: state.auth.user,
-		isLoggedIn: state.auth.isLoggedIn
+		isLoggedIn: state.auth.isLoggedIn,
+		role: state.auth.role,
+		userKey: state.auth.userKey
 	};
 };
 

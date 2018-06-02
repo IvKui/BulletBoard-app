@@ -1,3 +1,4 @@
+import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import {
 	NAME_CHANGED,
@@ -22,8 +23,10 @@ import {
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
 	LOGIN_ERROR,
+	LOGOUT_USER,
 	REGISTER_USER_FAIL,
-	REGISTER_USER
+	REGISTER_USER,
+	USER_KEY
 } from './types';
 
 export const nameChanged = (text) => {
@@ -171,6 +174,32 @@ export const registerUser = ({ name, email, phone, street, houseNr, hometown, po
 	}
 }
 
+export const logoutUser = (dispatch) => {
+	return (dispatch) => {
+		dispatch({	type: LOGOUT_USER })
+
+		console.log('logging out')
+
+		AsyncStorage.removeItem(USER_KEY)
+	}
+}
+
+export const isSignedIn = () => {
+	return new Promise((resolve, reject) => {
+		AsyncStorage.getItem(USER_KEY)
+		.then(res => {
+			if (res !== null) {
+				console.log('User is logged in')
+				resolve(res);
+			} else {
+				console.log('User is not logged in')
+				resolve(null);
+			}
+		})
+		.catch(err => reject(err));
+	});
+}
+
 const loginUserFail = (dispatch) => {
 	dispatch({
 		type: LOGIN_USER_FAIL
@@ -182,25 +211,24 @@ const loginUserSuccess = (dispatch, user) => {
 		type: LOGIN_USER_SUCCESS,
 		payload: user
 	});
+
+	AsyncStorage.setItem(USER_KEY, user.uid)
 };
 
 const registerUserSuccess = (dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
 	const { currentUser } = firebase.auth();
 	if(role==='') {role='user'};
 	firebase.database().ref(`/${role}s/${currentUser.uid}`)
-    .set({
-			name,
-			email,
-			phone,
-			street,
-			houseNr,
-			hometown,
-			postal
-		}).then(() => {
-			dispatch({
-				type: LOGIN_USER_SUCCESS,
-				payload: user
-			});
-    })
-		.catch(() => loginUserFail(dispatch));
+	.set({
+		name,
+		email,
+		phone,
+		street,
+		houseNr,
+		hometown,
+		postal
+	}).then(() => {
+		loginUserSuccess(dispatch, user)
+	})
+	.catch(() => loginUserFail(dispatch));
 };

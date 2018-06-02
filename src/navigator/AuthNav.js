@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator, HeaderBackButton } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Login from '../components/pages/Login';
+import Logout from '../components/pages/Logout';
 import RegisterAs from '../components/pages/RegisterAs';
 import RegisterForm from '../components/pages/RegisterForm';
 
@@ -23,6 +24,9 @@ const AuthNav = StackNavigator({
         color: EStyleSheet.value('$white')
       }
     })
+  },
+  Logout: {
+    screen: Logout
   },
   RegisterAs: {
     screen: RegisterAs,
