@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, SafeAreaView } from 'react-native';
 import ignoreWarnings from 'react-native-ignore-warnings';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -11,7 +11,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import reducers from './src/reducers';
 import { createRootNavigator } from './src/navigator';
 import AppHelper from './AppHelper';
-import { isSignedIn } from './src/actions';
+import { isSignedIn, getUser } from './src/actions';
 import Splash from './src/components/pages/Splash';
 
 ignoreWarnings('Setting a timer')
@@ -21,6 +21,7 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      stateLoaded: false,
       fontLoaded: false,
       signedIn: true,
       checkedSignIn: false,
@@ -56,56 +57,69 @@ export default class App extends Component {
     this.setState({ fontLoaded: true })
   }
 
-  checkRole(userKey) {
-    if(firebase.database()
-      .ref(`providers/${userKey}`) // THIS IS ALWAYS TRUE?!?!?!?!?
-      .once('value')
-    ) {
-      return 'provider'
-    } else if( firebase.database()
-      .ref(`users/${userKey}`)
-      .once('value')
-    ) {
-      return 'user'
-    } else {
-      return null
-    }
-  }
-
   componentDidMount() {
     isSignedIn()
       .then(userKey => {
-        this.setState({
-          signedIn: userKey,
-          userKey: userKey,
-          role: this.checkRole(userKey),
-          checkedSignIn: true
-        });
-      })
+        console.log(userKey)
+        if(userKey) {
+          getUser(userKey)
+            .then((user) => {
+              if(user) {
+                this.setState({
+                  stateLoaded: true,
+                  signedIn: userKey,
+                  userKey: userKey,
+                  role: user.role,
+                  checkedSignIn: true,
+                  user: user
+                })
+              }
+            })
+          } else {
+            this.setState({
+              stateLoaded: true,
+              checkedSignIn: true,
+              signedIn: false,
+              role: 'unregisteredUser'
+            })
+          }
+        })
       .catch(err => alert("Er is iets fout gegaan. Herstart de app"));
   }
 
   render() {
-    const { checkedSignIn, signedIn, role, userKey } = this.state;
+    const { checkedSignIn, signedIn, role, userKey, user } = this.state;
 		const store = createStore(reducers, {
       auth: {
         isLoggedIn: signedIn,
         role: role,
-        userKey: userKey
+        userKey: userKey,
+        user: user
       }
     }, applyMiddleware(ReduxThunk));
-    const AppNav = createRootNavigator(signedIn, role);
 
-    if(!this.state.fontLoaded){
+    if(!this.state.fontLoaded || !this.state.stateLoaded){
   		return (
         <Splash />
       )
     }
 
-    return (
-      <Provider store={store}>
-        <AppNav />
-      </Provider>
-    );
+    if(this.state.stateLoaded) {
+      const AppNav = createRootNavigator(this.state.role);
+
+      return (
+        <SafeAreaView style={styles.safeAreaView}>
+          <Provider store={store}>
+            <AppNav />
+          </Provider>
+        </SafeAreaView>
+      );
+    }
 	}
 }
+
+const styles = EStyleSheet.create({
+  safeAreaView: {
+    flex: 1
+  }
+})

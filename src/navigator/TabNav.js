@@ -51,6 +51,7 @@ const AppNav = TabNavigator({
 },
 {
   initialRouteName: 'MyServices',
+  lazy: false,
   tabBarOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$secondaryColor'),
     showIcon: true,

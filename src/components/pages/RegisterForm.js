@@ -26,7 +26,7 @@ import { Button, Container, Write, Alert, Spinner } from '../common';
 
 class RegisterForm extends Component {
 	static navigationOptions = {
-		title: 'Registeren'
+		title: 'Registreren'
 	}
 
 	constructor(props) {
@@ -43,6 +43,7 @@ class RegisterForm extends Component {
 	onRegisterPress() {
 		console.log('registering...')
 		const {
+			navigation,
 			name,
 			email,
 			phone,
@@ -57,8 +58,7 @@ class RegisterForm extends Component {
 		const error = this.validateForm();
 		if (!error) {
 			console.log('No errors')
-			this.props.registerUser({ name, email, phone, street, houseNr, hometown, postal, password, role })
-			this.props.navigation.navigate('MainNav')
+			this.props.registerUser({ navigation, name, email, phone, street, houseNr, hometown, postal, password, role })
 		}
 	}
 

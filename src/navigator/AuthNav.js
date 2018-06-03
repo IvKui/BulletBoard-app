@@ -22,15 +22,13 @@ const AuthNav = StackNavigator({
       },
       headerTitleStyle: {
         color: EStyleSheet.value('$white')
-      }
+      },
+      headerTintColor: EStyleSheet.value('$white')
     })
-  },
-  Logout: {
-    screen: Logout
   },
   RegisterAs: {
     screen: RegisterAs,
-    navigationOptions: ({ navigation }) => EStyleSheet.create({
+    navigationOptions: ({ navigation }) => ({
       headerStyle: {
         elevation: 0,
         backgroundColor: EStyleSheet.value('$primaryColor')
@@ -43,7 +41,7 @@ const AuthNav = StackNavigator({
   },
   Register: {
     screen: RegisterForm,
-    navigationOptions: ({ navigation }) => EStyleSheet.create({
+    navigationOptions: ({ navigation }) => ({
       headerStyle: {
         elevation: 0,
         backgroundColor: EStyleSheet.value('$primaryColor')

@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { DrawerNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import AuthNav from './AuthNav';
 import MainNav from './MainNav';
 import MessageNav from './MessageNav';
+import ProviderDrawer from './drawers/ProviderDrawer';
 
 const ProviderNav = DrawerNavigator({
   MainNav: {
@@ -27,15 +27,13 @@ const ProviderNav = DrawerNavigator({
       </View>
     })
   },
-  MessageNav: {
+  Berichten: {
     screen: MessageNav
-  },
-  Login: {
-    screen: AuthNav
-  },
+  }
 },
 {
-  initialRouteName: 'MessageNav',
+  contentComponent: ProviderDrawer,
+  initialRouteName: 'MainNav',
   contentOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$primaryColor')
   })

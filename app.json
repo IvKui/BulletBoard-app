@@ -9,11 +9,6 @@
       "icon": "./src/images/icon/icon_blackwhite.png",
       "color": "#0d6e88",
       "androidMode": "collapse"
-    },
-    "splash": {
-      "icon": "./src/images/logo/logo_white.png",
-      "backgroundColor": "#0d6e88",
-      "hideExponentText": true
     }
   }
 }

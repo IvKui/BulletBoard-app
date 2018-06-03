@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TabNav from './TabNav';
+import AuthNav from './AuthNav';
 import Appointment from '../components/pages/Appointment';
 import AddService from '../components/pages/AddService';
 import Provider from '../components/pages/Provider';
@@ -32,6 +33,12 @@ const MainNav = StackNavigator({
             onPress={() => navigation.navigate('DrawerOpen')}
           />
         </View>
+    })
+  },
+  AuthNav: {
+    screen: AuthNav,
+    navigationOptions: () => ({
+      header: () => null
     })
   },
   Provider: {

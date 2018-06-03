@@ -10,7 +10,6 @@ class Login extends Component {
 	constructor(props) {
 		super(props);
 
-		console.log(this.props)
 		this.focusNextField = this.focusNextField.bind(this);
 		this.inputs = {};
 	}
@@ -20,10 +19,6 @@ class Login extends Component {
 
 	focusNextField(id) {
 		this.inputs[id].focus();
-	}
-
-	onChange(text) {
-		console.log(text)
 	}
 
 	onEmailChange(text) {
@@ -36,14 +31,11 @@ class Login extends Component {
 
 	onLoginPress() {
 		console.log('Logging in...')
-		const { email, password } = this.props;
-
-		this.props.loginUser({ email, password })
-		this.props.navigation.navigate('MainNav')
+		const { navigation, email, password } = this.props;
+		this.props.loginUser({ navigation, email, password })
 	}
 
 	onRegisterPress() {
-		this.props.logoutUser();
 		this.props.navigation.push('RegisterAs');
 	}
 
@@ -110,7 +102,7 @@ class Login extends Component {
 							keyboardType='default'
 							onChangeText={this.onPasswordChange.bind(this)}
 							value={this.props.password}
-							blurOnSubmit={ false }
+							blurOnSubmit={ true }
 							onSubmitEditing={
 								this.onLoginPress.bind(this)
 							}

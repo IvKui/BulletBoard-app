@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
 import {
 	NAME_CHANGED,
@@ -154,29 +155,34 @@ export const roleChanged = (text) => {
 	};
 };
 
-export const loginUser = ({ email, password }) => {
-	return (dispatch) => {
+export const loginUser = ({ navigation, email, password }) => dispatch => {
 		dispatch({ type: LOGIN_USER });
 
 		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(user => loginUserSuccess(dispatch, user))
+			.then(user => {
+				getUser(user.uid)
+					.then((res) => {
+						loginUserSuccess(navigation, dispatch, res, user.uid)
+					})
+			})
 			.catch(() => loginUserFail(dispatch));
-	};
 };
 
-export const registerUser = ({ name, email, phone, street, houseNr, hometown, postal, password, role }) => {
+export const registerUser = ({ navigation, name, email, phone, street, houseNr, hometown, postal, password, role }) => {
 	return (dispatch) => {
 		dispatch({ type: REGISTER_USER });
 
 		firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(user => registerUserSuccess(dispatch, user, name, email, phone, street, houseNr, hometown, postal, role))
+			.then(user => {
+				registerUserSuccess(navigation, dispatch, user, name, email, phone, street, houseNr, hometown, postal, role)
+			})
 			.catch(() => loginUserFail(dispatch));
 	}
 }
 
 export const logoutUser = (dispatch) => {
 	return (dispatch) => {
-		dispatch({	type: LOGOUT_USER })
+		dispatch({ type: LOGOUT_USER })
 
 		console.log('logging out')
 
@@ -200,26 +206,61 @@ export const isSignedIn = () => {
 	});
 }
 
+export const getUser = (userKey) => {
+	return new Promise((resolve, reject) => {
+		firebase.database()
+			.ref(`providers/${userKey}`)
+			.once('value')
+			.then(snapshot => {
+				if(snapshot.val()) {
+					let user = snapshot.val();
+					user.role = 'provider'
+					resolve(user)
+				} else {
+					firebase.database()
+						.ref(`users/${userKey}`)
+						.once('value')
+						.then(snapshot => {
+							if(snapshot.val()) {
+								let user = snapshot.val();
+								user.role = 'user'
+								resolve(user)
+							} else {
+								resolve(null)
+							}
+						})
+				}
+			})
+	})
+}
+
 const loginUserFail = (dispatch) => {
 	dispatch({
 		type: LOGIN_USER_FAIL
 	});
 };
 
-const loginUserSuccess = (dispatch, user) => {
+const loginUserSuccess = (navigation, dispatch, user, uid) => {
 	dispatch({
 		type: LOGIN_USER_SUCCESS,
 		payload: user
 	});
 
-	AsyncStorage.setItem(USER_KEY, user.uid)
+	AsyncStorage.setItem(USER_KEY, uid)
+
+	if(user.role === 'provider') {
+		navigation.navigate('ProviderNav')
+	} else if (user.role === 'user') {
+		navigation.navigate('ConsumerNav')
+	}
 };
 
-const registerUserSuccess = (dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
-	const { currentUser } = firebase.auth();
-	if(role==='') {role='user'};
-	firebase.database().ref(`/${role}s/${currentUser.uid}`)
-	.set({
+const registerUserSuccess = (navigation, dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
+	if( role === '' ) {
+		role = 'user'
+	}
+
+	const newUser = {
 		name,
 		email,
 		phone,
@@ -227,8 +268,13 @@ const registerUserSuccess = (dispatch, user, name, email, phone, street, houseNr
 		houseNr,
 		hometown,
 		postal
-	}).then(() => {
-		loginUserSuccess(dispatch, user)
+	}
+
+	firebase.database().ref(`/${role}s/${user.uid}`)
+	.set(newUser)
+	.then(() => {
+		newUser.role = role
+		loginUserSuccess(navigation, dispatch, newUser, user.uid)
 	})
 	.catch(() => loginUserFail(dispatch));
 };

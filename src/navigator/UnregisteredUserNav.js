@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { DrawerNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import AuthNav from './AuthNav';
 import MainNav from './MainNav';
 import MessageNav from './MessageNav';
+import UnregisteredUserDrawer from './drawers/UnregisteredUserDrawer';
 
 const UnregisteredUserNav = DrawerNavigator({
   MainNav: {
@@ -26,15 +26,10 @@ const UnregisteredUserNav = DrawerNavigator({
         />
       </View>
     })
-  },
-  MessageNav: {
-    screen: MessageNav
-  },
-  Login: {
-    screen: AuthNav
-  },
+  }
 },
 {
+  contentComponent: UnregisteredUserDrawer,
   initialRouteName: 'MainNav',
   contentOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$primaryColor')
