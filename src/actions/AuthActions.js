@@ -18,6 +18,8 @@ import {
 	POSTAL_ERROR,
 	PASSWORD_CHANGED,
 	PASSWORD_ERROR,
+	PASSWORD_CONFIRM_CHANGED,
+	PASSWORD_CONFIRM_ERROR,
 	RESET_ERRORS,
 	ROLE_CHANGED,
 	LOGIN_USER_SUCCESS,
@@ -142,6 +144,20 @@ export const passwordError = (text) => {
 	};
 };
 
+export const passwordConfirmChanged = (text) => {
+	return {
+		type: PASSWORD_CONFIRM_CHANGED,
+		payload: text
+	};
+};
+
+export const passwordConfirmError = (text) => {
+	return {
+		type: PASSWORD_CONFIRM_ERROR,
+		payload: text
+	};
+};
+
 export const resetErrors = () => {
 	return {
 		type: RESET_ERRORS
@@ -156,16 +172,22 @@ export const roleChanged = (text) => {
 };
 
 export const loginUser = ({ navigation, email, password }) => dispatch => {
-		dispatch({ type: LOGIN_USER });
-
-		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(user => {
-				getUser(user.uid)
-					.then((res) => {
-						loginUserSuccess(navigation, dispatch, res, user.uid)
-					})
+		if(email && password) {
+			dispatch({ type: LOGIN_USER });
+			firebase.auth().signInWithEmailAndPassword(email, password)
+				.then(user => {
+					getUser(user.uid)
+						.then((res) => {
+							loginUserSuccess(navigation, dispatch, res, user.uid)
+						})
+				})
+				.catch(() => loginUserFail(dispatch));
+		} else {
+			dispatch({
+				type: LOGIN_ERROR,
+				payload: 'Vul uw inloggegevens in'
 			})
-			.catch(() => loginUserFail(dispatch));
+		}
 };
 
 export const registerUser = ({ navigation, name, email, phone, street, houseNr, hometown, postal, password, role }) => {

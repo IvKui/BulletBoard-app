@@ -15,6 +15,8 @@ import {
 	POSTAL_ERROR,
 	PASSWORD_CHANGED,
 	PASSWORD_ERROR,
+	PASSWORD_CONFIRM_CHANGED,
+	PASSWORD_CONFIRM_ERROR,
 	RESET_ERRORS,
 	ROLE_CHANGED,
 	LOGIN_USER_SUCCESS,
@@ -44,6 +46,8 @@ const INITIAL_STATE = {
 	postalErrorText: '',
 	password: '',
 	passwordErrorText: '',
+	passwordConfirm: '',
+	passwordConfirmErrorText: '',
 	role: '',
 	user: null,
 	isLoggedIn: false,
@@ -101,6 +105,12 @@ export default (state = INITIAL_STATE, action) => {
 
 		case PASSWORD_ERROR:
 			return { ...state, passwordErrorText: action.payload };
+
+		case PASSWORD_CONFIRM_CHANGED:
+			return { ...state, passwordConfirm: action.payload };
+
+		case PASSWORD_CONFIRM_ERROR:
+			return { ...state, passwordConfirmErrorText: action.payload };
 
 		case LOGIN_ERROR:
 			return { ...state, loginError: action.payload };

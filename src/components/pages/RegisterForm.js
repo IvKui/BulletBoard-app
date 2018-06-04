@@ -19,6 +19,8 @@ import {
 	postalError,
 	passwordChanged,
 	passwordError,
+	passwordConfirmChanged,
+	passwordConfirmError,
 	resetErrors,
 	registerUser
 } from '../../actions';
@@ -94,6 +96,10 @@ class RegisterForm extends Component {
 		this.props.passwordChanged(text);
 	}
 
+	onPasswordConfirmChange(text) {
+		this.props.passwordConfirmChanged(text)
+	}
+
 	renderAlert() {
 		if (this.props.registerError) {
 			return (
@@ -129,6 +135,7 @@ class RegisterForm extends Component {
 			hometown,
 			postal,
 			password,
+			passwordConfirm,
 			role
 		} = this.props;
 
@@ -178,6 +185,11 @@ class RegisterForm extends Component {
 			} else {
 				this.props.passwordError('Het wachtwoord moet minimaal 6 tekens bevatten')
 			}
+			isError = true
+		}
+
+		if(!password === passwordConfirm) {
+			this.props.passwordConfirmError('De wachtwoorden komen niet overeen')
 			isError = true
 		}
 
@@ -323,14 +335,33 @@ class RegisterForm extends Component {
 							keyboardType='default'
 							onChangeText={this.onPasswordChange.bind(this)}
 							value={this.props.password}
-							blurOnSubmit={ true }
-							onSubmitEditing={this.onRegisterPress.bind(this)}
-							returnKeyType={ "done" }
+							blurOnSubmit={ false }
+							onSubmitEditing={() => {
+								this.focusNextField('passConf');
+							}}
+							returnKeyType={ "next" }
 							ref={ input => {
 								this.inputs['pass'] = input;
 							}}
 						/>
 						<Write style={styles.error}>{this.props.passwordErrorText}</Write>
+					</View>
+					<View style={styles.inputContainer}>
+						<Write style={styles.label}>Bevestig wachtwoord</Write>
+						<TextInput
+							style={styles.input}
+							secureTextEntry
+							keyboardType='default'
+							onChangeText={this.onPasswordConfirmChange.bind(this)}
+							value={this.props.passwordConfirm}
+							blurOnSubmit={ true }
+							onSubmitEditing={this.onRegisterPress.bind(this)}
+							returnKeyType={ "done" }
+							ref={ input => {
+								this.inputs['passConf'] = input;
+							}}
+						/>
+						<Write style={styles.error}>{this.props.passwordConfirmErrorText}</Write>
 					</View>
 				</View>
 				{this.renderButton()}
@@ -390,6 +421,8 @@ const mapStateToProps = state => {
 		postalErrorText: state.auth.postalErrorText,
 		password: state.auth.password,
 		passwordErrorText: state.auth.passwordErrorText,
+		passwordConfirm: state.auth.passwordConfirm,
+		passwordConfirmErrorText: state.auth.passwordConfirmErrorText,
 		role: state.auth.role,
 		registerError: state.auth.registerError,
 		loading: state.auth.loading,
@@ -414,6 +447,8 @@ export default connect(mapStateToProps, {
 	postalError,
 	passwordChanged,
 	passwordError,
+	passwordConfirmChanged,
+	passwordConfirmError,
 	resetErrors,
 	registerUser
 })(RegisterForm);
