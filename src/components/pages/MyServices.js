@@ -18,6 +18,12 @@ class MyServices extends Component {
 		title: 'Mijn diensten'
 	}
 
+  constructor(props) {
+    super(props)
+
+    console.log(this.props.user)
+  }
+
   onServicePress() {
     this.props.navigation.navigate('Providers')
   }
@@ -68,7 +74,8 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
 	return {
-		isLoggedIn: state.auth.isLoggedIn
+		isLoggedIn: state.auth.isLoggedIn,
+    user: state.auth.user
 	};
 };
 

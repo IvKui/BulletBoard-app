@@ -22,6 +22,8 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	UPDATE_USER,
+	UPDATE_USER_SUCCESS,
 	LOGOUT_USER,
 	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
@@ -139,6 +141,12 @@ export default (state = INITIAL_STATE, action) => {
 
 		case REGISTER_USER:
 			return { ...state, loading: true, registerError: '' };
+
+		case UPDATE_USER:
+			return { ...state, loading: true, registerError: '' }
+
+		case UPDATE_USER_SUCCESS:
+			return { ...state, loading: false, user: action.payload }
 
 		case REGISTER_USER_FAIL:
 			console.log('error registation')

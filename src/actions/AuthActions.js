@@ -25,6 +25,8 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
 	LOGIN_USER,
+	UPDATE_USER,
+	UPDATE_USER_SUCCESS,
 	LOGIN_ERROR,
 	LOGOUT_USER,
 	REGISTER_USER_FAIL,
@@ -199,6 +201,48 @@ export const registerUser = ({ navigation, name, email, phone, street, houseNr, 
 				registerUserSuccess(navigation, dispatch, user, name, email, phone, street, houseNr, hometown, postal, role)
 			})
 			.catch(() => loginUserFail(dispatch));
+	}
+}
+
+export const updateUser = ({ navigation, name, email, phone, street, houseNr, hometown, postal, role}) => {
+	return (dispatch) => {
+		console.log('update user')
+
+		dispatch({ type: UPDATE_USER });
+
+		const uid = firebase.auth().currentUser.uid
+		firebase.database().ref(`/${role}s/${uid}`).update({
+			name,
+			email,
+			phone,
+			street,
+			houseNr,
+			hometown,
+			postal
+		})
+			.then(user => {
+				updateUserSuccess(dispatch, navigation, firebase.auth().currentUser)
+			})
+			.catch(() => updateUserFail(dispatch, navigation));
+	}
+}
+
+export const updateUserSuccess = ({ dispatch, navigation, user }) => {
+	return (dispatch) => {
+		console.log('update user success')
+		dispatch({
+			type: UPDATE_USER_SUCCESS,
+			payload: user
+		});
+		navigation.navigate('MainNav')
+	}
+}
+
+export const updateUserFail = ({ dispatch, navigation }) => {
+	return (dispatch) => {
+		console.log('update user fail')
+		dispatch({ type: UPDATE_USER_FAIL });
+		navigation.navigate('MainNav')
 	}
 }
 

@@ -5,6 +5,7 @@ import { DrawerNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MainNav from './MainNav';
 import MessageNav from './MessageNav';
+import Profile from '../components/pages/Profile';
 import ProviderDrawer from './drawers/ProviderDrawer';
 
 const ProviderNav = DrawerNavigator({
@@ -29,11 +30,14 @@ const ProviderNav = DrawerNavigator({
   },
   Berichten: {
     screen: MessageNav
+  },
+  Profiel: {
+    screen: Profile
   }
 },
 {
   contentComponent: ProviderDrawer,
-  initialRouteName: 'MainNav',
+  initialRouteName: 'Profiel',
   contentOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$primaryColor')
   })
