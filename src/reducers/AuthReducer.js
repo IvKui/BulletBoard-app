@@ -24,6 +24,7 @@ import {
 	LOGIN_USER,
 	UPDATE_USER,
 	UPDATE_USER_SUCCESS,
+	UPDATE_USER_FAIL,
 	LOGOUT_USER,
 	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
@@ -55,6 +56,7 @@ const INITIAL_STATE = {
 	isLoggedIn: false,
 	loginError: '',
 	registerError: '',
+	updateError: '',
 	loading: false
 };
 
@@ -146,7 +148,12 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, loading: true, registerError: '' }
 
 		case UPDATE_USER_SUCCESS:
-			return { ...state, loading: false, user: action.payload }
+			console.log('update user success in reducer')
+			return { ...state, loading: false, user: action.payload };
+
+		case UPDATE_USER_FAIL:
+			console.log('update user failed in reducer')
+			return { ...state, loading: false, updateError: 'OEPS' }
 
 		case REGISTER_USER_FAIL:
 			console.log('error registation')

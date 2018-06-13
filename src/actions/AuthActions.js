@@ -27,6 +27,7 @@ import {
 	LOGIN_USER,
 	UPDATE_USER,
 	UPDATE_USER_SUCCESS,
+	UPDATE_USER_FAIL,
 	LOGIN_ERROR,
 	LOGOUT_USER,
 	REGISTER_USER_FAIL,
@@ -204,47 +205,31 @@ export const registerUser = ({ navigation, name, email, phone, street, houseNr, 
 	}
 }
 
-export const updateUser = ({ navigation, name, email, phone, street, houseNr, hometown, postal, role}) => {
-	return (dispatch) => {
-		console.log('update user')
+export const updateUser = ({ navigation, name, email, phone, street, houseNr, hometown, postal, role }) => dispatch => {
+	console.log('update user')
 
-		dispatch({ type: UPDATE_USER });
+	dispatch({ type: UPDATE_USER });
 
-		const uid = firebase.auth().currentUser.uid
-		firebase.database().ref(`/${role}s/${uid}`).update({
-			name,
-			email,
-			phone,
-			street,
-			houseNr,
-			hometown,
-			postal
+	const uid = firebase.auth().currentUser.uid
+	firebase.database().ref(`/${role}s/${uid}`).update({
+		name,
+		email,
+		phone,
+		street,
+		houseNr,
+		hometown,
+		postal
+	})
+		.then(() => {
+			getUser(uid)
+				.then((user) => {
+					updateUserSuccess(navigation, dispatch, user)
+				})
 		})
-			.then(user => {
-				updateUserSuccess(dispatch, navigation, firebase.auth().currentUser)
-			})
-			.catch(() => updateUserFail(dispatch, navigation));
-	}
-}
-
-export const updateUserSuccess = ({ dispatch, navigation, user }) => {
-	return (dispatch) => {
-		console.log('update user success')
-		dispatch({
-			type: UPDATE_USER_SUCCESS,
-			payload: user
+		.catch(() => {
+			updateUserFail(dispatch)
 		});
-		navigation.navigate('MainNav')
-	}
-}
-
-export const updateUserFail = ({ dispatch, navigation }) => {
-	return (dispatch) => {
-		console.log('update user fail')
-		dispatch({ type: UPDATE_USER_FAIL });
-		navigation.navigate('MainNav')
-	}
-}
+};
 
 export const logoutUser = (dispatch) => {
 	return (dispatch) => {
@@ -343,4 +328,27 @@ const registerUserSuccess = (navigation, dispatch, user, name, email, phone, str
 		loginUserSuccess(navigation, dispatch, newUser, user.uid)
 	})
 	.catch(() => loginUserFail(dispatch));
+};
+
+const updateUserFail = (dispatch) => {
+	dispatch({
+		type: UPDATE_USER_FAIL
+	});
+};
+
+
+
+const updateUserSuccess = (navigation, dispatch, user) => {
+	dispatch({
+		type: UPDATE_USER_SUCCESS,
+		payload: user
+	});
+
+	console.log(navigation)
+
+	if(user.role === 'provider') {
+		navigation.navigate('AddServiceNav')
+	} else if (user.role === 'user') {
+		navigation.navigate('MainNav')
+	}
 };

@@ -23,6 +23,7 @@ export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 export const UPDATE_USER = 'update_user';
 export const UPDATE_USER_SUCCESS = 'update_user_success';
+export const UPDATE_USER_FAIL = 'update_user_fail';
 export const LOGOUT_USER = 'logout_user';
 export const LOGIN_ERROR = 'login_error';
 export const REGISTER_USER_FAIL = 'register_user_fail';

@@ -68,7 +68,7 @@ export default class App extends Component {
               if(user) {
                 this.setState({
                   stateLoaded: true,
-                  signedIn: userKey,
+                  signedIn: true,
                   userKey: userKey,
                   role: user.role,
                   checkedSignIn: true,
@@ -95,7 +95,9 @@ export default class App extends Component {
         })
       })
       .catch(err => {
-        console.log('error')
+        this.setState({
+          servicesLoaded: true
+        })
       })
   }
 

@@ -24,12 +24,11 @@ import { Button, Container, Write, Alert, Spinner } from '../common';
 
 class Profile extends Component {
 	static navigationOptions = {
-		title: 'Registreren'
+		title: 'Profiel'
 	}
 
 	constructor(props) {
 		super(props);
-		console.log(this.props.user)
 
 		this.props.nameChanged(this.props.user.name)
 		this.props.emailChanged(this.props.user.email)
