@@ -49,7 +49,7 @@ class Provider extends Component {
 			<Container style={styles.container}>
 				<UserImage
 					big
-					image={myrthe}
+					image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
 					style={styles.image}
 				/>
 				<View style={styles.data}>

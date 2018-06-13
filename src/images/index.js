@@ -23,17 +23,21 @@ export const phone = require('./svg/phone.svg');
 export const email = require('./svg/email.svg');
 export const check = require('./svg/check.svg');
 export const alert = require('./svg/alert.svg');
+export const search = require('./svg/search.svg');
+export const arrow = require('./svg/arrow.svg');
+export const plus = require('./svg/plus.svg');
 
 // Service images
 export const babysitting = require('./babysitting.jpg');
 export const barber = require('./barber.jpg');
 export const beauty = require('./beauty.jpg');
-export const catering = require('./catering.jpg');
+export const caterer = require('./caterer.jpg');
 export const computer = require('./computer.jpg');
 export const gardener = require('./gardener.jpg');
+export const worker = require('./worker.jpg');
+export const carwash = require('./carwash.jpg');
 
 // Users
-export const defaultUser = require('./defaultUser.png');
 export const myrthe = require('./myrthe.jpg');
 export const elise = require('./elise.png');
 export const erika = require('./erika.jpg');

@@ -20,7 +20,7 @@ class Agenda extends Component {
 			<Container>
 				<AgendaItem
 					name={'Myrthe Veenstra'}
-					image={myrthe}
+					image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
 					rating={4.5}
 					service={'Kapper'}
 					day={'Do'}
@@ -30,7 +30,7 @@ class Agenda extends Component {
 				/>
 				<AgendaItem
 					name={'Elise Boon'}
-					image={elise}
+					image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
 					rating={4.5}
 					service={'Oppasser'}
 					day={'Di'}
@@ -40,7 +40,7 @@ class Agenda extends Component {
 				/>
 				<AgendaItem
 					name={'Erika Hamersma'}
-					image={erika}
+					image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
 					rating={3.5}
 					service={'Schoonheidsspecialist'}
 					day={'Ma'}
@@ -50,7 +50,7 @@ class Agenda extends Component {
 				/>
 				<AgendaItem
 					name={'Antoinette de Jong'}
-					image={antoinette}
+					image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
 					rating={4}
 					service={'Fysiotherapeut'}
 					day={'We'}

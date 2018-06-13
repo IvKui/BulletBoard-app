@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Image } from 'react-native';
 import { NavigationActions, DrawerItems } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
@@ -7,12 +8,6 @@ import { logoutUser } from '../../actions';
 import { Write } from '../../components/common';
 
 class ProviderDrawer extends Component {
-  constructor(props) {
-    super(props)
-
-    console.log(this.props.user.name)
-  }
-
   onLogoutPress() {
     this.props.navigation.dispatch(NavigationActions.navigate({
       routeName: 'UnregisteredUserNav'
@@ -21,11 +16,18 @@ class ProviderDrawer extends Component {
   }
 
   renderWelcomeText() {
-    if( this.props.user.name && this.props.user.role) {
+    if( this.props.user.name) {
 			return (
-        <View style={styles.welcomeContainer}>
-          <Write style={styles.welcomeText}>{this.props.user.name}</Write>
-          <Write style={styles.welcomeText}>{this.props.user.role}</Write>
+        <View style={styles.header}>
+          <View style={styles.userContainer}>
+            {this.props.user.image &&
+              <Image
+                style={styles.userImage}
+                source={{uri: this.props.user.image}}
+              />
+            }
+            <Write style={styles.userName}>{this.props.user.name}</Write>
+          </View>
         </View>
 			);
     } else {
@@ -61,14 +63,25 @@ container: {
 helper: {
   height: 20
 },
-welcomeContainer: {
-  padding: 15,
-  paddingTop: 109,
+header: {
+  height: 180,
+  justifyContent: 'flex-end',
   backgroundColor: '$primaryColor'
 },
-welcomeText: {
+userContainer: {
+  padding: 15,
+  flexDirection: 'row',
+  alignItems: 'center'
+},
+userImage: {
+  height: 50,
+  width: 50,
+  borderRadius: 50,
+  marginRight: 15
+},
+userName: {
   fontWeight: 'bold',
-  fontSize: 14,
+  fontSize: 16,
   color: '$white'
 },
 logoutContainer: {

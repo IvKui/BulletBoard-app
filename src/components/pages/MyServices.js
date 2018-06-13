@@ -2,74 +2,107 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { Container, Block, Write } from '../common';
-import ServiceBlock from '../ServiceBlock';
-import { babysitting, barber, beauty, computer, catering, gardener } from '../../images';
-
-const data = [
-  {id: '1', value: 'Computerhulp', image: computer},
-  {id: '2', value: 'Tuinier', image: gardener},
-  {id: '3', value: 'Klusjesman', image: barber},
-  {id: '4', value: 'Fietsenmaker', image: barber}
-];
+import { getService } from '../../actions';
+import { Container, Block, Write, Spinner, Button } from '../common';
+import MyServiceBlock from '../MyServiceBlock';
+import { babysitting, barber, beauty, computer, caterer, gardener } from '../../images';
 
 class MyServices extends Component {
 	static navigationOptions = {
 		title: 'Mijn diensten'
 	}
 
-  constructor(props) {
-    super(props)
+	constructor(props) {
+		super(props)
 
-    console.log(this.props.user)
-  }
+		this.state = {
+			services: null,
+			servicesLoaded: false
+		}
+	}
 
-  onServicePress() {
-    this.props.navigation.navigate('Providers')
+	componentWillMount() {
+		if(this.props.user.services) {
+			getService(Object.keys(this.props.user.services))
+				.then(res => {
+					this.setState({
+						services: res,
+						servicesLoaded: true
+					})
+				})
+				.catch(() => {
+					this.setState({
+						servicesLoaded: true
+					})
+				})
+		} else {
+			this.setState({
+				servicesLoaded: true
+			})
+		}
+	}
+
+  onServicePress(service) {
+    this.props.navigation.push('ProviderService')
   }
 
 	render() {
-		return (
-			<FlatList
-    		data={data}
-	      renderItem={({item}) => (
-          <View style={styles.container}>
-					  <ServiceBlock
-              title={item.value}
-              image={item.image}
-              style={styles.service}
-              imageStyle={styles.image}
-              onPress={this.onServicePress.bind(this)}
-            />
-          </View>
-    		)}
-      	keyExtractor={item => item.id}
-      	numColumns= {2}
-			/>
-		);
+		console.log(this.state)
+		if(!this.state.servicesLoaded) {
+			return (
+				<Container center>
+					<Spinner />
+				</Container>
+			)
+		} else {
+			if(this.state.services) {
+				return (
+					<Container>
+						<FlatList
+							data={this.state.services}
+							renderItem={({item}) => (
+								<View style={styles.container}>
+									<MyServiceBlock
+										title={item.title}
+										image={item.image}
+										style={styles.service}
+										imageStyle={styles.image}
+										onPress={() => this.onServicePress(item.id)}
+									/>
+								</View>
+							)}
+							keyExtractor={item => item.id}
+							numColumns= {1}
+						/>
+					</Container>
+				);
+			} else {
+				return (
+					<Container center>
+						<Write style={styles.noServicesText}>Geen diensten gevonden</Write>
+						<Button onPress={() => this.props.navigation.push('AddService')}>
+							Voeg een dienst toe
+						</Button>
+					</Container>
+				)
+			}
+		}
+
 	}
 }
 
 const styles = EStyleSheet.create({
-	container: {
-    flex: 1,
-    aspectRatio: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '$black'
-	},
   service: {
-    flex: 1,
-    width: '100%',
-    height: '100%'
+    borderRadius: 5,
+    overflow: 'hidden',
+    marginBottom: 20
   },
-  image: {
-    flex: 1,
-    width: '100%',
-    height: '100%'
-  }
+	noServicesText: {
+		fontSize: 16,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		marginBottom: 15
+	}
 });
 
 const mapStateToProps = state => {

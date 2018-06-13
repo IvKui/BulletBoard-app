@@ -5,7 +5,6 @@ import ConsumerNav from './ConsumerNav';
 import ProviderNav from './ProviderNav';
 
 export const createRootNavigator = (role) => {
-  console.log(role)
   return SwitchNavigator({
     UnregisteredUserNav: {
       screen: UnregisteredUserNav

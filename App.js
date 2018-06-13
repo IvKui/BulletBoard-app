@@ -11,7 +11,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import reducers from './src/reducers';
 import { createRootNavigator } from './src/navigator';
 import AppHelper from './AppHelper';
-import { isSignedIn, getUser } from './src/actions';
+import { isSignedIn, getUser, getServices } from './src/actions';
 import Splash from './src/components/pages/Splash';
 
 ignoreWarnings('Setting a timer')
@@ -27,7 +27,9 @@ export default class App extends Component {
       checkedSignIn: false,
       userKey: null,
       role: null,
-      user: null
+      user: null,
+      services: {},
+      servicesLoaded: false
     }
 
     EStyleSheet.build({
@@ -46,7 +48,7 @@ export default class App extends Component {
       authDomain: 'bulletboard-b2d9a.firebaseapp.com',
       databaseURL: 'https://bulletboard-b2d9a.firebaseio.com',
       projectId: 'bulletboard-b2d9a',
-      storageBucket: '',
+      storageBucket: 'bulletboard-b2d9a.appspot.com',
       messagingSenderId: '674009547561'
     };
     firebase.initializeApp(config);
@@ -60,7 +62,6 @@ export default class App extends Component {
   componentDidMount() {
     isSignedIn()
       .then(userKey => {
-        console.log(userKey)
         if(userKey) {
           getUser(userKey)
             .then((user) => {
@@ -71,7 +72,7 @@ export default class App extends Component {
                   userKey: userKey,
                   role: user.role,
                   checkedSignIn: true,
-                  user: user
+                  user
                 })
               }
             })
@@ -85,20 +86,44 @@ export default class App extends Component {
           }
         })
       .catch(err => alert("Er is iets fout gegaan. Herstart de app"));
+
+    getServices()
+      .then(services => {
+        this.setState({
+          services,
+          servicesLoaded: true
+        })
+      })
+      .catch(err => {
+        console.log('error')
+      })
   }
 
   render() {
-    const { checkedSignIn, signedIn, role, userKey, user } = this.state;
+    const {
+      checkedSignIn,
+      signedIn,
+      role,
+      userKey,
+      user,
+      services,
+      fontLoaded,
+      stateLoaded,
+      servicesLoaded
+    } = this.state;
 		const store = createStore(reducers, {
       auth: {
         isLoggedIn: signedIn,
-        role: role,
-        userKey: userKey,
-        user: user
+        role,
+        userKey,
+        user,
+      },
+      service: {
+        services
       }
     }, applyMiddleware(ReduxThunk));
 
-    if(!this.state.fontLoaded || !this.state.stateLoaded){
+    if(!this.state.fontLoaded || !this.state.stateLoaded || !this.state.servicesLoaded){
   		return (
         <Splash />
       )

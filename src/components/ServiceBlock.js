@@ -13,7 +13,7 @@ class ServiceBlock extends Component {
       >
         <ImageBackground
           style={[styles.image, this.props.imageStyle]}
-          source={this.props.image}
+          source={{uri: this.props.image}}
           resizeMode='cover'
         >
           <Write style={styles.title}>{ this.props.title }</Write>

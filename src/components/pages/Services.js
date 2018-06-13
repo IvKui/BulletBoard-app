@@ -1,44 +1,38 @@
 import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
+import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Container, Block } from '../common';
 import ServiceBlock from '../ServiceBlock';
-import { babysitting, barber, beauty, computer, catering, gardener } from '../../images';
-
-const data = [
-  {id: '1', value: 'Babysitter', image: babysitting},
-  {id: '2', value: 'Kapper', image: barber},
-  {id: '3', value: 'Schoonheidsspecialist', image: beauty},
-  {id: '4', value: 'Cateraar', image: catering},
-  {id: '5', value: 'Computerhulp', image: computer},
-  {id: '6', value: 'Tuinier', image: gardener},
-  {id: '7', value: 'Oppasser', image: barber},
-  {id: '8', value: 'Klusjesman', image: barber},
-  {id: '9', value: 'Fietsenmaker', image: barber},
-  {id: '10', value: 'Cateraar', image: barber}
-];
+import { babysitting, barber, beauty, computer, caterer, gardener, worker, carwash } from '../../images';
 
 class Services extends Component {
 	static navigationOptions = {
 		title: 'Diensten'
 	}
 
-  onServicePress() {
-    this.props.navigation.navigate('Providers')
+  constructor(props) {
+    super(props)
+  }
+
+  onServicePress(service) {
+    this.props.navigation.push('Providers', {
+      service
+    })
   }
 
 	render() {
 		return (
 			<FlatList
-    		data={data}
+    		data={Object.values(this.props.services)}
 	      renderItem={({item}) => (
           <View style={styles.container}>
 					  <ServiceBlock
-              title={item.value}
+              title={item.title}
               image={item.image}
               style={styles.service}
               imageStyle={styles.image}
-              onPress={this.onServicePress.bind(this)}
+              onPress={() => this.onServicePress(item.id)}
             />
           </View>
     		)}
@@ -71,4 +65,10 @@ const styles = EStyleSheet.create({
   }
 });
 
-export default Services;
+const mapStateToProps = state => {
+	return {
+		services: state.service.services
+	};
+};
+
+export default connect(mapStateToProps)(Services);

@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import StarRating from 'react-native-star-rating';
 import UserImage from '../UserImage';
 import { Title, Container, Button, Block, Write, List } from '../common';
-import { myrthe, phone } from '../../images';
+import { phone } from '../../images';
 
 class ProviderService extends Component {
 	static navigationOptions = {
@@ -34,7 +34,7 @@ class ProviderService extends Component {
 				<Block>
 					<UserImage
 						big
-						image={myrthe}
+						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
 						style={styles.image}
 					/>
 					<Write style={styles.name}>Myrthe Veenstra</Write>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -11,6 +11,8 @@ import Provider from '../components/pages/Provider';
 import Providers from '../components/pages/Providers';
 import Confirmation from '../components/pages/Confirmation';
 import ProviderService from '../components/pages/ProviderService';
+import { person } from '../images';
+import { Svg, Write } from '../components/common';
 
 const MainNav = StackNavigator({
   TabNav: {
@@ -25,13 +27,27 @@ const MainNav = StackNavigator({
       }),
       headerTintColor: EStyleSheet.value('$white'),
       headerLeft:
-        <View style={styles.MenuIcon}>
+        <View style={styles.menuIcon}>
           <Icon
             name="menu"
             size={30}
             color={ EStyleSheet.value('$white') }
             onPress={() => navigation.navigate('DrawerOpen')}
           />
+        </View>,
+        headerRight:
+        <View style={styles.loginIcon}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AuthNav')}
+          >
+            <Svg
+              style={styles.svg}
+              height='20'
+              width='20'
+              fill={ EStyleSheet.value('$white')}
+              source={ person }
+            />
+          </TouchableOpacity>
         </View>
     })
   },
@@ -69,7 +85,7 @@ const MainNav = StackNavigator({
   },
   Providers: {
     screen: Providers,
-    navigationOptions: {
+    navigationOptions: ({ navigation }) => ({
       tabBarIcon: () => (
         <Svg
           fill= { EStyleSheet.value('$white') }
@@ -77,8 +93,16 @@ const MainNav = StackNavigator({
           width= '22'
           source={ workshop }
         />
-      )
-    }
+      ),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
+        elevation: 0
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+      headerTintColor: EStyleSheet.value('$white'),
+    })
   },
   Appointment: {
     screen: Appointment,
@@ -125,8 +149,11 @@ const MainNav = StackNavigator({
 });
 
 const styles = EStyleSheet.create({
-  MenuIcon: {
+  menuIcon: {
     paddingLeft: 15
+  },
+  loginIcon: {
+    paddingRight: 15
   }
 })
 

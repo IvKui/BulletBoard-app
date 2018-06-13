@@ -30,3 +30,5 @@ export const REGISTER_USER = 'register_user';
 export const USER_KEY = 'user_key';
 
 export const PROVIDER_SELECTED = 'provider_selected';
+
+export const SELECT_SERVICE = 'select_service';

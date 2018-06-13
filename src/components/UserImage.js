@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { defaultUser } from '../images';
 
 class UserImage extends Component {
   render() {
@@ -17,8 +16,7 @@ class UserImage extends Component {
               this.props.small && styles.small,
             ]}
             resizeMode='contain'
-            source={ this.props.image || defaultUser }
-            defaultSource={defaultUser}
+            source={{ uri: this.props.image }}
           />
           {this.props.children}
         </View>

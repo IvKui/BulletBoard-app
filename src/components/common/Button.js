@@ -50,7 +50,7 @@ const styles = EStyleSheet.create ({
 	},
 	bigButtonText: {
 		color: '$white',
-		fontSize: 16,
+		fontSize: 18,
 		textAlign: 'center',
 		fontWeight: '600',
 	},
