@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 const List = ({ style, items }) => {
 	return (
 		<View>
-			{items.map(function(item, index){
+			{items.map((item, index) => {
 				return <View key={index} style={styles.row}>
 					<Write>{item[0]}</Write>
 					<Write style={styles.textRight}>{item[1]}</Write>

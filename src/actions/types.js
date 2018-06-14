@@ -29,7 +29,19 @@ export const LOGIN_ERROR = 'login_error';
 export const REGISTER_USER_FAIL = 'register_user_fail';
 export const REGISTER_USER = 'register_user';
 export const USER_KEY = 'user_key';
+export const UPDATE_USER_SERVICES = 'update_user_services';
 
 export const PROVIDER_SELECTED = 'provider_selected';
 
-export const SELECT_SERVICE = 'select_service';
+export const ADD_SERVICE_SELECTED = 'add_service_selected';
+export const ADD_AVAILABILITY = 'add_availability';
+export const PRICE_TITLE_CHANGED = 'price_title_changed';
+export const PRICE_AMOUNT_CHANGED = 'price_amount_changed';
+export const ADD_PRICE = 'add_price';
+export const DAY_CHANGED = 'day_changed';
+export const DAY_START_CHANGED = 'day_start_changed';
+export const DAY_END_CHANGED = 'day_end_changed';
+export const ADD_DAY = 'add_day';
+export const ADD_SERVICE = 'add_service';
+export const ADD_SERVICE_SUCCESS = 'add_service_success';
+export const ADD_SERVICE_FAIL = 'add_service_fail';

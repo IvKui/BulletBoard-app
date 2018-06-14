@@ -205,10 +205,37 @@ export const registerUser = ({ navigation, name, email, phone, street, houseNr, 
 	}
 }
 
-export const updateUser = ({ navigation, name, email, phone, street, houseNr, hometown, postal, role }) => dispatch => {
-	console.log('update user')
+export const updateUser = ({ name, email, phone, street, houseNr, hometown, postal, role, user }) => dispatch => {
 
 	dispatch({ type: UPDATE_USER });
+
+	if(name != user.name) {
+		nameChanged(name)
+	}
+
+	if(email != user.email) {
+		emailChanged(email)
+	}
+
+	if(phone != user.phone) {
+		phoneChanged(phone)
+	}
+
+	if(street != user.street) {
+		streetChanged(street)
+	}
+
+	if(houseNr != user.houseNr) {
+		houseNrChanged(houseNr)
+	}
+
+	if(hometown != user.hometown) {
+		hometownChanged(hometown)
+	}
+
+	if(postal != user.postal) {
+		postalChanged(postal)
+	}
 
 	const uid = firebase.auth().currentUser.uid
 	firebase.database().ref(`/${role}s/${uid}`).update({
@@ -223,7 +250,7 @@ export const updateUser = ({ navigation, name, email, phone, street, houseNr, ho
 		.then(() => {
 			getUser(uid)
 				.then((user) => {
-					updateUserSuccess(navigation, dispatch, user)
+					updateUserSuccess(dispatch, user)
 				})
 		})
 		.catch(() => {
@@ -336,19 +363,9 @@ const updateUserFail = (dispatch) => {
 	});
 };
 
-
-
-const updateUserSuccess = (navigation, dispatch, user) => {
+const updateUserSuccess = (dispatch, user) => {
 	dispatch({
 		type: UPDATE_USER_SUCCESS,
 		payload: user
 	});
-
-	console.log(navigation)
-
-	if(user.role === 'provider') {
-		navigation.navigate('AddServiceNav')
-	} else if (user.role === 'user') {
-		navigation.navigate('MainNav')
-	}
 };

@@ -21,7 +21,24 @@ class MyServices extends Component {
 		}
 	}
 
+	willFocus = this.props.navigation.addListener(
+    'willFocus',
+    payload => {
+			this.getServices()
+    }
+  );
+
 	componentWillMount() {
+		if(this.props.user.services) {
+			this.getServices()
+		} else {
+			this.setState({
+				servicesLoaded: true
+			})
+		}
+	}
+
+	getServices() {
 		if(this.props.user.services) {
 			getService(Object.keys(this.props.user.services))
 				.then(res => {
@@ -47,7 +64,6 @@ class MyServices extends Component {
   }
 
 	render() {
-		console.log(this.state)
 		if(!this.state.servicesLoaded) {
 			return (
 				<Container center>
@@ -107,8 +123,7 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
 	return {
-		isLoggedIn: state.auth.isLoggedIn,
-    user: state.auth.user
+		user: state.auth.user
 	};
 };
 

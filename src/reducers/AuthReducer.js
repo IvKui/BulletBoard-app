@@ -29,7 +29,8 @@ import {
 	LOGIN_ERROR,
 	REGISTER_USER_FAIL,
 	REGISTER_USER,
-	USER_KEY
+	USER_KEY,
+	UPDATE_USER_SERVICES
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -166,6 +167,9 @@ export default (state = INITIAL_STATE, action) => {
 		case LOGIN_USER_FAIL:
 			console.log('error logging in')
 			return { ...state, loginError: 'Onjuiste combinatie emailadres en wachtwoord', password: '', loading: false };
+
+		case UPDATE_USER_SERVICES:
+			return { ...state, user: action.payload }
 
 		default:
 			return state;

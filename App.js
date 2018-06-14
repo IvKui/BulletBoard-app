@@ -11,7 +11,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import reducers from './src/reducers';
 import { createRootNavigator } from './src/navigator';
 import AppHelper from './AppHelper';
-import { isSignedIn, getUser, getServices } from './src/actions';
+import { isSignedIn, getUser, getServices, getUserServices } from './src/actions';
 import Splash from './src/components/pages/Splash';
 
 ignoreWarnings('Setting a timer')
@@ -29,7 +29,8 @@ export default class App extends Component {
       role: null,
       user: null,
       services: {},
-      servicesLoaded: false
+      servicesLoaded: false,
+      userServices: {}
     }
 
     EStyleSheet.build({
@@ -65,16 +66,15 @@ export default class App extends Component {
         if(userKey) {
           getUser(userKey)
             .then((user) => {
-              if(user) {
-                this.setState({
-                  stateLoaded: true,
-                  signedIn: true,
-                  userKey: userKey,
-                  role: user.role,
-                  checkedSignIn: true,
-                  user
-                })
-              }
+              console.log(user)
+              this.setState({
+                stateLoaded: true,
+                signedIn: true,
+                userKey: userKey,
+                role: user.role,
+                checkedSignIn: true,
+                user
+              })
             })
           } else {
             this.setState({

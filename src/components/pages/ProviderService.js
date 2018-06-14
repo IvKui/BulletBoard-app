@@ -28,6 +28,10 @@ class ProviderService extends Component {
 		this.props.navigation.navigate('Provider')
 	}
 
+	onCallPress() {
+		console.log('call')
+	}
+
 	render() {
 		return (
 			<Container style={styles.container}>
@@ -62,7 +66,12 @@ class ProviderService extends Component {
 						]}
 					/>
 				</Block>
-				<Button icon={phone}>Bellen</Button>
+				<Button
+					icon={phone}
+					onPress={this.onCallPress.bind(this)}
+				>
+					Bellen
+				</Button>
 			</Container>
 		);
 	}

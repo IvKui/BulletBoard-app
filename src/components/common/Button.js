@@ -3,26 +3,28 @@ import { View, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write, Svg } from './';
 
-const Button = ({ style, small, white, onPress, icon, children }) => {
+const Button = ({ style, small, tiny, white, onPress, icon, children }) => {
 	return (
 		<View style={[styles.container, style]}>
 			<TouchableOpacity
 				activeOpacity={.8}
 				onPress={onPress}
-				style={!small && styles.bigButton}
+				style={[!small && !tiny && styles.bigButton, tiny && styles.tinyButton]}
 			>
 				{icon && !small &&
 					<Svg
-						style={styles.svg }
-						height='20'
-						width='20'
+						style={!tiny && styles.svg}
+						height={tiny ? '10' : '20'}
+						width={tiny ? '10' : '20'}
 						fill={ EStyleSheet.value('$white')}
 						source={ icon }
 					/>
 				}
-				<Write style={[small ? styles.smallButtonText : styles.bigButtonText, white && styles.whiteButtonText]}>
+				{!tiny &&
+					<Write style={[small ? styles.smallButtonText : styles.bigButtonText, white && styles.whiteButtonText]}>
 					{children}
-				</Write>
+					</Write>
+				}
 			</TouchableOpacity>
 		</View>
 	);
@@ -31,6 +33,9 @@ const Button = ({ style, small, white, onPress, icon, children }) => {
 const styles = EStyleSheet.create ({
 	container: {
 		flex: 1
+	},
+	inactive: {
+		opacity: .6
 	},
 	bigButton: {
 		backgroundColor: '$secondaryColor',
@@ -56,6 +61,11 @@ const styles = EStyleSheet.create ({
 	},
 	whiteButtonText: {
 		color: '$white'
+	},
+	tinyButton: {
+		padding: 5,
+		borderRadius: 30,
+		backgroundColor: '$secondaryColor',
 	},
 	svg: {
 		marginRight: 10

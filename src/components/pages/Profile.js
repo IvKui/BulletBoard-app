@@ -49,7 +49,6 @@ class Profile extends Component {
 	onSavePress() {
 		console.log('saving...')
 		const {
-			navigation,
 			name,
 			email,
 			phone,
@@ -57,13 +56,15 @@ class Profile extends Component {
 			houseNr,
 			hometown,
 			postal,
-			role
+			role,
+			user
 		} = this.props;
 
 		const error = this.validateForm();
 		if (!error) {
 			console.log('No errors')
-			this.props.updateUser({ navigation, name, email, phone, street, houseNr, hometown, postal, role })
+
+			this.props.updateUser({ name, email, phone, street, houseNr, hometown, postal, role, user })
 		}
 	}
 
@@ -192,6 +193,7 @@ class Profile extends Component {
 						<Write style={styles.label}>Naam</Write>
 						<TextInput
 							style={styles.input}
+							underlineColorAndroid='transparent'
 							keyboardType='default'
 							onChangeText={this.onNameChange.bind(this)}
 							value={this.props.name}
@@ -210,6 +212,7 @@ class Profile extends Component {
 						<Write style={styles.label}>Email</Write>
 						<TextInput
 							style={styles.input}
+							underlineColorAndroid='transparent'
 							keyboardType='email-address'
 							onChangeText={this.onEmailChange.bind(this)}
 							value={this.props.email}
@@ -228,6 +231,7 @@ class Profile extends Component {
 						<Write style={styles.label}>Telefoonnr.</Write>
 						<TextInput
 							style={styles.input}
+							underlineColorAndroid='transparent'
 							keyboardType='phone-pad'
 							onChangeText={this.onPhoneChange.bind(this)}
 							value={this.props.phone}
@@ -246,6 +250,7 @@ class Profile extends Component {
 						<Write style={styles.label}>Straatnaam</Write>
 						<TextInput
 							style={styles.input}
+							underlineColorAndroid='transparent'
 							keyboardType='default'
 							onChangeText={this.onStreetChange.bind(this)}
 							value={this.props.street}
@@ -264,6 +269,7 @@ class Profile extends Component {
 						<Write style={styles.label}>Huisnr.</Write>
 						<TextInput
 							style={styles.input}
+							underlineColorAndroid='transparent'
 							keyboardType='default'
 							onChangeText={this.onHouseNrChange.bind(this)}
 							value={this.props.houseNr}
@@ -282,6 +288,7 @@ class Profile extends Component {
 						<Write style={styles.label}>Woonplaats</Write>
 						<TextInput
 							style={styles.input}
+							underlineColorAndroid='transparent'
 							keyboardType='default'
 							onChangeText={this.onHometownChange.bind(this)}
 							value={this.props.hometown}
@@ -300,6 +307,7 @@ class Profile extends Component {
 						<Write style={styles.label}>Postcode</Write>
 						<TextInput
 							style={styles.input}
+							underlineColorAndroid='transparent'
 							keyboardType='default'
 							onChangeText={this.onPostalChange.bind(this)}
 							value={this.props.postal}
