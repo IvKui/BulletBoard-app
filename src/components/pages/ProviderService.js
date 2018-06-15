@@ -3,10 +3,15 @@ import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import StarRating from 'react-native-star-rating';
 import UserImage from '../UserImage';
-import { Title, Container, Button, Block, Write, List } from '../common';
+import { Title, Container, Button, Section, Write } from '../common';
 import { phone } from '../../images';
 
 class ProviderService extends Component {
+	constructor(props) {
+		super(props)
+		console.log('testing.!!!!!!!')
+	}
+
 	static navigationOptions = {
 		headerTitle: () => (
 			<View style={styles.headerTitle}>
@@ -35,7 +40,7 @@ class ProviderService extends Component {
 	render() {
 		return (
 			<Container style={styles.container}>
-				<Block>
+				<Section>
 					<UserImage
 						big
 						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
@@ -43,29 +48,15 @@ class ProviderService extends Component {
 					/>
 					<Write style={styles.name}>Myrthe Veenstra</Write>
 					<Button small onPress={this.onInfoPress.bind(this)}>Meer Informatie</Button>
-				</Block>
-				<Block>
+				</Section>
+				<Section>
 					<Title>Prijslijst</Title>
-					<List items={[
-							['Haar wassen', '€ 9,99'],
-							['Haar knippen', '€ 14,99'],
-							['Haar verven', '€ 29,99']
-						]}
-					/>
-				</Block>
-				<Block>
+					<Write>Lijst</Write>
+				</Section>
+				<Section>
 					<Title>Werktijden</Title>
-					<List items={[
-							['Maandag', '09:00 tot 17:00'],
-							['Dinsdag', '09:00 tot 17:00'],
-							['Woensdag', '09:00 tot 17:00'],
-							['Donderdag', '09:00 tot 17:00'],
-							['Vrijdag', '09:00 tot 13:00'],
-							['Zaterdag', 'Gesloten'],
-							['Zondag', 'Gesloten']
-						]}
-					/>
-				</Block>
+					<Write>Lijst</Write>
+				</Section>
 				<Button
 					icon={phone}
 					onPress={this.onCallPress.bind(this)}

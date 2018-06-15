@@ -1,27 +1,12 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Agenda from '../components/pages/Agenda';
-import Services from '../components/pages/Services';
-import MyServices from '../components/pages/MyServices';
-import Providers from '../components/pages/Providers';
-import { Svg } from '../components/common';
-import { calendar, handshake, workshop } from '../images';
+import Services from '../../components/pages/Services';
+import Providers from '../../components/pages/Providers';
+import { Svg } from '../../components/common';
+import { calendar, handshake, workshop } from '../../images';
 
-const AppNav = TabNavigator({
-  MyServices: {
-    screen: MyServices,
-    navigationOptions: {
-      tabBarIcon: () => (
-        <Svg
-          fill= { EStyleSheet.value('$white') }
-          height= '20'
-          width= '20'
-          source={ calendar }
-        />
-      )
-    }
-  },
+const UnregisteredUserTabs = TabNavigator({
   Services: {
     screen: Services,
     navigationOptions: {
@@ -50,7 +35,7 @@ const AppNav = TabNavigator({
   }
 },
 {
-  initialRouteName: 'MyServices',
+  initialRouteName: 'Services',
   lazy: false,
   tabBarOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$secondaryColor'),
@@ -72,4 +57,4 @@ const AppNav = TabNavigator({
   })
 });
 
-export default AppNav;
+export default UnregisteredUserTabs;

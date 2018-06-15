@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Container, Block } from '../common';
+import { Container } from '../common';
 import ServiceBlock from '../ServiceBlock';
 import { babysitting, barber, beauty, computer, caterer, gardener, worker, carwash } from '../../images';
 

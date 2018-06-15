@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import StarRating from 'react-native-star-rating';
 import UserImage from './UserImage';
 import { Tags, Write, Svg } from './common';
-import { defaultUser, star } from '../images';
+import { star } from '../images';
 
 class AgendaItem extends Component {
   render() {

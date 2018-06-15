@@ -37,7 +37,6 @@ export const getUserServices = (user) => {
 			.ref(`/${user.role}s/${user.id}/services`)
 			.once('value')
 			.then(snapshot => {
-				console.log(snapshot.val())
 				if(snapshot.val()) {
 					resolve(snapshot.val())
 				}
@@ -59,7 +58,6 @@ export const getService = (service) => {
 					service.map(service => {
 						services.push(snapshot.val()[service])
 					})
-
 					resolve(services)
 				}
 			})
@@ -149,8 +147,6 @@ export const addDay = ({addServiceDays, day, selectedDay, dayStart, dayEnd}) => 
 		}
 	}
 
-	console.log(days)
-
 	return {
 		type: ADD_DAY,
 		payload: days
@@ -159,7 +155,6 @@ export const addDay = ({addServiceDays, day, selectedDay, dayStart, dayEnd}) => 
 
 export const addService = (navigation, user, addServiceSelected, addServicePrices, addServiceDays) => dispatch => {
 	dispatch({ type: ADD_SERVICE });
-
 	firebase.database().ref(`/${user.role}s/${user.id}/services/${addServiceSelected}`)
 		.set({
 			prices: addServicePrices,
@@ -168,7 +163,8 @@ export const addService = (navigation, user, addServiceSelected, addServicePrice
 		.then(() => {
 			addServiceSuccess(navigation, dispatch, user)
 		})
-		.catch(() => {
+		.catch((err) => {
+			console.log(err)
 			addServiceFail(dispatch)
 		});
 }
@@ -179,7 +175,6 @@ const addServiceSuccess = (navigation, dispatch, user) => {
 	getUserServices(user)
 		.then(services => {
 			newUser.services = services
-			console.log(newUser)
 			dispatch({
 				type: ADD_SERVICE_SUCCESS
 			},

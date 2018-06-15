@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Svg, Title, Write } from './common';
-import { defaultUser } from '../images';
 
 class RegisterAsBlock extends Component {
   render() {

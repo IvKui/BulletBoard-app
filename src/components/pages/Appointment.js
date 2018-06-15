@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Title, Input, Block, Container, Section } from '../common';
+import { Title, Input, Section, Container, Section } from '../common';
 import { workshop } from '../../images';
 
 class Appointment extends Component {
@@ -14,33 +14,25 @@ class Appointment extends Component {
 			<Container>
 				<Section>
 					<Title>Appointment</Title>
-					<Block>
-						<Input
-							icon={workshop}
-							placeholder='Naam'
-						/>
-					</Block>
-					<Block>
-						<Input
-							icon={workshop}
-							placeholder='Naam'
-						/>
-					</Block>
-					<Block>
-						<Input
-							icon={workshop}
-							placeholder='Naam'
-						/>
-					</Block>
+					<Input
+						icon={workshop}
+						placeholder='Naam'
+					/>
+					<Input
+						icon={workshop}
+						placeholder='Naam'
+					/>
+					<Input
+						icon={workshop}
+						placeholder='Naam'
+					/>
 				</Section>
+				<Title>Appointment</Title>
 				<Section>
-					<Title>Appointment</Title>
-					<Block>
-						<Input
-							icon={workshop}
-							placeholder='Naam'
-						/>
-					</Block>
+					<Input
+						icon={workshop}
+						placeholder='Naam'
+					/>
 				</Section>
 			</Container>
 		);

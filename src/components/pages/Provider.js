@@ -7,7 +7,7 @@ import call from 'react-native-phone-call';
 import UserImage from '../UserImage';
 import ServiceBlock from '../ServiceBlock';
 import Review from '../Review';
-import { Title, Container, Button, Block, Write, List, Data } from '../common';
+import { Title, Container, Button, Section, Write, Data } from '../common';
 import { myrthe, antoinette, phone, email, barber, beauty, babysitting } from '../../images';
 
 class Provider extends Component {
@@ -49,7 +49,7 @@ class Provider extends Component {
 			<Container style={styles.container}>
 				<UserImage
 					big
-					image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
+					image={{uri: 'https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452'}}
 					style={styles.image}
 				/>
 				<View style={styles.data}>
@@ -66,7 +66,7 @@ class Provider extends Component {
 						/>
 					</TouchableOpacity>
 				</View>
-				<Block>
+				<Section>
 					<View style={styles.mapContainer}>
 						<MapView
 							style={styles.map}
@@ -86,7 +86,7 @@ class Provider extends Component {
 							/>
 						</MapView>
 					</View>
-				</Block>
+				</Section>
 				<Title>Diensten</Title>
 				<ScrollView
 				horizontal

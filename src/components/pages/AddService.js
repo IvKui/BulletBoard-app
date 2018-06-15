@@ -3,7 +3,7 @@ import { View, Picker, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { selectAddService, priceTitleChanged, priceAmountChanged, dayChanged, dayStartChanged, dayEndChanged, addPrice, addDay, addService } from '../../actions';
-import { Title, Container, Button, Block, Write, Input, Spinner, Alert} from '../common';
+import { Title, Container, Button, Section, Write, Input, Spinner, Alert} from '../common';
 import { check } from '../../images';
 
 class AddService extends Component {
@@ -142,7 +142,7 @@ class AddService extends Component {
 		return (
 			<Container style={styles.container}>
 				{this.renderAlert()}
-				<Block>
+				<Section>
 					<Title>Dienst</Title>
 					<Picker
 						selectedValue={this.props.addServiceSelected}
@@ -160,8 +160,8 @@ class AddService extends Component {
 							)
 						})}
 					</Picker>
-				</Block>
-				<Block>
+				</Section>
+				<Section>
 					<Title>Prijslijst</Title>
 					<View style={styles.priceInputContainer}>
 						<TextInput
@@ -209,8 +209,8 @@ class AddService extends Component {
 						/>
 					</View>
 					{this.renderPrices()}
-				</Block>
-				<Block>
+				</Section>
+				<Section>
 					<Title>Werktijden</Title>
 					<View style={styles.dayInputContainer}>
 						<Picker
@@ -271,7 +271,7 @@ class AddService extends Component {
 						/>
 					</View>
 					{this.renderDays()}
-				</Block>
+				</Section>
 				{this.renderButton()}
 			</Container>
 		);

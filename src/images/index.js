@@ -26,6 +26,7 @@ export const alert = require('./svg/alert.svg');
 export const search = require('./svg/search.svg');
 export const arrow = require('./svg/arrow.svg');
 export const plus = require('./svg/plus.svg');
+export const sad_face = require('./svg/sad_face.svg');
 
 // Service images
 export const babysitting = require('./babysitting.jpg');

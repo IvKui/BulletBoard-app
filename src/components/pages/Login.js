@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser, logoutUser, registerUser } from '../../actions';
 import { envelope, lock } from '../../images';
-import { Container, Block, Button, Spinner, Write, Alert } from '../common';
+import { Container, Button, Spinner, Write, Alert } from '../common';
 
 class Login extends Component {
 	constructor(props) {

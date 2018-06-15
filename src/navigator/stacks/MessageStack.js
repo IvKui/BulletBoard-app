@@ -4,15 +4,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Profile from '../components/pages/Profile';
+import Messages from '../../components/pages/Messages';
 
-const ProfileNav = StackNavigator({
-  Profile: {
-    screen: Profile,
+const MessageStack = StackNavigator({
+  Messages: {
+    screen: Messages,
     navigationOptions: ({ navigation }) => ({
       headerStyle: EStyleSheet.create({
-        backgroundColor: () => EStyleSheet.value('$primaryColor'),
-        elevation: 0
+        backgroundColor: () => EStyleSheet.value('$primaryColor')
       }),
       headerTitleStyle: EStyleSheet.create({
         color: () => EStyleSheet.value('$white')
@@ -36,4 +35,4 @@ const styles = EStyleSheet.create({
   }
 })
 
-export default ProfileNav;
+export default MessageStack;

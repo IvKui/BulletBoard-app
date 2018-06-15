@@ -58,6 +58,7 @@ const INITIAL_STATE = {
 	loginError: '',
 	registerError: '',
 	updateError: '',
+	updateConfirm: '',
 	loading: false
 };
 
@@ -149,16 +150,14 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, loading: true, registerError: '' }
 
 		case UPDATE_USER_SUCCESS:
-			console.log('update user success in reducer')
-			return { ...state, loading: false, user: action.payload };
+			return { ...state, loading: false, updateError: '', updateConfirm: 'Geslaagd!', user: action.payload };
 
 		case UPDATE_USER_FAIL:
-			console.log('update user failed in reducer')
-			return { ...state, loading: false, updateError: 'OEPS' }
+			return { ...state, loading: false, updateError: 'OEPS', updateConfirm: '' }
 
 		case REGISTER_USER_FAIL:
 			console.log('error registation')
-			return { ...state, registerError: 'Registation Failed.', loading: false };
+			return { ...state, registerError: 'Oeps! Iets ging fout', password: '', passwordConfirm: '', loading: false };
 
 		case LOGIN_USER_SUCCESS:
 			console.log('logged in');

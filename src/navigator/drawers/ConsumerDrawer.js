@@ -4,7 +4,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native';
 import { logoutUser } from '../../actions';
-import { Write } from '../../components/common';
+import UserImage from '../../components/UserImage';
+import { Write, Svg } from '../../components/common';
+import { person } from '../../images';
 
 class ConsumerDrawer extends Component {
   onLogoutPress() {
@@ -14,12 +16,30 @@ class ConsumerDrawer extends Component {
     this.props.logoutUser()
   }
 
-  renderWelcomeText() {
-    if( this.props.user.name && this.props.user.role) {
+  renderHeader() {
+    if( this.props.user.name) {
 			return (
-        <View style={styles.welcomeContainer}>
-          <Write style={styles.welcomeText}>{this.props.user.name}</Write>
-          <Write style={styles.welcomeText}>{this.props.user.role}</Write>
+        <View style={styles.header}>
+          <View style={styles.userContainer}>
+            <View style={styles.userImage}>
+              {this.props.user.image ?
+                <UserImage
+                  small
+                  image={ this.props.user.image }
+                />
+                :
+                <View style={styles.defaultImageContainer}>
+                  <Svg
+                    height={'30'}
+                    width={'30'}
+                    fill={ EStyleSheet.value('$primaryColor')}
+                    source={ person }
+                  />
+                </View>
+              }
+            </View>
+            <Write style={styles.userName}>{this.props.user.name}</Write>
+          </View>
         </View>
 			);
     } else {
@@ -33,7 +53,7 @@ class ConsumerDrawer extends Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View>
-          {this.renderWelcomeText()}
+          {this.renderHeader()}
           <DrawerItems {...this.props} />
         </View>
         <TouchableWithoutFeedback onPress={this.onLogoutPress.bind(this)}>
@@ -47,32 +67,50 @@ class ConsumerDrawer extends Component {
 }
 
 const styles = EStyleSheet.create({
-container: {
-  marginTop: 0,
-  flex: 1,
-  justifyContent: 'space-between',
-},
-helper: {
-  height: 20
-},
-welcomeContainer: {
-  padding: 15,
-  paddingTop: 109,
-  backgroundColor: '$primaryColor'
-},
-welcomeText: {
-  fontWeight: 'bold',
-  fontSize: 14,
-  color: '$white'
-},
-logoutContainer: {
-  padding: 15,
-},
-logoutText: {
-  textAlign: 'center',
-  fontWeight: 'bold',
-  fontSize: 14
-}
+  container: {
+    marginTop: 0,
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  helper: {
+    height: 20
+  },
+  header: {
+    height: 180,
+    justifyContent: 'flex-end',
+    backgroundColor: '$primaryColor'
+  },
+  userContainer: {
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  defaultImageContainer: {
+    height: 60,
+    width: 60,
+    marginRight: 15,
+    backgroundColor: '$white',
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30
+  },
+  userImage: {
+    marginRight: 15
+  },
+  userName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '$white'
+  },
+  logoutContainer: {
+    padding: 15,
+  },
+  logoutText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 14
+  }
 })
 
 const mapStateToProps = state => {

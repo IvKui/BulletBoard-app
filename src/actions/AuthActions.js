@@ -352,9 +352,16 @@ const registerUserSuccess = (navigation, dispatch, user, name, email, phone, str
 	.set(newUser)
 	.then(() => {
 		newUser.role = role
+		newUser.id = user.uid
 		loginUserSuccess(navigation, dispatch, newUser, user.uid)
 	})
 	.catch(() => loginUserFail(dispatch));
+};
+
+const registerUserFail = (dispatch) => {
+	dispatch({
+		type: REGISTER_USER_FAIL
+	});
 };
 
 const updateUserFail = (dispatch) => {

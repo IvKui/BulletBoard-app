@@ -1,14 +1,12 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Agenda from '../components/pages/Agenda';
-import Services from '../components/pages/Services';
-import MyServices from '../components/pages/MyServices';
-import Providers from '../components/pages/Providers';
-import { Svg } from '../components/common';
-import { calendar, handshake, workshop } from '../images';
+import Services from '../../components/pages/Services';
+import Providers from '../../components/pages/Providers';
+import { Svg } from '../../components/common';
+import { calendar, handshake, workshop } from '../../images';
 
-const UnregisteredUserTabs = TabNavigator({
+const ConsumerTabs = TabNavigator({
   Services: {
     screen: Services,
     navigationOptions: {
@@ -59,4 +57,4 @@ const UnregisteredUserTabs = TabNavigator({
   })
 });
 
-export default UnregisteredUserTabs;
+export default ConsumerTabs;

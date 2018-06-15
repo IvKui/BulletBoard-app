@@ -105,10 +105,20 @@ class Profile extends Component {
 	}
 
 	renderAlert() {
-		if (this.props.registerError) {
+		if (this.props.updateError) {
 			return (
 				<Alert error>
-					{this.props.registerError}
+					{this.props.updateError}
+				</Alert>
+			);
+		}
+	}
+
+	renderConfirmation() {
+		if (this.props.updateConfirm) {
+			return (
+				<Alert confirm>
+					{this.props.updateConfirm}
 				</Alert>
 			);
 		}
@@ -188,6 +198,7 @@ class Profile extends Component {
 		return (
 			<Container style={styles.container}>
 				{this.renderAlert()}
+				{this.renderConfirmation()}
 				<View style={styles.form}>
 					<View style={styles.inputContainer}>
 						<Write style={styles.label}>Naam</Write>
@@ -379,7 +390,8 @@ const mapStateToProps = state => {
 		postal: state.auth.postal,
 		postalErrorText: state.auth.postalErrorText,
 		role: state.auth.role,
-		registerError: state.auth.registerError,
+		updateError: state.authupdateError,
+		updateConfirm: state.auth.updateConfirm,
 		loading: state.auth.loading,
 		user: state.auth.user
 	};

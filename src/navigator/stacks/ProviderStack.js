@@ -3,13 +3,13 @@ import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MyServices from '../components/pages/MyServices';
-import AddService from '../components/pages/AddService';
-import ProviderService from '../components/pages/ProviderService';
-import { Svg } from '../components/common';
-import { plus } from '../images';
+import MyServices from '../../components/pages/MyServices';
+import AddService from '../../components/pages/AddService';
+import ProviderService from '../../components/pages/ProviderService';
+import { Svg } from '../../components/common';
+import { plus } from '../../images';
 
-const AddServiceNav = StackNavigator({
+const ProviderStack = StackNavigator({
   MyServices: {
     screen: MyServices,
     navigationOptions: ({ navigation }) => ({
@@ -78,4 +78,4 @@ const styles = EStyleSheet.create({
   }
 })
 
-export default AddServiceNav;
+export default ProviderStack;

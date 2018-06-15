@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import StarRating from 'react-native-star-rating';
 import UserImage from './UserImage';
 import { Tags, Write, Svg } from './common';
-import { star } from '../images';
+import { person } from '../images';
 
 class UserBlock extends Component {
   render() {
@@ -13,29 +13,42 @@ class UserBlock extends Component {
         onPress={this.props.onPress}
       >
         <View style={styles.container}>
+        {this.props.image ?
           <UserImage
             small={this.props.small}
             style={ styles.image }
             image={ this.props.image }
           />
+          :
+          <View style={styles.defaultImageContainer}>
+            <Svg
+              height={'30'}
+              width={'30'}
+              fill={ EStyleSheet.value('$white')}
+              source={ person }
+            />
+          </View>
+        }
           <View style={styles.contentContainer}>
-            <Write style={styles.name}>{this.props.name}</Write>
-            {this.props.rating &&
-              <View style={styles.rating}>
-                <StarRating
-                  disabled
-                  buttonStyle={styles.star}
-                  maxStars={5}
-                  rating={this.props.rating}
-                  starSize={15}
-                  fullStarColor={EStyleSheet.value('$tertiairyColor')}
-                  emptyStarColor={EStyleSheet.value('$tertiairyColor')}
-                />
-              </View>
-    				}
-            {this.props.items &&
-              <Tags items={ this.props.items } />
-    				}
+            <View>
+              <Write style={[styles.name, !this.props.rating && styles.noRating]}>{this.props.name}</Write>
+              {this.props.rating &&
+                <View style={styles.rating}>
+                  <StarRating
+                    disabled
+                    buttonStyle={styles.star}
+                    maxStars={5}
+                    rating={this.props.rating}
+                    starSize={15}
+                    fullStarColor={EStyleSheet.value('$tertiairyColor')}
+                    emptyStarColor={EStyleSheet.value('$tertiairyColor')}
+                  />
+                </View>
+      				}
+              {this.props.items &&
+                <Tags items={ this.props.items } />
+      				}
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -46,14 +59,23 @@ class UserBlock extends Component {
 const styles = EStyleSheet.create({
 	container: {
     flexDirection: 'row',
-    marginBottom: 20,
-    alignItems: 'center'
+    marginBottom: 20
 	},
   image: {
     marginRight: 20
   },
   contentContainer: {
-    flex: 1
+    justifyContent: 'center'
+  },
+  defaultImageContainer: {
+    height: 80,
+    width: 80,
+    marginRight: 20,
+    backgroundColor: '$primaryColor',
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 40
   },
   name: {
     fontSize: 18,
@@ -62,6 +84,9 @@ const styles = EStyleSheet.create({
   },
   rating: {
     flexDirection: 'row',
+    marginBottom: 10
+  },
+  noRating: {
     marginBottom: 10
   },
 	star: {

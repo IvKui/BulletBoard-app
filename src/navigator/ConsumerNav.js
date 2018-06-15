@@ -2,21 +2,25 @@ import React from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { DrawerNavigator } from 'react-navigation';
-import MainNav from './MainNav';
-import MessageNav from './MessageNav';
+import MessageStack from './stacks/MessageStack';
+import ProfileStack from './stacks/ProfileStack';
 import ConsumerDrawer from './drawers/ConsumerDrawer';
+import ConsumerStack from './stacks/ConsumerStack';
 
 const ConsumerNav = DrawerNavigator({
-  MainNav: {
-    screen: MainNav
+  ConsumerStack: {
+    screen: ConsumerStack
   },
   Berichten: {
-    screen: MessageNav
+    screen: MessageStack
+  },
+  Profiel: {
+    screen: ProfileStack
   }
 },
 {
   contentComponent: ConsumerDrawer,
-  initialRouteName: 'MainNav',
+  initialRouteName: 'ConsumerStack',
   contentOptions: EStyleSheet.create({
     activeTintColor: () => EStyleSheet.value('$primaryColor')
   })

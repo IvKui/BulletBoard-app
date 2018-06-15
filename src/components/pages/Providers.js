@@ -3,52 +3,53 @@ import firebase from 'firebase';
 import { View, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { getUser } from '../../actions';
+import { getProviders } from '../../actions';
 import UserBlock from '../UserBlock';
 import { Button, Container, Write, Svg, Spinner } from '../common';
-import { arrow } from '../../images';
+import { arrow, sad_face } from '../../images';
 
 class Providers extends Component {
 
 	constructor(props) {
 		super(props);
 
-		const { navigation } = this.props;
-		if(navigation.getParam('service')) {
-			const service = this.props.services[navigation.getParam('service')]
-			navigation.setParams({ title: service.title})
-		} else {
-			navigation.setParams({ title: 'Dienstverleners'})
+		this.state = {
+			showService: null,
+			providers: null,
+			providersLoaded: false
 		}
 
-		this.state = {
-			user: null,
-			userLoaded: false
+		const { navigation } = this.props
+		if(navigation.getParam('service')) {
+			this.state = {
+				...this.state,
+				showService: navigation.getParam('service')
+			}
 		}
 	}
 
 	componentWillMount() {
-		getUser('ogvQxUTInESRxEsq6DXHzn4bbRz2')
-			.then(res => {
+		getProviders(this.state.showService)
+			.then((providers) => {
+				if(providers) {
+					this.setState({
+						providers
+					})
+				}
 				this.setState({
-					userLoaded: true,
-					user: res
-				})
-			})
-			.catch(() => {
-				this.setState({
-					userLoaded: true,
-					user: null
+					providersLoaded: true
 				})
 			})
 	}
 
 	static navigationOptions = ({ navigation }) => ({
-		title: typeof(navigation.state.params) || typeof(navigation.state.params.title) === 'undefined' ? 'Dienstverleners': navigation.state.params.title
+		title: 'Dienstverleners'
 	})
 
 	onProviderClick() {
-		this.props.navigation.navigate('ProviderService')
+		this.props.navigation.navigate('ProviderService', {
+			service: 'test'
+		})
 	}
 
 	renderFilter() {
@@ -71,7 +72,7 @@ class Providers extends Component {
 	}
 
 	render() {
-		if(!this.state.userLoaded) {
+		if(!this.state.providersLoaded) {
 			return (
 				<Container center>
 					<Spinner />
@@ -80,60 +81,38 @@ class Providers extends Component {
 		} else {
 			return (
 				<Container>
-					<FlatList
-						data={[this.state.user]}
-						renderItem={({item}) => {
-							console.log('item:')
-							console.log(item)
-							return (
-							<UserBlock
-				        onPress={this.onProviderClick.bind(this)}
-								name={item.name}
-								image={item.image}
-								rating={item.rating}
-								items={['Kapper', 'Schoonheidsspecialist', 'Oppasser']}
-							/>
-						)}}
-						keyExtractor={item => item.id}
-						numColumns= {1}
-					/>
-					<UserBlock
-		        onPress={this.onProviderClick.bind(this)}
-						name='Myrthe Veenstra'
-						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
-						rating={4.5}
-						items={['Kapper', 'Schoonheidsspecialist', 'Oppasser']}
-					/>
-					<UserBlock
-						name='Elise Boon'
-						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
-						rating={4}
-						items={['Kapper', 'Thuishulp']}
-					/>
-					<UserBlock
-						name='Erika Hamersma'
-						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
-						rating={4}
-						items={['Kapper', 'Oppasser', 'Cateraar']}
-					/>
-					<UserBlock
-						name='Myrthe Veenstra'
-						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
-						rating={3}
-						items={['Kapper', 'Schoonheidsspecialist', 'oppasser']}
-					/>
-					<UserBlock
-						name='Elise Boon'
-						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
-						rating={2.5}
-						items={['Kapper', 'Thuishulp']}
-					/>
-					<UserBlock
-						name='Erika Hamersma'
-						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
-						rating={2}
-						items={['Kapper', 'Oppasser', 'Cateraar']}
-					/>
+					{this.state.providers.length >= 1 ?
+						<FlatList
+							data={this.state.providers}
+							renderItem={({item}) => {
+								if(item.services) {
+									return (
+										<UserBlock
+										onPress={this.onProviderClick.bind(this)}
+										name={item.name}
+										image={item.image}
+										rating={item.rating}
+										items={Object.keys(item.services)}
+										/>
+									)
+								}
+							}}
+							keyExtractor={item => item.id}
+							numColumns= {1}
+						/>
+						:
+						<View style={styles.noProviderContainer}>
+							<View style={styles.svg}>
+								<Svg
+									height={'50'}
+									width={'50'}
+									fill={ EStyleSheet.value('$white')}
+									source={ sad_face }
+								/>
+							</View>
+							<Write>Geen dienstverleners beschikbaar</Write>
+						</View>
+					}
 				</Container>
 			);
 		}
@@ -153,15 +132,28 @@ const styles = EStyleSheet.create({
 	filterIcon: {
 		paddingTop: 3,
 		marginLeft: 5,
+	},
+	noProviderContainer: {
+		alignItems: 'center'
+	},
+	svg: {
+		height: 120,
+		width: 120,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '$primaryColor',
+		borderRadius: 60,
+		overflow: 'hidden',
+		marginBottom: 20
 	}
 });
 
 const mapStateToProps = state => {
 	return {
-    user: state.auth.user
+		services: state.service.services
 	};
 };
 
 export default connect(mapStateToProps, {
-	getUser
+	getProviders
 })(Providers);

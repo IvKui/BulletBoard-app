@@ -3,12 +3,11 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator, HeaderBackButton } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Login from '../components/pages/Login';
-import Logout from '../components/pages/Logout';
-import RegisterAs from '../components/pages/RegisterAs';
-import RegisterForm from '../components/pages/RegisterForm';
+import Login from '../../components/pages/Login';
+import RegisterAs from '../../components/pages/RegisterAs';
+import RegisterForm from '../../components/pages/RegisterForm';
 
-const AuthNav = StackNavigator({
+const AuthStack = StackNavigator({
   Login: {
     screen: Login,
     navigationOptions: ({ navigation }) => ({
@@ -60,4 +59,4 @@ const styles = EStyleSheet.create({
   }
 })
 
-export default AuthNav;
+export default AuthStack;

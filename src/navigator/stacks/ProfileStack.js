@@ -4,15 +4,15 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Messages from '../components/pages/Messages';
-import Chat from '../components/pages/Chat';
+import Profile from '../../components/pages/Profile';
 
-const MessageNav = StackNavigator({
-  Messages: {
-    screen: Messages,
+const ProfileStack = StackNavigator({
+  Profile: {
+    screen: Profile,
     navigationOptions: ({ navigation }) => ({
       headerStyle: EStyleSheet.create({
-        backgroundColor: () => EStyleSheet.value('$primaryColor')
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
+        elevation: 0
       }),
       headerTitleStyle: EStyleSheet.create({
         color: () => EStyleSheet.value('$white')
@@ -27,20 +27,7 @@ const MessageNav = StackNavigator({
           />
         </View>
     })
-  },
-  Chat: {
-    screen: Chat,
-    navigationOptions: ({ navigation }) => ({
-      headerStyle: EStyleSheet.create({
-        backgroundColor: () => EStyleSheet.value('$primaryColor'),
-        elevation: 0
-      }),
-      headerTitleStyle: EStyleSheet.create({
-        color: () => EStyleSheet.value('$white'),
-      }),
-      headerTintColor: EStyleSheet.value('$white'),
-    })
-  },
+  }
 });
 
 const styles = EStyleSheet.create({
@@ -49,4 +36,4 @@ const styles = EStyleSheet.create({
   }
 })
 
-export default MessageNav;
+export default ProfileStack;

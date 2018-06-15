@@ -8,7 +8,7 @@ import { Write } from '../../components/common';
 class UnregisteredUserDrawer extends Component {
 
   onLoginPress() {
-    this.props.navigation.navigate('AuthNav')
+    this.props.navigation.navigate('AuthStack')
   }
 
   render () {

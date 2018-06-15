@@ -2,8 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';
-import UnregisteredUserTabs from './UnregisteredUserTabs';
-import AuthNav from './AuthNav';
+import UnregisteredUserTabs from './tabs/UnregisteredUserTabs';
+import AuthStack from './stacks/AuthStack';
 import Provider from '../components/pages/Provider';
 import Providers from '../components/pages/Providers';
 import ProviderService from '../components/pages/ProviderService';
@@ -32,14 +32,14 @@ const UnregisteredUserNav = StackNavigator({
             <Svg
             height='20'
             width='20'
-            fill={ EStyleSheet.value('$white')}
+            fill={ EStyleSheet.value('transparent')}
             source={ search }
             />
             </TouchableOpacity>
           </View>
           <View style={styles.loginIcon}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('AuthNav')}
+              onPress={() => navigation.navigate('AuthStack')}
             >
               <Svg
                 height='20'
@@ -52,8 +52,8 @@ const UnregisteredUserNav = StackNavigator({
         </View>
     })
   },
-  AuthNav: {
-    screen: AuthNav,
+  AuthStack: {
+    screen: AuthStack,
     navigationOptions: () => ({
       header: () => null
     })

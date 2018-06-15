@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { getService } from '../../actions';
-import { Container, Block, Write, Spinner, Button } from '../common';
+import { Container, Write, Spinner, Button } from '../common';
 import MyServiceBlock from '../MyServiceBlock';
 import { babysitting, barber, beauty, computer, caterer, gardener } from '../../images';
 
@@ -17,16 +17,15 @@ class MyServices extends Component {
 
 		this.state = {
 			services: null,
-			servicesLoaded: false
+			servicesLoaded: false,
+			reloadServices: this.props.navigation.addListener(
+		    'willFocus',
+		    payload => {
+					this.getServices()
+		    }
+		  )
 		}
 	}
-
-	willFocus = this.props.navigation.addListener(
-    'willFocus',
-    payload => {
-			this.getServices()
-    }
-  );
 
 	componentWillMount() {
 		if(this.props.user.services) {
@@ -36,6 +35,10 @@ class MyServices extends Component {
 				servicesLoaded: true
 			})
 		}
+	}
+
+	componentWillUnmount() {
+		this.state.reloadServices.remove()
 	}
 
 	getServices() {
