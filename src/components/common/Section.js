@@ -2,9 +2,9 @@ import React from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const Section = ({ children }) => {
+const Section = ({ children, style }) => {
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			{children}
 		</View>
 	);
@@ -12,7 +12,7 @@ const Section = ({ children }) => {
 
 const styles = EStyleSheet.create({
 	container: {
-		marginBottom: 20,
+		marginBottom: 40,
 	}
 });
 

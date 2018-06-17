@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { getService } from '../../actions';
+import { getService, editServiceId, editServiceName, editServicePrices, editServiceDays } from '../../actions';
 import { Container, Write, Spinner, Button } from '../common';
 import MyServiceBlock from '../MyServiceBlock';
 import { babysitting, barber, beauty, computer, caterer, gardener } from '../../images';
@@ -63,7 +63,11 @@ class MyServices extends Component {
 	}
 
   onServicePress(service) {
-    this.props.navigation.push('ProviderService')
+		this.props.editServiceId(service)
+		this.props.editServiceName(this.props.services[service].title)
+		this.props.editServicePrices(this.props.user.services[service].prices)
+		this.props.editServiceDays(this.props.user.services[service].days)
+		this.props.navigation.push('EditService')
   }
 
 	render() {
@@ -126,8 +130,14 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
 	return {
-		user: state.auth.user
+		user: state.auth.user,
+		services: state.service.services
 	};
 };
 
-export default connect(mapStateToProps)(MyServices);
+export default connect(mapStateToProps, {
+	editServiceId,
+	editServiceName,
+	editServicePrices,
+	editServiceDays
+})(MyServices);

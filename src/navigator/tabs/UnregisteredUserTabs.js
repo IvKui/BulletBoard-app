@@ -2,7 +2,7 @@ import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Services from '../../components/pages/Services';
-import Providers from '../../components/pages/Providers';
+import AllProviders from '../../components/pages/AllProviders';
 import { Svg } from '../../components/common';
 import { calendar, handshake, workshop } from '../../images';
 
@@ -20,8 +20,8 @@ const UnregisteredUserTabs = TabNavigator({
       )
     }
   },
-  Providers: {
-    screen: Providers,
+  AllProviders: {
+    screen: AllProviders,
     navigationOptions: {
       tabBarIcon: () => (
         <Svg

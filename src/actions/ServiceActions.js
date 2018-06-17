@@ -1,5 +1,13 @@
 import firebase from 'firebase';
 import {
+	SELECT_SERVICE,
+	EDIT_SERVICE,
+	EDIT_SERVICE_ID,
+	EDIT_SERVICE_NAME,
+	EDIT_SERVICE_PRICES,
+	EDIT_SERVICE_DAYS,
+	EDIT_PRICES,
+	EDIT_DAYS,
 	ADD_SERVICE_SELECTED,
 	ADD_AVAILABILITY,
 	PRICE_TITLE_CHANGED,
@@ -33,8 +41,9 @@ export const getServices = () => {
 
 export const getUserServices = (user) => {
 	return new Promise((resolve, reject) => {
+		const id = firebase.auth().currentUser.uid
 		firebase.database()
-			.ref(`/${user.role}s/${user.id}/services`)
+			.ref(`/${user.role}s/${id}/services`)
 			.once('value')
 			.then(snapshot => {
 				if(snapshot.val()) {
@@ -65,6 +74,102 @@ export const getService = (service) => {
 				reject(err)
 			})
 	})
+}
+
+export const selectService = (service) => {
+	return {
+		type: SELECT_SERVICE,
+		payload: service
+	};
+}
+
+export const editServiceId = (service) => {
+	return {
+		type: EDIT_SERVICE_ID,
+		payload: service
+	}
+}
+
+export const editServiceName = (name) => {
+	return {
+		type: EDIT_SERVICE_NAME,
+		payload: name
+	}
+}
+
+export const editServicePrices = (prices) => {
+	return {
+		type: EDIT_SERVICE_PRICES,
+		payload: prices
+	}
+}
+
+export const editServiceDays = (days) => {
+	return {
+		type: EDIT_SERVICE_DAYS,
+		payload: days
+	}
+}
+
+export const editPrices = ({priceTitle, priceAmount, editServicePrices}) => {
+	let prices = {}
+	if(!editServicePrices) {
+		prices[priceTitle] = {
+			title: priceTitle,
+			amount: priceAmount
+		}
+	} else {
+		prices = editServicePrices
+		prices[priceTitle] = {
+			title: priceTitle,
+			amount: priceAmount
+		}
+	}
+
+	return {
+		type: EDIT_PRICES,
+		payload: prices
+	};
+}
+
+export const editDays = ({editServiceDays, day, selectedDay, dayStart, dayEnd}) => {
+	let days = {}
+	if(!editServiceDays) {
+		days[selectedDay] = {
+			name: day,
+			start: dayStart,
+			end: dayEnd
+		}
+	} else {
+		days = editServiceDays
+		days[selectedDay] = {
+			name: day,
+			start: dayStart,
+			end: dayEnd
+		}
+	}
+
+	return {
+		type: EDIT_DAYS,
+		payload: days
+	};
+}
+
+export const editService = (navigation, user, editServiceSelected, editServicePrices, editServiceDays) => dispatch => {
+	dispatch({ type: ADD_SERVICE });
+	const id = firebase.auth().currentUser.uid
+	firebase.database().ref(`/${user.role}s/${id}/services/${editServiceSelected}`)
+		.set({
+			prices: editServicePrices,
+			days: editServiceDays
+		})
+		.then(() => {
+			addServiceSuccess(navigation, dispatch, user)
+		})
+		.catch((err) => {
+			console.log(err)
+			addServiceFail(dispatch)
+		});
 }
 
 export const selectAddService = (service) => {
@@ -155,7 +260,8 @@ export const addDay = ({addServiceDays, day, selectedDay, dayStart, dayEnd}) => 
 
 export const addService = (navigation, user, addServiceSelected, addServicePrices, addServiceDays) => dispatch => {
 	dispatch({ type: ADD_SERVICE });
-	firebase.database().ref(`/${user.role}s/${user.id}/services/${addServiceSelected}`)
+	const id = firebase.auth().currentUser.uid
+	firebase.database().ref(`/${user.role}s/${id}/services/${addServiceSelected}`)
 		.set({
 			prices: addServicePrices,
 			days: addServiceDays

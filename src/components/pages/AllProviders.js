@@ -9,7 +9,7 @@ import UserBlock from '../UserBlock';
 import { Button, Container, Write, Svg, Spinner } from '../common';
 import { arrow, sad_face } from '../../images';
 
-class Providers extends Component {
+class AllProviders extends Component {
 
 	constructor(props) {
 		super(props);
@@ -21,7 +21,7 @@ class Providers extends Component {
 	}
 
 	componentWillMount() {
-		getProviders(this.props.selectedService)
+		getProviders()
 			.then((providers) => {
 				if(providers) {
 					this.setState({
@@ -35,32 +35,12 @@ class Providers extends Component {
 	}
 
 	static navigationOptions = {
-		headerTitle: (<ProvidersHeader />)
+		title: 'Alle Dienstverleners'
 	}
 
 	onProviderClick(provider) {
 		this.props.selectProvider(provider)
-		this.props.selectProviderService(provider.services[this.props.selectedService.id])
-		this.props.navigation.navigate('ProviderService')
-	}
-
-	renderFilter() {
-		if (!this.props.selectedService) {
-			return (
-				<View style={styles.filterContainer}>
-					<Write style={styles.filterText}>
-						Alle dienstverleners
-					</Write>
-					<Svg
-						style={styles.filterIcon}
-						width='12'
-						height='12'
-						fill={ EStyleSheet.value('$secondaryColor')}
-						source={ arrow }
-					/>
-				</View>
-			);
-		}
+		this.props.navigation.navigate('Provider')
 	}
 
 	render() {
@@ -142,13 +122,11 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
 	return {
-		services: state.service.services,
-		selectedService: state.service.selectedService
+		services: state.service.services
 	};
 };
 
 export default connect(mapStateToProps, {
 	getProviders,
-	selectProvider,
-	selectProviderService
-})(Providers);
+	selectProvider
+})(AllProviders);

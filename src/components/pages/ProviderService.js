@@ -1,32 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
 import StarRating from 'react-native-star-rating';
+import call from 'react-native-phone-call';
+import ProviderHeader from '../headers/ProviderHeader';
 import UserImage from '../UserImage';
 import { Title, Container, Button, Section, Write } from '../common';
 import { phone } from '../../images';
 
 class ProviderService extends Component {
-	constructor(props) {
-		super(props)
-		console.log('testing.!!!!!!!')
-	}
-
 	static navigationOptions = {
-		headerTitle: () => (
-			<View style={styles.headerTitle}>
-				<Write style={styles.headerTitleText}>Myrthe Veenstra</Write>
-				<StarRating
-					disabled
-					buttonStyle={styles.star}
-					maxStars={5}
-					rating={4.5}
-					starSize={14}
-					fullStarColor={EStyleSheet.value('$tertiairyColor')}
-					emptyStarColor={EStyleSheet.value('$tertiairyColor')}
-				/>
-			</View>
-		)
+		headerTitle: (<ProviderHeader />)
 	}
 
 	onInfoPress() {
@@ -34,7 +19,10 @@ class ProviderService extends Component {
 	}
 
 	onCallPress() {
-		console.log('call')
+		call({
+			number: this.props.selectedProvider.phone,
+			prompt: false
+		})
 	}
 
 	render() {
@@ -43,19 +31,44 @@ class ProviderService extends Component {
 				<Section>
 					<UserImage
 						big
-						image={"https://firebasestorage.googleapis.com/v0/b/bulletboard-b2d9a.appspot.com/o/erika.jpg?alt=media&token=c0787b74-b49e-4573-82b3-c18c1db22452"}
+						image={this.props.selectedProvider.image}
 						style={styles.image}
 					/>
-					<Write style={styles.name}>Myrthe Veenstra</Write>
+					<Write style={styles.name}>{this.props.selectedProvider.name}</Write>
 					<Button small onPress={this.onInfoPress.bind(this)}>Meer Informatie</Button>
 				</Section>
 				<Section>
 					<Title>Prijslijst</Title>
-					<Write>Lijst</Write>
+					{ this.props.selectedProviderService.prices ?
+						Object.values(this.props.selectedProviderService.prices).map((price, index) => {
+							return  (
+								<View key={index} style={styles.row}>
+									<Write style={styles.priceTitleText}>{price.title}</Write>
+									<Write style={styles.priceAmountText}>€    {price.amount}</Write>
+								</View>
+							)
+						})
+						:
+						<Write>De dienstverlener heeft geen prijzen opgegeven</Write>
+					}
 				</Section>
 				<Section>
 					<Title>Werktijden</Title>
-					<Write>Lijst</Write>
+					{ this.props.selectedProviderService.days ?
+						Object.values(this.props.selectedProviderService.days).map((day, index) => {
+							return  (
+								<View key={index} style={styles.row}>
+									<Write style={styles.dayNameText}>{day.name}</Write>
+									<View style={styles.dayTimes}>
+										<Write style={styles.dayStartText}><Write style={styles.smallText}>van  </Write>{day.start}</Write>
+										<Write style={styles.dayEndText}><Write style={styles.smallText}>tot  </Write>{day.end}</Write>
+									</View>
+								</View>
+							)
+						})
+						:
+						<Write>De dienstverlener heeft geen prijzen opgegeven</Write>
+					}
 				</Section>
 				<Button
 					icon={phone}
@@ -69,22 +82,6 @@ class ProviderService extends Component {
 }
 
 const styles = EStyleSheet.create({
-	headerTitle: {
-		alignItems: 'center',
-		flexDirection: 'row',
-		paddingLeft: 10
-	},
-	headerTitleText: {
-		color: '$white',
-		fontSize: 20,
-		fontWeight: 'bold',
-		marginRight: 10
-	},
-	star: {
-		marginTop: 2,
-		marginRight: 1,
-		marginLeft: 1
-	},
 	image: {
 		flex: 1,
 		alignItems: 'center',
@@ -96,11 +93,35 @@ const styles = EStyleSheet.create({
 		fontWeight: 'bold',
 		marginBottom: 2
 	},
-	moreInfo: {
-		color: '$secondaryColor',
-		fontSize: 17,
-		textAlign: 'center'
+	priceAmountText: {
+		width: 80,
+	},
+	dayTimes: {
+		flexDirection: 'row'
+	},
+	dayStartText: {
+		width: 80,
+		marginRight: 25
+	},
+	dayEndText: {
+		width: 80
+	},
+	smallText: {
+		fontSize: 14,
+		fontWeight: 'bold'
+	},
+	row: {
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		marginBottom: 2
 	}
 });
 
-export default ProviderService;
+const mapStateToProps = state => {
+	return {
+		selectedProviderService: state.provider.selectedProviderService,
+		selectedProvider: state.provider.selectedProvider
+	};
+};
+
+export default connect(mapStateToProps)(ProviderService);

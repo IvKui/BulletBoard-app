@@ -1,17 +1,21 @@
 import { NavigationActions } from 'react-navigation';
 import {
-	PROVIDER_SELECTED
+	SELECTED_PROVIDER,
+	SELECTED_PROVIDER_SERVICE
 } from '../actions/types';
 
 const INITIAL_STATE = {
-	name: '',
-	image: null
+	selectedProvider: null,
+	selectedProviderService: null
 };
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case PROVIDER_SELECTED:
-			return { ...state, name: action.payload };
+		case SELECTED_PROVIDER:
+			return { ...state, selectedProvider: action.payload };
+
+		case SELECTED_PROVIDER_SERVICE:
+		 return { ...state, selectedProviderService: action.payload };
 
 		default:
 			return state;

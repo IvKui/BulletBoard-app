@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyServices from '../../components/pages/MyServices';
 import AddService from '../../components/pages/AddService';
+import EditService from '../../components/pages/EditService';
 import ProviderService from '../../components/pages/ProviderService';
 import { Svg } from '../../components/common';
 import { plus } from '../../images';
@@ -43,6 +44,19 @@ const ProviderStack = StackNavigator({
   },
   AddService: {
     screen: AddService,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: EStyleSheet.create({
+        backgroundColor: EStyleSheet.value('$primaryColor'),
+        elevation: 0
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () =>  EStyleSheet.value('$white'),
+      }),
+      headerTintColor: EStyleSheet.value('$white'),
+    })
+  },
+  EditService: {
+    screen: EditService,
     navigationOptions: ({ navigation }) => ({
       headerStyle: EStyleSheet.create({
         backgroundColor: EStyleSheet.value('$primaryColor'),

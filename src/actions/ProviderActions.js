@@ -1,14 +1,8 @@
 import firebase from 'firebase';
 import {
-	PROVIDER_SELECTED
+	SELECTED_PROVIDER,
+	SELECTED_PROVIDER_SERVICE
 } from './types';
-
-export const providerSelected = (name, image) => {
-	return {
-		type: PROVIDER_SELECTED,
-		payload: name, image
-	};
-};
 
 export const getProviders = (service) => {
 	return new Promise((resolve, reject) => {
@@ -22,7 +16,7 @@ export const getProviders = (service) => {
 					Object.values(providers).map(provider => {
 						if(service) {
 							if(provider.services){
-								if(provider.services[service]) {
+								if(provider.services[service.id]) {
 									res.push(provider)
 								}
 							}
@@ -40,3 +34,17 @@ export const getProviders = (service) => {
 			})
 	})
 }
+
+export const selectProvider = (provider) => {
+	return {
+		type: SELECTED_PROVIDER,
+		payload: provider
+	};
+};
+
+export const selectProviderService = (providerService) => {
+	return {
+		type: SELECTED_PROVIDER_SERVICE,
+		payload: providerService
+	};
+};

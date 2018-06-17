@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
+import { selectService } from '../../actions';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Container } from '../common';
 import ServiceBlock from '../ServiceBlock';
@@ -8,17 +9,12 @@ import { babysitting, barber, beauty, computer, caterer, gardener, worker, carwa
 
 class Services extends Component {
 	static navigationOptions = {
-		title: 'Diensten'
+		title: 'Alle diensten'
 	}
 
-  constructor(props) {
-    super(props)
-  }
-
   onServicePress(service) {
-    this.props.navigation.push('Providers', {
-      service
-    })
+		this.props.selectService(service)
+    this.props.navigation.push('Providers')
   }
 
 	render() {
@@ -32,7 +28,7 @@ class Services extends Component {
               image={item.image}
               style={styles.service}
               imageStyle={styles.image}
-              onPress={() => this.onServicePress(item.id)}
+              onPress={() => this.onServicePress(item)}
             />
           </View>
     		)}
@@ -71,4 +67,6 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps)(Services);
+export default connect(mapStateToProps, {
+	selectService
+})(Services);

@@ -65,6 +65,7 @@ const styles = EStyleSheet.create({
     marginRight: 20
   },
   contentContainer: {
+    flex: 1,
     justifyContent: 'center'
   },
   defaultImageContainer: {

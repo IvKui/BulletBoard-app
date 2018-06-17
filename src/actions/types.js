@@ -31,8 +31,17 @@ export const REGISTER_USER = 'register_user';
 export const USER_KEY = 'user_key';
 export const UPDATE_USER_SERVICES = 'update_user_services';
 
-export const PROVIDER_SELECTED = 'provider_selected';
+export const SELECTED_PROVIDER = 'selected_provider';
+export const SELECTED_PROVIDER_SERVICE = 'selected_provider_service';
 
+export const SELECT_SERVICE = 'select_service';
+export const EDIT_SERVICE = 'edit_service';
+export const EDIT_SERVICE_ID = 'edit_service_id';
+export const EDIT_SERVICE_NAME = 'edit_service_name';
+export const EDIT_SERVICE_PRICES = 'edit_service_prices';
+export const EDIT_SERVICE_DAYS = 'edit_service_days';
+export const EDIT_PRICES = 'edit_prices';
+export const EDIT_DAYS = 'edit_days';
 export const ADD_SERVICE_SELECTED = 'add_service_selected';
 export const ADD_AVAILABILITY = 'add_availability';
 export const PRICE_TITLE_CHANGED = 'price_title_changed';

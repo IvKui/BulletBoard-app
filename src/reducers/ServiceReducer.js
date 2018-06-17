@@ -1,4 +1,12 @@
 import {
+	SELECT_SERVICE,
+	EDIT_SERVICE,
+	EDIT_SERVICE_ID,
+	EDIT_SERVICE_NAME,
+	EDIT_SERVICE_PRICES,
+	EDIT_SERVICE_DAYS,
+	EDIT_PRICES,
+	EDIT_DAYS,
 	ADD_SERVICE_SELECTED,
 	ADD_AVAILABILITY,
 	PRICE_TITLE_CHANGED,
@@ -15,20 +23,49 @@ import {
 
 const INITIAL_STATE = {
 	services: {},
-	loading: true,
+	selectedService: null,
 	addServiceError: '',
 	addServiceSelected: null,
 	addServicePrices: {},
 	addServiceDays: {},
+	editServiceName: null,
+	editServiceSelected: null,
+	editServicePrices: {},
+	editServiceDays: {},
 	priceTitle: '',
 	priceAmount: '',
 	addDaySelected: '',
 	dayStart: '',
-	dayEnd: ''
+	dayEnd: '',
+	loading: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case SELECT_SERVICE:
+			return { ...state, selectedService: action.payload };
+
+		case EDIT_SERVICE:
+			return { ...state, editServiceSelected: action.payload };
+
+		case EDIT_SERVICE_ID:
+			return { ...state, editServiceSelected: action.payload };
+
+		case EDIT_SERVICE_NAME:
+			return { ...state, editServiceName: action.payload };
+
+		case EDIT_SERVICE_PRICES:
+			return { ...state, editServicePrices: action.payload };
+
+		case EDIT_SERVICE_DAYS:
+			return { ...state, editServiceDays: action.payload };
+
+		case EDIT_PRICES:
+			return { ...state, priceTitle: '', priceAmount: '', editServicePrices: action.payload };
+
+		case EDIT_DAYS:
+			return { ...state, addDaySelected: '', dayStart: '', dayEnd: '', editServiceDays: action.payload };
+
 		case ADD_SERVICE_SELECTED:
 			return { ...state, addServiceSelected: action.payload };
 
