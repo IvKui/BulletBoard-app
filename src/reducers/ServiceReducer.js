@@ -12,13 +12,22 @@ import {
 	PRICE_TITLE_CHANGED,
 	PRICE_AMOUNT_CHANGED,
 	ADD_PRICE,
+	REMOVE_PRICE,
+	REMOVE_EDIT_PRICE,
 	DAY_CHANGED,
 	DAY_START_CHANGED,
 	DAY_END_CHANGED,
 	ADD_DAY,
+	REMOVE_DAY,
+	REMOVE_EDIT_DAY,
 	ADD_SERVICE,
 	ADD_SERVICE_SUCCESS,
-	ADD_SERVICE_FAIL
+	ADD_SERVICE_FAIL,
+	EDIT_SERVICE_SUCCESS,
+	EDIT_SERVICE_FAIL,
+	DELETE_SERVICE,
+	DELETE_SERVICE_SUCCESS,
+	DELETE_SERVICE_FAIL
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -32,6 +41,8 @@ const INITIAL_STATE = {
 	editServiceSelected: null,
 	editServicePrices: {},
 	editServiceDays: {},
+	editServiceError: '',
+	editServiceConfirm: '',
 	priceTitle: '',
 	priceAmount: '',
 	addDaySelected: '',
@@ -46,7 +57,7 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, selectedService: action.payload };
 
 		case EDIT_SERVICE:
-			return { ...state, editServiceSelected: action.payload };
+			return { ...state, loading: true };
 
 		case EDIT_SERVICE_ID:
 			return { ...state, editServiceSelected: action.payload };
@@ -71,6 +82,12 @@ export default (state = INITIAL_STATE, action) => {
 
 		case ADD_PRICE:
 			return { ...state, priceTitle: '', priceAmount: '', addServicePrices: action.payload };
+
+		case REMOVE_PRICE:
+			return { ...state, addServicePrices: action.payload };
+
+		case REMOVE_EDIT_PRICE:
+			return { ...state, editServicePrices: action.payload };
 
 		case PRICE_TITLE_CHANGED:
 			return { ...state, priceTitle: action.payload };
@@ -108,7 +125,31 @@ export default (state = INITIAL_STATE, action) => {
 			};
 
 		case ADD_SERVICE_FAIL:
-			return { ...state, loading: false, addServiceError: 'Er is iets fout gegaan' };
+			return { ...state, loading: false, addServiceError: action.payload || 'Er is iets fout gegaan' };
+
+		case EDIT_SERVICE_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				priceTitle: '',
+				priceAmount: '',
+				addDaySelected: '',
+				dayStart: '',
+				dayEnd: '',
+				editServiceConfirm: 'Opgeslagen'
+			};
+
+		case EDIT_SERVICE_FAIL:
+			return { ...state, loading: false, editServiceError: 'Er is iets fout gegaan' };
+
+		case DELETE_SERVICE:
+			return { ...state, loading: true };
+
+		case DELETE_SERVICE_SUCCESS:
+			return { ...state, loading: false };
+
+		case DELETE_SERVICE_FAIL:
+			return { ...state, loading: false, editServiceError: 'Er is iets fout gegaan' };
 
 		default:
 			return state;

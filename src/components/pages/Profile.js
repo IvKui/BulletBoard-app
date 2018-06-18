@@ -20,7 +20,7 @@ import {
 	resetErrors,
 	updateUser
 } from '../../actions';
-import { Button, Container, Write, Alert, Spinner } from '../common';
+import { Button, Container, Write, Notify, Spinner } from '../common';
 
 class Profile extends Component {
 	static navigationOptions = {
@@ -107,9 +107,9 @@ class Profile extends Component {
 	renderAlert() {
 		if (this.props.updateError) {
 			return (
-				<Alert error>
+				<Notify error>
 					{this.props.updateError}
-				</Alert>
+				</Notify>
 			);
 		}
 	}
@@ -117,9 +117,9 @@ class Profile extends Component {
 	renderConfirmation() {
 		if (this.props.updateConfirm) {
 			return (
-				<Alert confirm>
+				<Notify confirm>
 					{this.props.updateConfirm}
-				</Alert>
+				</Notify>
 			);
 		}
 	}

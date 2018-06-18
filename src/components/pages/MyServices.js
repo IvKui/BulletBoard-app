@@ -62,11 +62,11 @@ class MyServices extends Component {
 		}
 	}
 
-  onServicePress(service) {
-		this.props.editServiceId(service)
-		this.props.editServiceName(this.props.services[service].title)
-		this.props.editServicePrices(this.props.user.services[service].prices)
-		this.props.editServiceDays(this.props.user.services[service].days)
+  onServicePress(serviceId) {
+		this.props.editServiceId(serviceId)
+		this.props.editServiceName(this.props.services[serviceId].title)
+		this.props.editServicePrices(this.props.user.services[serviceId].prices)
+		this.props.editServiceDays(this.props.user.services[serviceId].days)
 		this.props.navigation.push('EditService')
   }
 

@@ -13,22 +13,11 @@ class UserBlock extends Component {
         onPress={this.props.onPress}
       >
         <View style={styles.container}>
-        {this.props.image ?
           <UserImage
             small={this.props.small}
             style={ styles.image }
             image={ this.props.image }
           />
-          :
-          <View style={styles.defaultImageContainer}>
-            <Svg
-              height={'30'}
-              width={'30'}
-              fill={ EStyleSheet.value('$white')}
-              source={ person }
-            />
-          </View>
-        }
           <View style={styles.contentContainer}>
             <View>
               <Write style={[styles.name, !this.props.rating && styles.noRating]}>{this.props.name}</Write>
@@ -67,16 +56,6 @@ const styles = EStyleSheet.create({
   contentContainer: {
     flex: 1,
     justifyContent: 'center'
-  },
-  defaultImageContainer: {
-    height: 80,
-    width: 80,
-    marginRight: 20,
-    backgroundColor: '$primaryColor',
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 40
   },
   name: {
     fontSize: 18,

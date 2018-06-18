@@ -4,11 +4,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Write, Svg } from './';
 import { alert } from '../../images';
 
-const Alert = ({ confirm, notify, error, style, children }) => {
+const Notify = ({ confirm, notify, error, style, children }) => {
 	return (
 		<View style={[styles.container, confirm && styles.confirm, notify && styles.notify, error && styles.error]}>
 			<View style={styles.textContainer}>
-				<Write style={[styles.alertText, style]}>
+				<Write style={[styles.notifyText, style]}>
 					{children}
 				</Write>
 			</View>
@@ -42,7 +42,7 @@ const styles = EStyleSheet.create ({
 	error: {
 		backgroundColor: '$secondaryColor'
 	},
-	alertText: {
+	notifyText: {
 		color: '$white'
 	},
 	textContainer: {
@@ -53,4 +53,4 @@ const styles = EStyleSheet.create ({
 	}
 });
 
-export { Alert };
+export { Notify };

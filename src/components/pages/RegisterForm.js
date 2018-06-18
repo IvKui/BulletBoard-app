@@ -24,7 +24,7 @@ import {
 	resetErrors,
 	registerUser
 } from '../../actions';
-import { Button, Container, Write, Alert, Spinner } from '../common';
+import { Button, Container, Write, Notify, Spinner } from '../common';
 
 class RegisterForm extends Component {
 	static navigationOptions = {
@@ -103,9 +103,9 @@ class RegisterForm extends Component {
 	renderAlert() {
 		if (this.props.registerError) {
 			return (
-				<Alert error>
+				<Notify error>
 					{this.props.registerError}
-				</Alert>
+				</Notify>
 			);
 		}
 	}

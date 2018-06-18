@@ -6,5 +6,5 @@ export * from './Spinner';
 export * from './Tags';
 export * from './Write';
 export * from './Data';
-export * from './Alert';
+export * from './Notify';
 export * from './Section';

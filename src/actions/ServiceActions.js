@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 import {
 	SELECT_SERVICE,
-	EDIT_SERVICE,
 	EDIT_SERVICE_ID,
 	EDIT_SERVICE_NAME,
 	EDIT_SERVICE_PRICES,
@@ -13,13 +12,22 @@ import {
 	PRICE_TITLE_CHANGED,
 	PRICE_AMOUNT_CHANGED,
 	ADD_PRICE,
+	REMOVE_PRICE,
+	REMOVE_EDIT_PRICE,
 	DAY_CHANGED,
 	DAY_START_CHANGED,
 	DAY_END_CHANGED,
 	ADD_DAY,
+	REMOVE_DAY,
+	REMOVE_EDIT_DAY,
 	ADD_SERVICE,
 	ADD_SERVICE_SUCCESS,
 	ADD_SERVICE_FAIL,
+	EDIT_SERVICE_SUCCESS,
+	EDIT_SERVICE_FAIL,
+	DELETE_SERVICE,
+	DELETE_SERVICE_SUCCESS,
+	DELETE_SERVICE_FAIL,
 	UPDATE_USER_SERVICES
 } from './types';
 
@@ -111,51 +119,21 @@ export const editServiceDays = (days) => {
 	}
 }
 
-export const editPrices = ({priceTitle, priceAmount, editServicePrices}) => {
-	let prices = {}
-	if(!editServicePrices) {
-		prices[priceTitle] = {
-			title: priceTitle,
-			amount: priceAmount
-		}
-	} else {
-		prices = editServicePrices
-		prices[priceTitle] = {
-			title: priceTitle,
-			amount: priceAmount
-		}
-	}
-
+export const editPrices = (prices) => {
 	return {
 		type: EDIT_PRICES,
 		payload: prices
 	};
 }
 
-export const editDays = ({editServiceDays, day, selectedDay, dayStart, dayEnd}) => {
-	let days = {}
-	if(!editServiceDays) {
-		days[selectedDay] = {
-			name: day,
-			start: dayStart,
-			end: dayEnd
-		}
-	} else {
-		days = editServiceDays
-		days[selectedDay] = {
-			name: day,
-			start: dayStart,
-			end: dayEnd
-		}
-	}
-
+export const editDays = (days) => {
 	return {
 		type: EDIT_DAYS,
 		payload: days
 	};
 }
 
-export const editService = (navigation, user, editServiceSelected, editServicePrices, editServiceDays) => dispatch => {
+export const editService = (user, editServiceSelected, editServicePrices, editServiceDays) => dispatch => {
 	dispatch({ type: ADD_SERVICE });
 	const id = firebase.auth().currentUser.uid
 	firebase.database().ref(`/${user.role}s/${id}/services/${editServiceSelected}`)
@@ -164,11 +142,11 @@ export const editService = (navigation, user, editServiceSelected, editServicePr
 			days: editServiceDays
 		})
 		.then(() => {
-			addServiceSuccess(navigation, dispatch, user)
+			editServiceSuccess(dispatch, user)
 		})
 		.catch((err) => {
 			console.log(err)
-			addServiceFail(dispatch)
+			editServiceFail(dispatch)
 		});
 }
 
@@ -210,6 +188,26 @@ export const addPrice = ({priceTitle, priceAmount, addServicePrices}) => {
 
 	return {
 		type: ADD_PRICE,
+		payload: prices
+	};
+}
+
+export const removePrice = ({title, addServicePrices}) => {
+	let prices = addServicePrices
+	delete prices[title]
+
+	return {
+		type: REMOVE_PRICE,
+		payload: prices
+	};
+}
+
+export const removeEditPrice = ({title, editServicePrices}) => {
+	let prices = editServicePrices
+	delete prices[title]
+
+	return {
+		type: REMOVE_EDIT_PRICE,
 		payload: prices
 	};
 }
@@ -258,13 +256,34 @@ export const addDay = ({addServiceDays, day, selectedDay, dayStart, dayEnd}) => 
 	};
 }
 
+export const removeDay = ({day, addServiceDays}) => {
+	let days = addServiceDays
+	delete days[day]
+
+	return {
+		type: REMOVE_DAY,
+		payload: days
+	};
+}
+
+export const removeEditDay = ({day, editServiceDays}) => {
+	let days = editServiceDays
+	delete days[day]
+
+	return {
+		type: REMOVE_EDIT_DAY,
+		payload: days
+	};
+}
+
 export const addService = (navigation, user, addServiceSelected, addServicePrices, addServiceDays) => dispatch => {
-	dispatch({ type: ADD_SERVICE });
-	const id = firebase.auth().currentUser.uid
-	firebase.database().ref(`/${user.role}s/${id}/services/${addServiceSelected}`)
+	if(addServiceSelected) {
+		dispatch({ type: ADD_SERVICE });
+		const id = firebase.auth().currentUser.uid
+		firebase.database().ref(`/${user.role}s/${id}/services/${addServiceSelected}`)
 		.set({
-			prices: addServicePrices,
-			days: addServiceDays
+			prices: addServicePrices || 'none',
+			days: addServiceDays || 'none'
 		})
 		.then(() => {
 			addServiceSuccess(navigation, dispatch, user)
@@ -272,6 +291,24 @@ export const addService = (navigation, user, addServiceSelected, addServicePrice
 		.catch((err) => {
 			console.log(err)
 			addServiceFail(dispatch)
+		});
+	} else {
+		const message = 'Selecteer een dienst'
+		addServiceFail(message)
+	}
+}
+
+export const deleteService = (navigation, user, editServiceSelected) => dispatch => {
+	dispatch({ type: DELETE_SERVICE });
+	const id = firebase.auth().currentUser.uid
+	firebase.database().ref(`/${user.role}s/${id}/services/${editServiceSelected}`)
+		.remove()
+		.then(() => {
+			deleteServiceSuccess(navigation, dispatch, user)
+		})
+		.catch((err) => {
+			console.log(err)
+			deleteServiceFail(dispatch)
 		});
 }
 
@@ -294,8 +331,58 @@ const addServiceSuccess = (navigation, dispatch, user) => {
 
 };
 
-const addServiceFail = (dispatch) => {
+const addServiceFail = (message) => dispatch => {
 	dispatch({
-		type: ADD_SERVICE_FAIL
+		type: ADD_SERVICE_FAIL,
+		payload: message
+	});
+};
+
+const editServiceSuccess = (dispatch, user) => {
+	let newUser = user
+
+	getUserServices(user)
+		.then(services => {
+			newUser.services = services
+			dispatch({
+				type: EDIT_SERVICE_SUCCESS
+			},
+			{
+				type: UPDATE_USER_SERVICES,
+				payload: newUser
+			});
+		})
+};
+
+const editServiceFail = (dispatch) => {
+	dispatch({
+		type: EDIT_SERVICE_FAIL
+	});
+};
+
+const deleteServiceSuccess = (navigation, dispatch, user) => {
+	let newUser = user
+
+	getUserServices(user)
+		.then(services => {
+			newUser.services = services
+			console.log(user)
+			console.log(newUser)
+			dispatch({
+				type: DELETE_SERVICE_SUCCESS
+			},
+			{
+				type: UPDATE_USER_SERVICES,
+				payload: newUser
+			});
+
+			navigation.pop()
+		})
+
+};
+
+const deleteServiceFail = (dispatch) => {
+	dispatch({
+		type: DELETE_SERVICE_FAIL
 	});
 };

@@ -2,9 +2,21 @@ import React, { Component } from 'react';
 import { View, Picker, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { selectAddService, priceTitleChanged, priceAmountChanged, dayChanged, dayStartChanged, dayEndChanged, addPrice, addDay, addService } from '../../actions';
-import { Title, Container, Button, Section, Write, Input, Spinner, Alert} from '../common';
-import { check } from '../../images';
+import {
+	selectAddService,
+	priceTitleChanged,
+	priceAmountChanged,
+	dayChanged,
+	dayStartChanged,
+	dayEndChanged,
+	addPrice,
+	removePrice,
+	addDay,
+	removeDay,
+	addService
+} from '../../actions';
+import { Title, Container, Button, Section, Write, Input, Spinner, Notify} from '../common';
+import { check, cross } from '../../images';
 
 class AddService extends Component {
 	static navigationOptions = {
@@ -53,6 +65,11 @@ class AddService extends Component {
 		}
 	}
 
+	onRemovePrice(title) {
+		const { addServicePrices } = this.props;
+		this.props.removePrice({title, addServicePrices})
+	}
+
 	onDayChange(text) {
 		this.props.dayChanged(text)
 	}
@@ -78,11 +95,14 @@ class AddService extends Component {
 		}
 	}
 
+	onRemoveDay(day) {
+		const { addServiceDays } = this.props;
+		this.props.removeDay({day, addServiceDays})
+	}
+
 	onAddServicePress() {
 		const { navigation, user, addServiceSelected, addServicePrices, addServiceDays } = this.props;
-		if (addServiceSelected && addServicePrices && addServiceDays) {
-			this.props.addService(navigation, user, addServiceSelected, addServicePrices, addServiceDays)
-		}
+		this.props.addService(navigation, user, addServiceSelected, addServicePrices, addServiceDays)
 	}
 
 	renderPrices() {
@@ -93,6 +113,14 @@ class AddService extends Component {
 						<View key={index} style={styles.row}>
 							<Write style={styles.priceTitleText}>{price.title}</Write>
 							<Write style={styles.priceAmountText}>€    {price.amount}</Write>
+							<Button
+								tiny
+								icon={cross}
+								onPress={() => {
+									this.onRemovePrice(price.title)
+								}}
+								style={styles.removeBtn}
+							/>
 						</View>
 					)
 				})
@@ -109,6 +137,14 @@ class AddService extends Component {
 							<Write style={styles.dayNameText}>{day.name}</Write>
 							<Write style={styles.dayStartText}><Write style={styles.smallText}>van  </Write>{day.start}</Write>
 							<Write style={styles.dayEndText}><Write style={styles.smallText}>tot  </Write>{day.end}</Write>
+							<Button
+								tiny
+								icon={cross}
+								onPress={() => {
+									this.onRemoveDay(Object.keys(this.props.addServiceDays)[index])
+								}}
+								style={styles.removeBtn}
+							/>
 						</View>
 					)
 				})
@@ -119,9 +155,9 @@ class AddService extends Component {
 	renderAlert() {
 		if (this.props.addServiceError) {
 			return (
-				<Alert error>
+				<Notify error>
 					{this.props.addServiceError}
-				</Alert>
+				</Notify>
 			);
 		}
 	}
@@ -254,6 +290,7 @@ class AddService extends Component {
 							value={this.props.dayEnd}
 							blurOnSubmit={ false }
 							onSubmitEditing={() => {
+								this.focusNextField('dayStart');
 								this.onSubmitDay();
 							}}
 							returnKeyType={ "next" }
@@ -265,6 +302,7 @@ class AddService extends Component {
 							tiny
 							icon={check}
 							onPress={() => {
+								this.focusNextField('dayStart');
 								this.onSubmitDay()
 							}}
 							style={styles.submitBtn}
@@ -308,10 +346,11 @@ const styles = EStyleSheet.create({
 		borderBottomWidth: 1
 	},
 	priceTitleText: {
+		flex: 1,
 		marginLeft: 8
 	},
 	priceAmountText: {
-		width: 131,
+		width: 112,
 		marginLeft: 8
 	},
 	dayInputContainer: {
@@ -340,7 +379,7 @@ const styles = EStyleSheet.create({
 		borderBottomWidth: 1
 	},
 	dayNameText: {
-		flex: 1,
+		marginRight: 'auto',
 		marginLeft: 8
 	},
 	dayStartText: {
@@ -360,10 +399,13 @@ const styles = EStyleSheet.create({
 		flex: 0,
 		marginTop: 5
 	},
+	removeBtn: {
+		flex: 0
+	},
 	row: {
-		justifyContent: 'space-between',
+		justifyContent: 'flex-end',
 		flexDirection: 'row',
-		marginBottom: 2
+		marginBottom: 5
 	}
 });
 
@@ -391,9 +433,11 @@ export default connect(mapStateToProps, {
 	priceTitleChanged,
 	priceAmountChanged,
 	addPrice,
+	removePrice,
 	dayChanged,
 	dayStartChanged,
 	dayEndChanged,
 	addDay,
+	removeDay,
 	addService
 })(AddService);

@@ -168,6 +168,7 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, loginError: 'Onjuiste combinatie emailadres en wachtwoord', password: '', loading: false };
 
 		case UPDATE_USER_SERVICES:
+			console.log(action.payload)
 			return { ...state, user: action.payload }
 
 		default:

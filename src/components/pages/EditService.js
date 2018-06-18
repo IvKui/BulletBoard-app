@@ -1,11 +1,29 @@
 import React, { Component } from 'react';
-import { View, Picker, TextInput } from 'react-native';
+import { View, Picker, TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import ServiceHeader from '../headers/ServiceHeader';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { editService, editPrices, editDays, selectAddService, priceTitleChanged, priceAmountChanged, dayChanged, dayStartChanged, dayEndChanged, addPrice, addDay, addService } from '../../actions';
-import { Title, Container, Button, Section, Write, Input, Spinner, Alert} from '../common';
-import { check } from '../../images';
+import {
+	editService,
+	editPrices,
+	editDays,
+	selectAddService,
+	priceTitleChanged,
+	priceAmountChanged,
+	dayChanged,
+	dayStartChanged,
+	dayEndChanged,
+	addPrice,
+	removePrice,
+	removeEditPrice,
+	addDay,
+	removeDay,
+	removeEditDay,
+	addService,
+	deleteService
+} from '../../actions';
+import { Title, Container, Button, Section, Write, Input, Spinner, Notify } from '../common';
+import { check, cross } from '../../images';
 
 class AddService extends Component {
 	static navigationOptions = {
@@ -50,8 +68,22 @@ class AddService extends Component {
 	onSubmitPrice() {
 		const { priceTitle, priceAmount, editServicePrices } = this.props;
 		if(priceTitle && priceAmount) {
-			this.props.editPrices({priceTitle, priceAmount, editServicePrices})
-		}
+				let prices = editServicePrices
+				if(prices === 'none') {
+					prices = {}
+				}
+
+				prices[priceTitle] = {
+					title: priceTitle,
+					amount: priceAmount
+				}
+				this.props.editPrices(prices)
+			}
+	}
+
+	onRemovePrice(title) {
+		const { editServicePrices } = this.props;
+		this.props.removeEditPrice({title, editServicePrices})
 	}
 
 	onDayChange(text) {
@@ -68,35 +100,84 @@ class AddService extends Component {
 
 	onSubmitDay() {
 		const { editServiceDays, addDaySelected, dayStart, dayEnd } = this.props;
-		let selectedDay = addDaySelected;
-		if(!selectedDay) {
-			selectedDay = 'monday'
-		}
-
 		if(dayStart && dayEnd) {
+			let selectedDay = addDaySelected;
+			let days = editServiceDays
+
+			if(days === 'none') {
+				days = {}
+			}
+
+			if(!selectedDay) {
+				selectedDay = 'monday'
+			}
+
 			const day = this.state.days.find(day => day.id === selectedDay).name
-			this.props.editDays({editServiceDays, day, selectedDay, dayStart, dayEnd})
+
+			let newDays = this.state.days
+			let removeDay = null
+			Object.values(newDays).map((day, index) => {
+				if(day.id === selectedDay) {
+					removeDay = index
+				}
+			})
+			newDays.splice(removeDay, 1)
+			console.log(newDays)
+
+			days[selectedDay] = {
+				name: day,
+				start: dayStart,
+				end: dayEnd
+			}
+			this.props.editDays(days)
 		}
+	}
+
+	onRemoveDay(day) {
+		const { editServiceDays } = this.props;
+		this.props.removeEditDay({day, editServiceDays})
 	}
 
 	onAddServicePress() {
-		const { navigation, user, editServiceSelected, editServicePrices, editServiceDays } = this.props;
+		const { user, editServiceSelected, editServicePrices, editServiceDays } = this.props;
 		if (editServiceSelected && editServicePrices && editServiceDays) {
-			this.props.addService(navigation, user, editServiceSelected, editServicePrices, editServiceDays)
+			this.props.editService(user, editServiceSelected, editServicePrices, editServiceDays)
 		}
-		console.log(this.props.editServiceSelected)
-		console.log(this.props.editServicePrices)
-		console.log(this.props.editServiceDays)
+	}
+
+	onDeletePress() {
+		Alert.alert(
+			`${this.props.editServiceSelected} verwijderen?`,
+		  'Weet u zeker dat u deze dienst wilt verwijderen?',
+		  [
+		    {text: 'Annuleren', onPress: null},
+		    {text: 'Verwijderen', onPress: () => this.deleteService()},
+		  ]
+		)
+	}
+
+	deleteService() {
+		const {navigation, user, editServiceSelected} = this.props
+		this.props.deleteService(navigation, user, editServiceSelected)
 	}
 
 	renderPrices() {
-		if (this.props.editServicePrices) {
+		if (this.props.editServicePrices && this.props.editServicePrices != 'none') {
+			const prices = this.props.editServicePrices
 			return (
-				Object.values(this.props.editServicePrices).map((price, index) => {
+				Object.values(prices).map((price, index) => {
 					return  (
 						<View key={index} style={styles.row}>
 							<Write style={styles.priceTitleText}>{price.title}</Write>
 							<Write style={styles.priceAmountText}>€    {price.amount}</Write>
+							<Button
+								tiny
+								icon={cross}
+								onPress={() => {
+									this.onRemovePrice(price.title)
+								}}
+								style={styles.removeBtn}
+							/>
 						</View>
 					)
 				})
@@ -105,7 +186,7 @@ class AddService extends Component {
 	}
 
 	renderDays() {
-		if (this.props.editServiceDays) {
+		if (this.props.editServiceDays && this.props.editServiceDays != 'none') {
 			return (
 				Object.values(this.props.editServiceDays).map((day, index) => {
 					return  (
@@ -113,6 +194,14 @@ class AddService extends Component {
 							<Write style={styles.dayNameText}>{day.name}</Write>
 							<Write style={styles.dayStartText}><Write style={styles.smallText}>van  </Write>{day.start}</Write>
 							<Write style={styles.dayEndText}><Write style={styles.smallText}>tot  </Write>{day.end}</Write>
+							<Button
+								tiny
+								icon={cross}
+								onPress={() => {
+									this.onRemoveDay(Object.keys(this.props.editServiceDays)[index])
+								}}
+								style={styles.removeBtn}
+							/>
 						</View>
 					)
 				})
@@ -120,12 +209,22 @@ class AddService extends Component {
 		}
 	}
 
-	renderAlert() {
-		if (this.props.addServiceError) {
+	renderConfirm() {
+		if (this.props.editServiceConfirm) {
 			return (
-				<Alert error>
-					{this.props.addServiceError}
-				</Alert>
+				<Notify confirm>
+					{this.props.editServiceConfirm}
+				</Notify>
+			);
+		}
+	}
+
+	renderError() {
+		if (this.props.editServiceError) {
+			return (
+				<Notify error>
+					{this.props.editServiceError}
+				</Notify>
 			);
 		}
 	}
@@ -136,16 +235,19 @@ class AddService extends Component {
 		}
 
 		return (
-			<Button onPress={this.onAddServicePress.bind(this)}>
-				Opslaan
-			</Button>
+			<View>
+				<Button onPress={this.onAddServicePress.bind(this)}>
+					Opslaan
+				</Button>
+			</View>
 		);
 	}
 
 	render() {
 		return (
 			<Container style={styles.container}>
-				{this.renderAlert()}
+				{this.renderConfirm()}
+				{this.renderError()}
 				<Section>
 					<Title>Dienst</Title>
 					<Write style={styles.serviceName}>{this.props.editServiceSelected}</Write>
@@ -201,22 +303,23 @@ class AddService extends Component {
 				</Section>
 				<Section>
 					<Title>Werktijden</Title>
-					<View style={styles.dayInputContainer}>
+					{this.state.days.length > 0 &&
+						<View style={styles.dayInputContainer}>
 						<Picker
 							selectedValue={this.props.addDaySelected}
 							onValueChange={(day) => this.onDayChange(day)}
 							mode='dropdown'
 							style={styles.dayPicker}
 						>
-							{this.state.days.map((day, index) => {
-								return  (
-									<Picker.Item
-										key={index}
-										label={day.name}
-										value={day.id}
-									/>
-								)
-							})}
+						{this.state.days.map((day, index) => {
+							return  (
+								<Picker.Item
+								key={index}
+								label={day.name}
+								value={day.id}
+								/>
+							)
+						})}
 						</Picker>
 						<TextInput
 							style={styles.dayStart}
@@ -243,6 +346,7 @@ class AddService extends Component {
 							value={this.props.dayEnd}
 							blurOnSubmit={ false }
 							onSubmitEditing={() => {
+								this.focusNextField('dayStart');
 								this.onSubmitDay();
 							}}
 							returnKeyType={ "next" }
@@ -254,14 +358,23 @@ class AddService extends Component {
 							tiny
 							icon={check}
 							onPress={() => {
+								this.focusNextField('dayStart');
 								this.onSubmitDay()
 							}}
 							style={styles.submitBtn}
 						/>
-					</View>
+						</View>
+					}
 					{this.renderDays()}
 				</Section>
 				{this.renderButton()}
+				<Button
+					small
+					style={styles.deleteService}
+					onPress={() => this.onDeletePress()}
+				>
+					Verwijderen
+				</Button>
 			</Container>
 		);
 	}
@@ -297,10 +410,11 @@ const styles = EStyleSheet.create({
 		borderBottomWidth: 1
 	},
 	priceTitleText: {
-		marginLeft: 8
+		marginLeft: 'auto',
+		flex: 1
 	},
 	priceAmountText: {
-		width: 131,
+		width: 112,
 		marginLeft: 8
 	},
 	dayInputContainer: {
@@ -329,7 +443,7 @@ const styles = EStyleSheet.create({
 		borderBottomWidth: 1
 	},
 	dayNameText: {
-		flex: 1,
+		marginRight: 'auto',
 		marginLeft: 8
 	},
 	dayStartText: {
@@ -349,10 +463,16 @@ const styles = EStyleSheet.create({
 		flex: 0,
 		marginTop: 5
 	},
+	removeBtn: {
+		flex: 0
+	},
+	deleteService: {
+		marginTop: 20
+	},
 	row: {
-		justifyContent: 'space-between',
+		justifyContent: 'flex-end',
 		flexDirection: 'row',
-		marginBottom: 2
+		marginBottom: 5
 	}
 });
 
@@ -369,6 +489,7 @@ const mapStateToProps = state => {
 		editServiceSelected: state.service.editServiceSelected,
 		editServicePrices: state.service.editServicePrices,
 		editServiceDays: state.service.editServiceDays,
+		editServiceConfirm: state.service.editServiceConfirm,
 		priceTitle: state.service.priceTitle,
 		priceAmount: state.service.priceAmount,
 		addDaySelected: state.service.addDaySelected,
@@ -386,9 +507,14 @@ export default connect(mapStateToProps, {
 	priceTitleChanged,
 	priceAmountChanged,
 	addPrice,
+	removePrice,
+	removeEditPrice,
 	dayChanged,
 	dayStartChanged,
 	dayEndChanged,
 	addDay,
-	addService
+	removeDay,
+	removeEditDay,
+	addService,
+	deleteService
 })(AddService);

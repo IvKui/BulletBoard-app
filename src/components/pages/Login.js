@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser, logoutUser, registerUser } from '../../actions';
 import { envelope, lock } from '../../images';
-import { Container, Button, Spinner, Write, Alert } from '../common';
+import { Container, Button, Spinner, Write, Notify } from '../common';
 
 class Login extends Component {
 	constructor(props) {
@@ -54,22 +54,32 @@ class Login extends Component {
 	renderAlert() {
 		if (this.props.loginError) {
 			return (
-				<Alert error>
+				<Notify error>
 					{this.props.loginError}
-				</Alert>
+				</Notify>
 			);
 		}
 	}
 
-	renderButton() {
+	renderButtons() {
 		if (this.props.loading) {
 			return <Spinner />;
 		}
 
 		return (
-			<Button onPress={this.onLoginPress.bind(this)} style={styles.loginButton}>
-				Login
-			</Button>
+			<View>
+				<Button onPress={this.onLoginPress.bind(this)}>
+					Login
+				</Button>
+				<Button
+					small
+					white
+					style={styles.registerButton}
+					onPress={this.onRegisterPress.bind(this)}
+				>
+					Registeren
+				</Button>
+			</View>
 		);
 	}
 
@@ -113,10 +123,7 @@ class Login extends Component {
 						/>
 					</View>
 				</View>
-				{this.renderButton()}
-				<Button small white	onPress={this.onRegisterPress.bind(this)}>
-					Registeren
-				</Button>
+				{this.renderButtons()}
 			</Container>
 		);
 	}
@@ -149,8 +156,8 @@ const styles = EStyleSheet.create({
 		fontSize: 16,
 		marginBottom: 5
 	},
-	loginButton: {
-		marginBottom: 10
+	registerButton: {
+		marginTop: 20
 	}
 });
 

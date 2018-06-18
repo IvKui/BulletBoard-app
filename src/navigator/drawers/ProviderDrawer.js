@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { ScrollView, View, TouchableWithoutFeedback } from 'react-native';
 import { logoutUser } from '../../actions';
 import UserImage from '../../components/UserImage';
-import { Write, Svg } from '../../components/common';
-import { person } from '../../images';
+import { Write } from '../../components/common';
 
 class ProviderDrawer extends Component {
   onLogoutPress() {
@@ -22,21 +21,10 @@ class ProviderDrawer extends Component {
         <View style={styles.header}>
           <View style={styles.userContainer}>
             <View style={styles.userImage}>
-              {this.props.user.image ?
-                <UserImage
-                  small
-                  image={ this.props.user.image }
-                />
-                :
-                <View style={styles.defaultImageContainer}>
-                  <Svg
-                    height={'30'}
-                    width={'30'}
-                    fill={ EStyleSheet.value('$primaryColor')}
-                    source={ person }
-                  />
-                </View>
-              }
+              <UserImage
+                small
+                image={ this.props.user.image }
+              />
             </View>
             <Write style={styles.userName}>{this.props.user.name}</Write>
           </View>
@@ -84,15 +72,6 @@ const styles = EStyleSheet.create({
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center'
-  },
-  defaultImageContainer: {
-    height: 60,
-    width: 60,
-    backgroundColor: '$white',
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 30
   },
   userImage: {
     marginRight: 15

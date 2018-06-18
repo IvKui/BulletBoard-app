@@ -39,7 +39,7 @@ class ProviderService extends Component {
 				</Section>
 				<Section>
 					<Title>Prijslijst</Title>
-					{ this.props.selectedProviderService.prices ?
+					{ this.props.selectedProviderService.prices && this.props.selectedProviderService.prices != 'none' ?
 						Object.values(this.props.selectedProviderService.prices).map((price, index) => {
 							return  (
 								<View key={index} style={styles.row}>
@@ -54,7 +54,7 @@ class ProviderService extends Component {
 				</Section>
 				<Section>
 					<Title>Werktijden</Title>
-					{ this.props.selectedProviderService.days ?
+					{ this.props.selectedProviderService.days && this.props.selectedProviderService.days != 'none' ?
 						Object.values(this.props.selectedProviderService.days).map((day, index) => {
 							return  (
 								<View key={index} style={styles.row}>
@@ -67,7 +67,7 @@ class ProviderService extends Component {
 							)
 						})
 						:
-						<Write>De dienstverlener heeft geen prijzen opgegeven</Write>
+						<Write>De dienstverlener heeft beschikbaarheid opgegeven</Write>
 					}
 				</Section>
 				<Button
