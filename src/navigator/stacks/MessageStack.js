@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Messages from '../../components/pages/Messages';
+import Chat from '../../components/pages/Chat';
 
 const MessageStack = StackNavigator({
   Messages: {
@@ -25,6 +26,18 @@ const MessageStack = StackNavigator({
             onPress={() => navigation.navigate('DrawerOpen')}
           />
         </View>
+    })
+  },
+  Chat: {
+    screen: Chat,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor')
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+      headerTintColor: EStyleSheet.value('$white'),
     })
   }
 });

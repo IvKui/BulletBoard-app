@@ -16,6 +16,7 @@ class UserImage extends Component {
             <Image
               style={[
                 styles.image,
+                this.props.tiny && styles.tiny,
                 this.props.big && styles.big,
                 this.props.small && styles.small,
               ]}
@@ -26,12 +27,13 @@ class UserImage extends Component {
             <View style={[
               styles.image,
               styles.defaultImageContainer,
+              this.props.tiny && styles.tiny,
               this.props.big && styles.big,
               this.props.small && styles.small,
             ]}>
               <Svg
-                height={this.props.small ? '30' : this.props.big ? '60' : '40'}
-                width={this.props.small ? '30' : this.props.big ? '60' : '40'}
+                height={this.props.tiny ? '20' : this.props.small ? '30' : this.props.big ? '60' : '40'}
+                width={this.props.tiny ? '20' : this.props.small ? '30' : this.props.big ? '60' : '40'}
                 fill={ EStyleSheet.value('$white')}
                 source={ person }
               />
@@ -64,6 +66,11 @@ const styles = EStyleSheet.create({
     height: 60,
     width: 60,
     borderRadius: 30
+  },
+  tiny: {
+    height: 40,
+    width: 40,
+    borderRadius: 20
   },
   defaultImageContainer: {
     backgroundColor: '$primaryColor',

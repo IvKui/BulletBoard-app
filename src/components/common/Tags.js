@@ -6,7 +6,7 @@ import { Write } from './'
 const Tags = ({ items }) => {
 	return (
 		<View style={styles.container}>
-			{items.map(function(item, index){
+			{items.map((item, index) => {
 				return <View key={index} style={styles.itemContainer}>
 					<Write style={styles.item}>{item}</Write>
 				</View>

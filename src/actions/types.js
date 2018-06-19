@@ -63,3 +63,8 @@ export const EDIT_SERVICE_FAIL = 'edit_service_fail';
 export const DELETE_SERVICE = 'delete_service';
 export const DELETE_SERVICE_SUCCESS = 'delete_service_success';
 export const DELETE_SERVICE_FAIL = 'delete_service_fail';
+
+export const GET_MESSAGES = 'set_messages';
+export const MESSAGE_CHANGED = 'message_changed';
+export const CHANGE_TYPING_TEXT = 'change_typing_text';
+export const CHANGE_LOAD_EARLIER = 'change_load_earlier';

@@ -104,7 +104,7 @@ class Provider extends Component {
 						<View style={styles.mapContainer}>
 							<MapView
 								style={styles.map}
-								scrollEnabled={true}
+								scrollEnabled={false}
 								initialRegion={{
 						      latitude: 53.16312309999999,
 						      longitude: 6.754322699999989,
@@ -139,9 +139,9 @@ class Provider extends Component {
 					</Section>
 						<Title>Recensies</Title>
 						<ScrollView
-						horizontal
-						showsHorizontalScrollIndicator={false}
-						style={styles.scrollView}
+							horizontal
+							showsHorizontalScrollIndicator={false}
+							style={styles.scrollView}
 						>
 							<Review
 								style={styles.review}

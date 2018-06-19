@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Container, Write } from '../common';
+import { Container, Write, Button } from '../common';
 
 class Messages extends Component {
 	static navigationOptions = {
@@ -15,6 +15,9 @@ class Messages extends Component {
 	render() {
 		return (
 			<Container>
+				<Button onPress={() => this.props.navigation.navigate('Chat')}>
+					Chat
+				</Button>
 			</Container>
 		);
 	}
