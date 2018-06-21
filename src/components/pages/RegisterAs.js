@@ -18,7 +18,7 @@ class RegisterAs extends Component {
 	}
 
 	onUserPress() {
-		this.props.roleChanged('user')
+		this.props.roleChanged('consumer')
 		this.props.navigation.push('Register')
 	}
 

@@ -14,12 +14,6 @@ import { Container, Spinner, Write, Svg } from '../common';
 import { send } from '../../images';
 
 class Chat extends Component {
-  constructor(props) {
-    super(props)
-
-    console.log(this.props)
-  }
-
   componentDidMount() {
     firebase.database()
 			.ref(`chats/${this.props.chat.chatId}/messages`)
@@ -53,17 +47,37 @@ class Chat extends Component {
     this.props.changeLoadMessages(!this.props.loadOldMessages)
   }
 
-  onSend(message) {
-    message[0].createdAt = message[0].createdAt.toISOString()
-    const newMessages = GiftedChat.prepend(this.props.messages, message)
-    let messagesObj = {}
-    newMessages.map(res => {
-      title = res.createdAt.replace('.', ':')
-      messagesObj[title] = res
-    })
+  onSend(message, chat, user) {
     firebase.database()
-      .ref(`chats/${this.props.chat.chatId}/messages/`)
-      .set(messagesObj)
+      .ref(`chats/${this.props.chat.chatId}`)
+      .once('value', snapshot => {
+        message[0].createdAt = message[0].createdAt.toISOString()
+        const newMessages = GiftedChat.prepend(this.props.messages, message)
+        let messagesObj = {}
+        newMessages.map(res => {
+          title = res.createdAt.replace('.', ':')
+          messagesObj[title] = res
+        })
+        if(snapshot.val()) {
+          snapshot.ref
+            .child('/messages/')
+            .set(messagesObj)
+
+          snapshot.ref
+            .child('/lastMessage/')
+            .set(message[0])
+        } else {
+          snapshot.ref
+            .set({
+              id: chat.chatId,
+              provider: chat.partnerId,
+              consumer: user.id,
+              initDate: new Date().toISOString(),
+              messages: messagesObj,
+              lastMessage: message[0]
+            })
+        }
+      })
   }
 
   renderBubble(props) {
@@ -130,7 +144,7 @@ class Chat extends Component {
           messages={Object.values(this.props.messages)}
           text={this.props.newMessage}
           onInputTextChanged={text => this.onChangeMessage(text)}
-          onSend={message => this.onSend(message)}
+          onSend={message => this.onSend(message, this.props.chat, this.props.user)}
           renderAvatar={null}
           loadEarlier={this.props.loadEarlier}
           onLoadEarlier={this.onLoadEarlier}
@@ -152,10 +166,11 @@ class Chat extends Component {
 
 const styles = EStyleSheet.create({
   chatContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '$white'
   },
   receivedMessages: {
-    backgroundColor: '$white',
+    backgroundColor: '$lightGrey',
     padding: 5,
     paddingBottom: 0
   },

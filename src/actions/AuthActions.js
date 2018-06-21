@@ -238,7 +238,7 @@ export const updateUser = ({ name, email, phone, street, houseNr, hometown, post
 	}
 
 	const uid = firebase.auth().currentUser.uid
-	firebase.database().ref(`/${role}s/${uid}`).update({
+	firebase.database().ref(`users/${role}s/${uid}`).update({
 		name,
 		email,
 		phone,
@@ -287,7 +287,7 @@ export const isSignedIn = () => {
 export const getUser = (userKey) => {
 	return new Promise((resolve, reject) => {
 		firebase.database()
-			.ref(`providers/${userKey}`)
+			.ref(`users/providers/${userKey}`)
 			.once('value')
 			.then(snapshot => {
 				if(snapshot.val()) {
@@ -296,12 +296,12 @@ export const getUser = (userKey) => {
 					resolve(user)
 				} else {
 					firebase.database()
-						.ref(`users/${userKey}`)
+						.ref(`users/consumers/${userKey}`)
 						.once('value')
 						.then(snapshot => {
 							if(snapshot.val()) {
 								let user = snapshot.val();
-								user.role = 'user'
+								user.role = 'consumer'
 								resolve(user)
 							} else {
 								resolve(null)
@@ -328,14 +328,14 @@ const loginUserSuccess = (navigation, dispatch, user, uid) => {
 
 	if(user.role === 'provider') {
 		navigation.navigate('ProviderNav')
-	} else if (user.role === 'user') {
+	} else if (user.role === 'consumer') {
 		navigation.navigate('ConsumerNav')
 	}
 };
 
 const registerUserSuccess = (navigation, dispatch, user, name, email, phone, street, houseNr, hometown, postal, role) => {
 	if( role === '' ) {
-		role = 'user'
+		role = 'consumer'
 	}
 
 	const newUser = {
@@ -348,7 +348,7 @@ const registerUserSuccess = (navigation, dispatch, user, name, email, phone, str
 		postal
 	}
 
-	firebase.database().ref(`/${role}s/${user.uid}`)
+	firebase.database().ref(`users/${role}s/${user.uid}`)
 	.set(newUser)
 	.then(() => {
 		newUser.role = role

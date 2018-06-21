@@ -17,6 +17,6 @@ export const createRootNavigator = (role) => {
     },
   },
   {
-    initialRouteName: role === 'provider' ? 'ProviderNav' : role === 'user' ? 'ConsumerNav' : 'UnregisteredUserNav'
+    initialRouteName: role === 'provider' ? 'ProviderNav' : role === 'consumer' ? 'ConsumerNav' : 'UnregisteredUserNav'
   })
 }

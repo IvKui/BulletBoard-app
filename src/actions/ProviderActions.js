@@ -7,7 +7,7 @@ import {
 export const getProviders = (service) => {
 	return new Promise((resolve, reject) => {
 		firebase.database()
-			.ref('providers')
+			.ref('users/providers')
 			.once('value')
 			.then(snapshot => {
 				if(snapshot.val()) {

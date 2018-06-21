@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { getService, selectService, setPartner } from '../../actions';
+import { getService, selectService, setChat } from '../../actions';
 import MapView, { Marker } from 'react-native-maps';
 import StarRating from 'react-native-star-rating';
 import call from 'react-native-phone-call';
@@ -58,7 +58,13 @@ class Provider extends Component {
 	}
 
 	onChatPress() {
-		this.props.setPartner(this.props.selectedProvider)
+		const chat = {
+			chatId: `${this.props.user.id}x${this.props.selectedProvider.id}`,
+			partnerId: this.props.selectedProvider.id,
+			partnerImage: this.props.selectedProvider.image,
+			partnerName: this.props.selectedProvider.name
+		}
+		this.props.setChat(chat)
 		this.props.navigation.navigate('Chat')
 	}
 
@@ -168,7 +174,9 @@ class Provider extends Component {
 							/>
 						</ScrollView>
 					<Button icon={phone} onPress={() => this.onCallPress()}>Bellen</Button>
-					<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
+					{this.props.user.role === 'consumer' &&
+						<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
+					}
 				</Container>
 			);
 		}
@@ -246,11 +254,12 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
 	return {
+		user: state.auth.user,
 		selectedProvider: state.provider.selectedProvider
 	};
 };
 
 export default connect(mapStateToProps, {
 	selectService,
-	setPartner
+	setChat
 })(Provider);

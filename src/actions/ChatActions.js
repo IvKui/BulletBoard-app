@@ -17,6 +17,7 @@ export const getChats = (user) => dispatch => {
 		.ref('chats/')
 		.on('value', snapshot => {
 			if(snapshot.val()) {
+				console.log('test')
 				const allMessages = snapshot.val()
 				let chats = []
 				Object.values(allMessages).map(item => {
@@ -24,15 +25,17 @@ export const getChats = (user) => dispatch => {
 						if(item.provider === user.id) {
 							const chat = {
 								id: item.id,
-								partner: item.consumer
+								partner: item.consumer,
+								lastMessage: item.lastMessage
 							}
 							chats.push(chat)
 						}
-					} else if (user.role === 'user') {
+					} else if (user.role === 'consumer') {
 						if(item.consumer === user.id) {
 							const chat = {
 								id: item.id,
-								partner: item.provider
+								partner: item.provider,
+								lastMessage: item.lastMessage
 							}
 							chats.push(chat)
 						}
@@ -79,47 +82,44 @@ export const changeLoadEarlier = (loadEarlier) => {
 };
 
 const getDataByChats = (dispatch, chats) => {
-	console.log(chats)
-	let chatData = []
-	chats.map(item => {
-		firebase.database()
-			.ref(`providers/${item.partner}`)
-			.once('value')
-			.then(snapshot => {
-				if(snapshot.val()) {
-					const chat = {
-						partnerId: snapshot.val().id,
-						partnerName: snapshot.val().name,
-						partnerImage: snapshot.val().image,
+	firebase.database()
+		.ref('users/')
+		.once('value', snapshot => {
+			const users = snapshot.val()
+			let chatData = []
+
+			chats.map(item => {
+				if(users.providers[item.partner]) {
+					chatData.push({
+						partnerId: users.providers[item.partner].id,
+						partnerName: users.providers[item.partner].name,
+						partnerImage: users.providers[item.partner].image,
+						lastMessage: item.lastMessage,
 						chatId: item.id
-					}
-					chatData.push(chat)
-					getChatsSuccess(dispatch, chatData)
-				} else {
-					firebase.database()
-						.ref(`users/${item.partner}`)
-						.once('value')
-						.then(snapshot => {
-							if(snapshot.val()) {
-								const chat = {
-									partnerId: snapshot.val().id,
-									partnerName: snapshot.val().name,
-									partnerImage: snapshot.val().image,
-									chatId: item.id
-								}
-								console.log(chat)
-								chatData.push(chat)
-								getChatsSuccess(dispatch, chatData)
-							}
-						})
-						.catch(() => getChatsFail(dispatch))
+					})
+				} else if (users.consumers[item.partner]) {
+					chatData.push({
+						partnerId: users.consumers[item.partner].id,
+						partnerName: users.consumers[item.partner].name,
+						partnerImage: users.consumers[item.partner].image,
+						lastMessage: item.lastMessage,
+						chatId: item.id
+					})
 				}
 			})
-	})
+			chatData.sort((a, b) => {
+				const dateA = new Date(a.lastMessage.createdAt)
+				const dateB = new Date(b.lastMessage.createdAt)
+
+				if(dateA > dateB) return -1
+				if(dateA < dateB) return 1
+				return 0
+			})
+			getChatsSuccess(dispatch, chatData)
+		})
 }
 
 const getChatsSuccess = (dispatch, chats) => {
-	console.log(chats)
 	dispatch({
 		type: GET_CHATS_SUCCESS,
 		payload: chats

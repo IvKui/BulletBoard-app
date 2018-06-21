@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
 import { View, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
@@ -8,8 +7,25 @@ import ChatBlock from '../ChatBlock';
 import { Button, Container, Write, Svg, Spinner } from '../common';
 
 class Messages extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			reloadChats: this.props.navigation.addListener(
+		    'willFocus',
+		    payload => {
+					this.props.getChats(this.props.user)
+		    }
+		  )
+		}
+	}
+
 	componentDidMount() {
 		this.props.getChats(this.props.user)
+	}
+
+	componentWillUnmount() {
+		this.state.reloadChats.remove()
 	}
 
 	static navigationOptions = {
@@ -40,6 +56,7 @@ class Messages extends Component {
 									onPress={() => this.onChatClick(item)}
 									name={item.partnerName}
 									image={item.partnerImage}
+									message={item.lastMessage.text}
 								/>
 							)
 						}}

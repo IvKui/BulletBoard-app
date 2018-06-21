@@ -51,7 +51,7 @@ export const getUserServices = (user) => {
 	return new Promise((resolve, reject) => {
 		const id = firebase.auth().currentUser.uid
 		firebase.database()
-			.ref(`/${user.role}s/${id}/services`)
+			.ref(`users/providers/${id}/services`)
 			.once('value')
 			.then(snapshot => {
 				if(snapshot.val()) {
@@ -136,7 +136,7 @@ export const editDays = (days) => {
 export const editService = (user, editServiceSelected, editServicePrices, editServiceDays) => dispatch => {
 	dispatch({ type: ADD_SERVICE });
 	const id = firebase.auth().currentUser.uid
-	firebase.database().ref(`/${user.role}s/${id}/services/${editServiceSelected}`)
+	firebase.database().ref(`users/providers/${id}/services/${editServiceSelected}`)
 		.set({
 			prices: editServicePrices,
 			days: editServiceDays
@@ -280,7 +280,7 @@ export const addService = (navigation, user, addServiceSelected, addServicePrice
 	if(addServiceSelected) {
 		dispatch({ type: ADD_SERVICE });
 		const id = firebase.auth().currentUser.uid
-		firebase.database().ref(`/${user.role}s/${id}/services/${addServiceSelected}`)
+		firebase.database().ref(`users/providers/${id}/services/${addServiceSelected}`)
 		.set({
 			prices: addServicePrices || 'none',
 			days: addServiceDays || 'none'
@@ -301,7 +301,7 @@ export const addService = (navigation, user, addServiceSelected, addServicePrice
 export const deleteService = (navigation, user, editServiceSelected) => dispatch => {
 	dispatch({ type: DELETE_SERVICE });
 	const id = firebase.auth().currentUser.uid
-	firebase.database().ref(`/${user.role}s/${id}/services/${editServiceSelected}`)
+	firebase.database().ref(`users/providers/${id}/services/${editServiceSelected}`)
 		.remove()
 		.then(() => {
 			deleteServiceSuccess(navigation, dispatch, user)
