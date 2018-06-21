@@ -6,7 +6,8 @@ import {
 
 const INITIAL_STATE = {
 	selectedProvider: null,
-	selectedProviderService: null
+	selectedProviderService: null,
+	chatPartner: null
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -9,7 +9,6 @@ class Review extends Component {
     return (
         <View style={this.props.style}>
           <UserBlock
-            small
             name={this.props.name}
             image={this.props.image}
             rating={this.props.rating}

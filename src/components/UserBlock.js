@@ -14,7 +14,7 @@ class UserBlock extends Component {
       >
         <View style={styles.container}>
           <UserImage
-            small={this.props.small}
+            small
             style={ styles.image }
             image={ this.props.image }
           />

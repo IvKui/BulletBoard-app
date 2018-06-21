@@ -64,7 +64,11 @@ export const DELETE_SERVICE = 'delete_service';
 export const DELETE_SERVICE_SUCCESS = 'delete_service_success';
 export const DELETE_SERVICE_FAIL = 'delete_service_fail';
 
-export const GET_MESSAGES = 'set_messages';
+export const GET_CHATS = 'get_chats';
+export const GET_CHATS_SUCCESS = 'get_chats_success';
+export const GET_CHATS_FAILED = 'get_chats_fail';
+export const SET_CHAT = 'set_chat';
+export const SET_MESSAGES = 'set_messages';
 export const MESSAGE_CHANGED = 'message_changed';
 export const CHANGE_TYPING_TEXT = 'change_typing_text';
 export const CHANGE_LOAD_EARLIER = 'change_load_earlier';

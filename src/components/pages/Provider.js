@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { getService, selectService } from '../../actions';
+import { getService, selectService, setPartner } from '../../actions';
 import MapView, { Marker } from 'react-native-maps';
 import StarRating from 'react-native-star-rating';
 import call from 'react-native-phone-call';
@@ -11,7 +11,7 @@ import UserImage from '../UserImage';
 import ServiceBlock from '../ServiceBlock';
 import Review from '../Review';
 import { Title, Container, Button, Section, Write, Spinner, Svg } from '../common';
-import { phone, email } from '../../images';
+import { phone, email, chat } from '../../images';
 
 class Provider extends Component {
 	constructor(props) {
@@ -55,6 +55,11 @@ class Provider extends Component {
 			number: this.props.selectedProvider.phone,
 			prompt: false
 		})
+	}
+
+	onChatPress() {
+		this.props.setPartner(this.props.selectedProvider)
+		this.props.navigation.navigate('Chat')
 	}
 
 	render() {
@@ -163,6 +168,7 @@ class Provider extends Component {
 							/>
 						</ScrollView>
 					<Button icon={phone} onPress={() => this.onCallPress()}>Bellen</Button>
+					<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
 				</Container>
 			);
 		}
@@ -245,5 +251,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-	selectService
+	selectService,
+	setPartner
 })(Provider);

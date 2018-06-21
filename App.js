@@ -65,7 +65,7 @@ export default class App extends Component {
       .then(userKey => {
         if(userKey) {
           getUser(userKey)
-            .then((user) => {
+            .then(user => {
               console.log(user)
               this.setState({
                 stateLoaded: true,

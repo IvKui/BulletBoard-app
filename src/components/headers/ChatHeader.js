@@ -12,9 +12,9 @@ class Chat extends Component {
         <UserImage
           tiny
           style={styles.userImage}
-          image={this.props.user.image}
+          image={this.props.chat.partnerImage}
         />
-        <Write style={styles.headerTitleText}>{this.props.user.name}</Write>
+        <Write style={styles.headerTitleText}>{this.props.chat.partnerName}</Write>
       </View>
     );
   }
@@ -38,8 +38,7 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.user,
-    selectedProvider: state.provider.selectedProvider,
+    chat: state.chat.chat
   };
 };
 
