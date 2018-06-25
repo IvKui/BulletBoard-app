@@ -72,3 +72,5 @@ export const SET_MESSAGES = 'set_messages';
 export const MESSAGE_CHANGED = 'message_changed';
 export const CHANGE_TYPING_TEXT = 'change_typing_text';
 export const CHANGE_LOAD_EARLIER = 'change_load_earlier';
+
+export const REVIEW_TEXT = 'review_text';

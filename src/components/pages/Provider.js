@@ -11,7 +11,7 @@ import UserImage from '../UserImage';
 import ServiceBlock from '../ServiceBlock';
 import Review from '../Review';
 import { Title, Container, Button, Section, Write, Spinner, Svg } from '../common';
-import { phone, email, chat } from '../../images';
+import { phone, email, chat, plus } from '../../images';
 
 class Provider extends Component {
 	constructor(props) {
@@ -66,6 +66,18 @@ class Provider extends Component {
 		}
 		this.props.setChat(chat)
 		this.props.navigation.navigate('Chat')
+	}
+
+	renderChatButton() {
+		if(this.props.user){
+			if(this.props.user.role === 'consumer') {
+				return (
+					<View>
+					<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
+					</View>
+				)
+			}
+		}
 	}
 
 	render() {
@@ -144,39 +156,52 @@ class Provider extends Component {
 									style={styles.service}
 								/>
 							)}
+							listFooterComponent={() => (
+								<View style={styles.addReview}>
+									<Write>Schrijf een recensie</Write>
+									<Svg
+										height={'20'}
+										width={'20'}
+										fill={ EStyleSheet.value('$primaryColor')}
+										source={ plus }
+									/>
+								</View>
+							)}
 							keyExtractor={item => item.id}
 							numColumns= {1}
 						/>
 					</Section>
+					<Section>
 						<Title>Recensies</Title>
-						<ScrollView
+						<FlatList
 							horizontal
-							showsHorizontalScrollIndicator={false}
-							style={styles.scrollView}
-						>
-							<Review
+							data={this.props.selectedProvider.reviews}
+							renderItem={({item}) => (
+								<Review
 								style={styles.review}
-								name={this.props.selectedProvider.name}
-								image={this.props.selectedProvider.image}
-								rating={this.props.selectedProvider.rating}
-								text={
-									'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw, toen een onbekende drukker een zethaak met letters nam'
-								}
-							/>
-							<Review
-								style={styles.review}
-								name={this.props.selectedProvider.name}
-								image={this.props.selectedProvider.image}
-								rating={this.props.selectedProvider.rating}
-								text={
-									'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw, toen een onbekende drukker een zethaak met letters nam'
-								}
-							/>
-						</ScrollView>
+								name={item.name}
+								image={item.image}
+								rating={item.rating}
+								text={item.text}
+								/>
+							)}
+							listFooterComponent={() => (
+								<View style={styles.addReview}>
+									<Write>Schrijf een recensie</Write>
+									<Svg
+										height={'20'}
+										width={'20'}
+										fill={ EStyleSheet.value('$primaryColor')}
+										source={ plus }
+									/>
+								</View>
+							)}
+							keyExtractor={item => item.id}
+							numColumns= {1}
+						/>
+					</Section>
 					<Button icon={phone} onPress={() => this.onCallPress()}>Bellen</Button>
-					{this.props.user.role === 'consumer' &&
-						<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
-					}
+					{this.renderChatButton()}
 				</Container>
 			);
 		}
@@ -229,12 +254,6 @@ const styles = EStyleSheet.create({
 		height: 150,
 		flex: 1
 	},
-	scrollView: {
-		flex: 1,
-		flexDirection: 'row',
-		marginRight: -20,
-		marginBottom: 40
-	},
 	service: {
 		borderRadius: 4,
 		overflow: 'hidden',
@@ -245,8 +264,14 @@ const styles = EStyleSheet.create({
 	},
 	review: {
 		width: 280,
-		marginRight: 20,
-		marginBottom: 20
+		marginRight: 20
+	},
+	addReview: {
+		flex: 1,
+		width: 280,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '$lightGrey'
 	}
 });
 

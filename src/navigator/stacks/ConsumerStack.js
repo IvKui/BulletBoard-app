@@ -7,6 +7,7 @@ import ConsumerTabs from '../tabs/ConsumerTabs';
 import Provider from '../../components/pages/Provider';
 import Providers from '../../components/pages/Providers';
 import ProviderService from '../../components/pages/ProviderService';
+import AddReview from '../../components/pages/AddReview';
 import { Svg, Write } from '../../components/common';
 
 const ConsumerStack = StackNavigator({
@@ -61,14 +62,19 @@ const ConsumerStack = StackNavigator({
   Providers: {
     screen: Providers,
     navigationOptions: ({ navigation }) => ({
-      tabBarIcon: () => (
-        <Svg
-          fill= { EStyleSheet.value('$white') }
-          height= '22'
-          width= '22'
-          source={ workshop }
-        />
-      ),
+      headerStyle: EStyleSheet.create({
+        backgroundColor: () => EStyleSheet.value('$primaryColor'),
+        elevation: 0
+      }),
+      headerTitleStyle: EStyleSheet.create({
+        color: () => EStyleSheet.value('$white')
+      }),
+      headerTintColor: EStyleSheet.value('$white'),
+    })
+  },
+  AddReview: {
+    screen: AddReview,
+    navigationOptions: ({ navigation }) => ({
       headerStyle: EStyleSheet.create({
         backgroundColor: () => EStyleSheet.value('$primaryColor'),
         elevation: 0

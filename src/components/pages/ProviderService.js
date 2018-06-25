@@ -7,7 +7,7 @@ import call from 'react-native-phone-call';
 import ProviderHeader from '../headers/ProviderHeader';
 import UserImage from '../UserImage';
 import { Title, Container, Button, Section, Write } from '../common';
-import { phone } from '../../images';
+import { phone, chat } from '../../images';
 
 class ProviderService extends Component {
 	static navigationOptions = {
@@ -70,12 +70,10 @@ class ProviderService extends Component {
 						<Write>De dienstverlener heeft beschikbaarheid opgegeven</Write>
 					}
 				</Section>
-				<Button
-					icon={phone}
-					onPress={this.onCallPress.bind(this)}
-				>
-					Bellen
-				</Button>
+				<Button	icon={phone} onPress={() => this.onCallPress()}>Bellen</Button>
+				{this.props.user &&
+					<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
+				}
 			</Container>
 		);
 	}
@@ -119,6 +117,7 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
 	return {
+		user: state.auth.user,
 		selectedProviderService: state.provider.selectedProviderService,
 		selectedProvider: state.provider.selectedProvider
 	};
