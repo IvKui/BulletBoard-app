@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { ImagePicker } from 'expo';
+import firebase from 'firebase';
 import { connect } from 'react-redux';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import {
 	nameChanged,
 	nameError,
@@ -21,7 +23,7 @@ import {
 	passwordError,
 	passwordConfirmChanged,
 	passwordConfirmError,
-	resetErrors,
+	resetRegisterErrors,
 	registerUser
 } from '../../actions';
 import { Button, Container, Write, Notify, Spinner } from '../common';
@@ -100,6 +102,28 @@ class RegisterForm extends Component {
 		this.props.passwordConfirmChanged(text)
 	}
 
+	openImagePicker() {
+		ImagePicker.launchImageLibraryAsync({
+			allowEdititing: true,
+			aspect: [1,1]
+		})
+		.then(image => {
+			if(!image.cancelled) {
+				const uri = image.uri.replace('file://', '')
+				fetch(uri)
+					.then(res => {
+						res.blob()
+							.then(blob => {
+								firebase.storage()
+									.ref('/images/')
+									.child('test')
+									.put(blob)
+							})
+					})
+			}
+		})
+	}
+
 	renderAlert() {
 		if (this.props.registerError) {
 			return (
@@ -124,7 +148,7 @@ class RegisterForm extends Component {
 
 	validateForm() {
 		console.log('Validating...')
-		this.props.resetErrors();
+		this.props.resetRegisterErrors();
 		let isError = false;
 		const {
 			name,
@@ -200,6 +224,7 @@ class RegisterForm extends Component {
 		return (
 			<Container style={styles.container}>
 				{this.renderAlert()}
+				<Button onPress={() => this.openImagePicker()}>Image</Button>
 				<View style={styles.form}>
 					<View style={styles.inputContainer}>
 						<Write style={styles.label}>Naam</Write>
@@ -449,6 +474,6 @@ export default connect(mapStateToProps, {
 	passwordError,
 	passwordConfirmChanged,
 	passwordConfirmError,
-	resetErrors,
+	resetRegisterErrors,
 	registerUser
 })(RegisterForm);

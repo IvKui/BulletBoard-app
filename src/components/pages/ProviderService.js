@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
+import { setChat } from '../../actions';
 import StarRating from 'react-native-star-rating';
 import call from 'react-native-phone-call';
 import ProviderHeader from '../headers/ProviderHeader';
@@ -23,6 +24,17 @@ class ProviderService extends Component {
 			number: this.props.selectedProvider.phone,
 			prompt: false
 		})
+	}
+
+	onChatPress() {
+		const chat = {
+			chatId: `${this.props.user.id}x${this.props.selectedProvider.id}`,
+			partnerId: this.props.selectedProvider.id,
+			partnerImage: this.props.selectedProvider.image,
+			partnerName: this.props.selectedProvider.name
+		}
+		this.props.setChat(chat)
+		this.props.navigation.push('Chat')
 	}
 
 	render() {
@@ -123,4 +135,6 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps)(ProviderService);
+export default connect(mapStateToProps, {
+	setChat
+})(ProviderService);

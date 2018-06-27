@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { getService, selectService, setChat } from '../../actions';
+import { getService, getReviews, selectService, setChat } from '../../actions';
 import MapView, { Marker } from 'react-native-maps';
-import StarRating from 'react-native-star-rating';
 import call from 'react-native-phone-call';
 import ProviderHeader from '../headers/ProviderHeader';
 import UserImage from '../UserImage';
@@ -15,16 +14,17 @@ import { phone, email, chat, plus } from '../../images';
 
 class Provider extends Component {
 	constructor(props) {
-			super(props)
+		super(props)
 
-			this.state = {
-				services: null,
-				servicesLoaded: false
-			}
+		this.state = {
+			services: [],
+			servicesLoaded: false
+		}
 	}
-
 	componentWillMount() {
 		const { selectedProvider } = this.props
+
+		getReviews(this.props.selectedProvider.id)
 
 		if(selectedProvider.services) {
 			getService(Object.keys(selectedProvider.services))
@@ -58,6 +58,7 @@ class Provider extends Component {
 	}
 
 	onChatPress() {
+		console.log('chat pressed')
 		const chat = {
 			chatId: `${this.props.user.id}x${this.props.selectedProvider.id}`,
 			partnerId: this.props.selectedProvider.id,
@@ -65,7 +66,11 @@ class Provider extends Component {
 			partnerName: this.props.selectedProvider.name
 		}
 		this.props.setChat(chat)
-		this.props.navigation.navigate('Chat')
+		this.props.navigation.push('Chat');
+	}
+
+	onAddReviewPress() {
+		this.props.navigation.navigate('AddReview')
 	}
 
 	renderChatButton() {
@@ -73,7 +78,7 @@ class Provider extends Component {
 			if(this.props.user.role === 'consumer') {
 				return (
 					<View>
-					<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
+						<Button icon={chat} onPress={() => this.onChatPress()}>Chat</Button>
 					</View>
 				)
 			}
@@ -81,7 +86,7 @@ class Provider extends Component {
 	}
 
 	render() {
-		if(!this.state.servicesLoaded) {
+		if(this.props.loading || !this.state.servicesLoaded) {
 			return (
 				<Container center>
 					<Spinner />
@@ -149,23 +154,13 @@ class Provider extends Component {
 						<FlatList
 							horizontal
 							data={this.state.services}
+							showsHorizontalScrollIndicator={false}
 							renderItem={({item}) => (
 								<ServiceBlock
 									title={item.title}
 									image={item.image}
 									style={styles.service}
 								/>
-							)}
-							listFooterComponent={() => (
-								<View style={styles.addReview}>
-									<Write>Schrijf een recensie</Write>
-									<Svg
-										height={'20'}
-										width={'20'}
-										fill={ EStyleSheet.value('$primaryColor')}
-										source={ plus }
-									/>
-								</View>
 							)}
 							keyExtractor={item => item.id}
 							numColumns= {1}
@@ -176,25 +171,28 @@ class Provider extends Component {
 						<FlatList
 							horizontal
 							data={this.props.selectedProvider.reviews}
+							showsHorizontalScrollIndicator={false}
 							renderItem={({item}) => (
 								<Review
-								style={styles.review}
-								name={item.name}
-								image={item.image}
-								rating={item.rating}
-								text={item.text}
+									style={styles.review}
+									name={item.name}
+									image={item.image}
+									rating={item.rating}
+									text={item.text}
 								/>
 							)}
-							listFooterComponent={() => (
-								<View style={styles.addReview}>
-									<Write>Schrijf een recensie</Write>
-									<Svg
-										height={'20'}
-										width={'20'}
-										fill={ EStyleSheet.value('$primaryColor')}
-										source={ plus }
-									/>
-								</View>
+							ListFooterComponent={() => (
+								<TouchableOpacity onPress={() => this.onAddReviewPress()}>
+									<View style={styles.addReview}>
+										<Write style={styles.addReviewText}>Schrijf een recensie</Write>
+										<Svg
+											height={'25'}
+											width={'25'}
+											fill={ EStyleSheet.value('$primaryColor')}
+											source={ plus }
+										/>
+									</View>
+								</TouchableOpacity>
 							)}
 							keyExtractor={item => item.id}
 							numColumns= {1}
@@ -269,9 +267,14 @@ const styles = EStyleSheet.create({
 	addReview: {
 		flex: 1,
 		width: 280,
+		minHeight: 140,
+		borderRadius: 4,
 		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '$lightGrey'
+		alignItems: 'center'
+	},
+	addReviewText: {
+		marginBottom: 10,
+		fontWeight: 'bold'
 	}
 });
 
@@ -280,6 +283,8 @@ const styles = EStyleSheet.create({
 const mapStateToProps = state => {
 	return {
 		user: state.auth.user,
+		reviews: state.review.reviews,
+		loading: state.review.loading,
 		selectedProvider: state.provider.selectedProvider
 	};
 };
