@@ -17,7 +17,7 @@ import {
 	PASSWORD_ERROR,
 	PASSWORD_CONFIRM_CHANGED,
 	PASSWORD_CONFIRM_ERROR,
-	RESET_ERRORS,
+	RESET_REGISTER_ERRORS,
 	ROLE_CHANGED,
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
@@ -121,7 +121,7 @@ export default (state = INITIAL_STATE, action) => {
 		case LOGIN_ERROR:
 			return { ...state, loginError: action.payload };
 
-		case RESET_ERRORS:
+		case RESET_REGISTER_ERRORS:
 			return {
 				...state,
 				nameErrorText: '',
