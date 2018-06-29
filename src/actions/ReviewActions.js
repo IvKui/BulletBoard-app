@@ -14,17 +14,41 @@ import {
 	ADD_REVIEW_FAIL
 } from './types';
 
-export const getReviews = (providerId) => dispatch => {
+export const getProviderReviews = id => dispatch => {
 	dispatch({ type: GET_REVIEWS })
 	firebase.database()
-		.ref(`users/providers/${providerId}/reviews`)
-		.on(snapshot => {
+		.ref(`users/providers/${id}/reviews`)
+		.once('value')
+		.then(snapshot => dispatch({ type: GET_REVIEWS_SUCCESS, payload: Object.values(snapshot.val()) }))
+		.catch(() => dispatch({ type: GET_REVIEWS_FAIL }))
+}
+
+export const getConsumerReviews = id => dispatch => {
+	console.log(id)
+	dispatch({ type: GET_REVIEWS })
+	firebase.database()
+		.ref(`users/providers/`)
+		.once('value')
+		.then(snapshot => {
 			if(snapshot.val()) {
-				getReviewsSuccess(dispatch, snapshot.val())
+				let reviews = []
+				Object.values(snapshot.val()).map(item => {
+					if(item.reviews) {
+						if(item.reviews[id]) {
+							reviews.push({
+								...item.reviews[id],
+								image: item.image,
+								name: item.name
+							})
+						}
+					}
+				})
+				dispatch({ type: GET_REVIEWS_SUCCESS, payload: reviews })
 			} else {
-				getReviewsFail(dispatch)
+				dispatch({ type: GET_REVIEWS_FAIL })
 			}
 		})
+		.catch(() => dispatch({ type: GET_REVIEWS_FAIL }))
 }
 
 export const setReviewRating = (rating) => {
@@ -72,8 +96,9 @@ export const addReview = (providerId, consumer, reviewRating, reviewText) => dis
 	dispatch({ type: ADD_REVIEW})
 	firebase.database()
 		.ref(`users/providers/${providerId}/reviews`)
+		.child(consumer.id)
 		.set({
-			id: consumer.id,
+			id: `${providerId}-${consumer.id}`,
 			rating: reviewRating,
 			text: reviewText,
 			image: consumer.image,

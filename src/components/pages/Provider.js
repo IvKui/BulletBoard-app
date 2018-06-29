@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, FlatList, Clipboard } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { getService, getReviews, selectService, setChat } from '../../actions';
+import firebase from 'firebase';
+import { getService, getProvider, selectService, setChat } from '../../actions';
 import MapView, { Marker } from 'react-native-maps';
 import call from 'react-native-phone-call';
 import ProviderHeader from '../headers/ProviderHeader';
@@ -24,7 +25,7 @@ class Provider extends Component {
 	componentWillMount() {
 		const { selectedProvider } = this.props
 
-		getReviews(this.props.selectedProvider.id)
+		this.props.getProvider(selectedProvider.id)
 
 		if(selectedProvider.services) {
 			getService(Object.keys(selectedProvider.services))
@@ -46,6 +47,11 @@ class Provider extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		firebase.database()
+			.ref(`users/providers/${this.props.selectedProvider.id}`).off()
+	}
+
 	static navigationOptions = {
 		headerTitle: (<ProviderHeader />)
 	}
@@ -57,8 +63,11 @@ class Provider extends Component {
 		})
 	}
 
+	onEmailPress() {
+		Clipboard.setString(this.props.selectedProvider.email)
+	}
+
 	onChatPress() {
-		console.log('chat pressed')
 		const chat = {
 			chatId: `${this.props.user.id}x${this.props.selectedProvider.id}`,
 			partnerId: this.props.selectedProvider.id,
@@ -70,7 +79,7 @@ class Provider extends Component {
 	}
 
 	onAddReviewPress() {
-		this.props.navigation.navigate('AddReview')
+		this.props.navigation.push('AddReview')
 	}
 
 	renderChatButton() {
@@ -86,13 +95,14 @@ class Provider extends Component {
 	}
 
 	render() {
-		if(this.props.loading || !this.state.servicesLoaded) {
+		if(!this.state.servicesLoaded) {
 			return (
 				<Container center>
 					<Spinner />
 				</Container>
 			)
 		} else {
+			console.log(this.props.selectedProvider.reviews)
 			return (
 				<Container style={styles.container}>
 					<Section>
@@ -103,16 +113,18 @@ class Provider extends Component {
 						/>
 						<View style={styles.userData}>
 							<View>
-								<View style={styles.userDataItem}>
-									<Svg
-										style={styles.dataIcon}
-										height={'30'}
-										width={'30'}
-										fill={ EStyleSheet.value('$secondaryColor')}
-										source={ email }
-									/>
-									<Write>{this.props.selectedProvider.email}</Write>
-								</View>
+								<TouchableOpacity onPress={() => this.onEmailPress()}>
+									<View style={styles.userDataItem}>
+										<Svg
+											style={styles.dataIcon}
+											height={'30'}
+											width={'30'}
+											fill={ EStyleSheet.value('$secondaryColor')}
+											source={ email }
+										/>
+										<Write>{this.props.selectedProvider.email}</Write>
+									</View>
+								</TouchableOpacity>
 								<TouchableOpacity onPress={() => this.onCallPress()}>
 									<View style={styles.userDataItem}>
 										<Svg
@@ -168,35 +180,53 @@ class Provider extends Component {
 					</Section>
 					<Section>
 						<Title>Recensies</Title>
-						<FlatList
-							horizontal
-							data={this.props.selectedProvider.reviews}
-							showsHorizontalScrollIndicator={false}
-							renderItem={({item}) => (
-								<Review
-									style={styles.review}
-									name={item.name}
-									image={item.image}
-									rating={item.rating}
-									text={item.text}
-								/>
-							)}
-							ListFooterComponent={() => (
-								<TouchableOpacity onPress={() => this.onAddReviewPress()}>
-									<View style={styles.addReview}>
-										<Write style={styles.addReviewText}>Schrijf een recensie</Write>
-										<Svg
-											height={'25'}
-											width={'25'}
-											fill={ EStyleSheet.value('$primaryColor')}
-											source={ plus }
-										/>
-									</View>
-								</TouchableOpacity>
-							)}
-							keyExtractor={item => item.id}
-							numColumns= {1}
-						/>
+						{this.props.selectedProvider.reviews ?
+							<FlatList
+								horizontal
+								data={Object.values(this.props.selectedProvider.reviews)}
+								showsHorizontalScrollIndicator={false}
+								renderItem={({item}) => (
+									<Review
+										style={styles.review}
+										name={item.name}
+										image={item.image}
+										rating={item.rating}
+										text={item.text}
+									/>
+								)}
+								ListFooterComponent={() => {
+									if(!this.props.selectedProvider.reviews[this.props.user.id]) {
+										return (
+											<TouchableOpacity onPress={() => this.onAddReviewPress()}>
+												<View style={styles.addReview}>
+													<Write style={styles.addReviewText}>Schrijf een recensie</Write>
+													<Svg
+														height={'25'}
+														width={'25'}
+														fill={ EStyleSheet.value('$primaryColor')}
+														source={ plus }
+													/>
+												</View>
+											</TouchableOpacity>
+										)
+									} else { return null }
+								}}
+								keyExtractor={item => item.id}
+								numColumns= {1}
+							/>
+						:
+							<TouchableOpacity onPress={() => this.onAddReviewPress()}>
+								<View style={styles.addReview}>
+									<Write style={styles.addReviewText}>Schrijf een recensie</Write>
+									<Svg
+									height={'25'}
+									width={'25'}
+									fill={ EStyleSheet.value('$primaryColor')}
+									source={ plus }
+									/>
+								</View>
+							</TouchableOpacity>
+						}
 					</Section>
 					<Button icon={phone} onPress={() => this.onCallPress()}>Bellen</Button>
 					{this.renderChatButton()}
@@ -266,8 +296,9 @@ const styles = EStyleSheet.create({
 	},
 	addReview: {
 		flex: 1,
-		width: 280,
+		aspectRatio: 1,
 		minHeight: 140,
+		maxHeight: 220,
 		borderRadius: 4,
 		justifyContent: 'center',
 		alignItems: 'center'
@@ -284,12 +315,12 @@ const mapStateToProps = state => {
 	return {
 		user: state.auth.user,
 		reviews: state.review.reviews,
-		loading: state.review.loading,
 		selectedProvider: state.provider.selectedProvider
 	};
 };
 
 export default connect(mapStateToProps, {
 	selectService,
-	setChat
+	setChat,
+	getProvider
 })(Provider);

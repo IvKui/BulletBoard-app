@@ -1,9 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { DrawerNavigator } from 'react-navigation';
 import MessageStack from './stacks/MessageStack';
 import ProfileStack from './stacks/ProfileStack';
+import ReviewStack from './stacks/ReviewStack';
 import ConsumerDrawer from './drawers/ConsumerDrawer';
 import ConsumerStack from './stacks/ConsumerStack';
 
@@ -11,10 +11,13 @@ const ConsumerNav = DrawerNavigator({
   ConsumerStack: {
     screen: ConsumerStack
   },
-  Berichten: {
+  MessageStack: {
     screen: MessageStack
   },
-  Profiel: {
+  ReviewStack: {
+    screen: ReviewStack
+  },
+  ProfileStack: {
     screen: ProfileStack
   }
 },
@@ -25,8 +28,5 @@ const ConsumerNav = DrawerNavigator({
     activeTintColor: () => EStyleSheet.value('$primaryColor')
   })
 });
-
-const styles = EStyleSheet.create({
-})
 
 export default ConsumerNav;

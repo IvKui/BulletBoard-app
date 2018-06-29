@@ -1,23 +1,23 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { DrawerNavigator, StackNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { DrawerNavigator } from 'react-navigation';
 import ProviderStack from './stacks/ProviderStack';
 import MessageStack from './stacks/MessageStack';
 import ProfileStack from './stacks/ProfileStack';
+import ReviewStack from './stacks/ReviewStack';
 import ProviderDrawer from './drawers/ProviderDrawer';
-import { person } from '../images';
-import { Svg, Write } from '../components/common';
 
 const ProviderNav = DrawerNavigator({
   ProviderStack: {
     screen: ProviderStack
   },
-  Berichten: {
+  MessageStack: {
     screen: MessageStack
   },
-  Profiel: {
+  ReviewStack: {
+    screen: ReviewStack
+  },
+  ProfileStack: {
     screen: ProfileStack
   }
 },
@@ -28,11 +28,5 @@ const ProviderNav = DrawerNavigator({
     activeTintColor: () => EStyleSheet.value('$primaryColor')
   })
 });
-
-const styles = EStyleSheet.create({
-  MenuIcon: {
-    paddingLeft: 15
-  }
-})
 
 export default ProviderNav;

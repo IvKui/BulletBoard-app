@@ -33,6 +33,9 @@ export const UPDATE_USER_SERVICES = 'update_user_services';
 
 export const SELECTED_PROVIDER = 'selected_provider';
 export const SELECTED_PROVIDER_SERVICE = 'selected_provider_service';
+export const GET_PROVIDER = 'get_provider';
+export const GET_PROVIDER_SUCCESS = 'get_provider_success';
+export const GET_PROVIDER_FAIL = 'get_provider_fail';
 
 export const SELECT_SERVICE = 'select_service';
 export const EDIT_SERVICE = 'edit_service';

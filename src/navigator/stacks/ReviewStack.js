@@ -3,11 +3,11 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Profile from '../../components/pages/Profile';
+import MyReviews from '../../components/pages/MyReviews';
 
-const ProfileStack = StackNavigator({
-  Profile: {
-    screen: Profile,
+const ReviewStack = StackNavigator({
+  MyReviews: {
+    screen: MyReviews,
     navigationOptions: ({ navigation }) => ({
       headerStyle: EStyleSheet.create({
         backgroundColor: () => EStyleSheet.value('$primaryColor'),
@@ -35,4 +35,4 @@ const styles = EStyleSheet.create({
   }
 })
 
-export default ProfileStack;
+export default ReviewStack;

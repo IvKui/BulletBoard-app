@@ -58,8 +58,19 @@ class AddReview extends Component {
 					<UserBlock
 						name={this.props.selectedProvider.name}
 						image={this.props.selectedProvider.image}
-						items={Object.values(this.props.selectedProvider.services)[title]}
 					/>
+				</Section>
+				<Section>
+					<StarRating
+						buttonStyle={styles.star}
+						maxStars={5}
+						rating={this.props.reviewRating}
+						selectedStar={rating => this.props.setReviewRating(rating)}
+						starSize={40}
+						fullStarColor={EStyleSheet.value('$tertiairyColor')}
+						emptyStarColor={EStyleSheet.value('$tertiairyColor')}
+					/>
+					<Write style={styles.error}>{this.props.reviewRatingError}</Write>
 				</Section>
 				<Section>
 	        <TextInput
@@ -83,6 +94,10 @@ class AddReview extends Component {
 const styles = EStyleSheet.create({
 	rating: {
 		maxWidth: 200
+	},
+	star: {
+		marginLeft: 5,
+		marginRight: 5
 	},
 	reviewText: {
 		borderBottomColor: '$primaryColor',

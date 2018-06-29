@@ -1,7 +1,10 @@
 import firebase from 'firebase';
 import {
 	SELECTED_PROVIDER,
-	SELECTED_PROVIDER_SERVICE
+	SELECTED_PROVIDER_SERVICE,
+	GET_PROVIDER,
+	GET_PROVIDER_SUCCESS,
+	GET_PROVIDER_FAIL
 } from './types';
 
 export const getProviders = (service) => {
@@ -33,6 +36,19 @@ export const getProviders = (service) => {
 				reject(err)
 			})
 	})
+}
+
+export const getProvider = providerId => dispatch => {
+	dispatch({type: GET_PROVIDER})
+	firebase.database()
+		.ref(`users/providers/${providerId}`)
+		.on('value', snapshot => {
+			if(snapshot.val()) {
+				dispatch({type: GET_PROVIDER_SUCCESS, payload: snapshot.val()})
+			} else {
+				dispatch({type: GET_PROVIDER_FAIL})
+			}
+		})
 }
 
 export const selectProvider = (provider) => {
