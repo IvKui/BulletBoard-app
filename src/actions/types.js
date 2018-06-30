@@ -88,3 +88,4 @@ export const SET_REVIEW_ERROR = 'set_review_error';
 export const ADD_REVIEW = 'add_review';
 export const ADD_REVIEW_SUCCESS = 'add_review_success';
 export const ADD_REVIEW_FAIL = 'add_review_fail';
+export const SELECT_REVIEW = 'select_review';

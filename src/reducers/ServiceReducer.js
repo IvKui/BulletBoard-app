@@ -125,6 +125,7 @@ export default (state = INITIAL_STATE, action) => {
 			};
 
 		case ADD_SERVICE_FAIL:
+			console.log(action.payload)
 			return { ...state, loading: false, addServiceError: action.payload || 'Er is iets fout gegaan' };
 
 		case EDIT_SERVICE_SUCCESS:

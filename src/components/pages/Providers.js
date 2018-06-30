@@ -77,13 +77,18 @@ class Providers extends Component {
 							data={this.state.providers}
 							renderItem={({item}) => {
 								if(item.services) {
+									let tags = []
+									Object.values(item.services).map(item => {
+										tags.push(item.title)
+									})
 									return (
 										<UserBlock
+											style={styles.userBlock}
 											onPress={() => this.onProviderClick(item)}
 											name={item.name}
 											image={item.image}
 											rating={item.rating}
-											items={Object.keys(item.services)}
+											tags={tags}
 										/>
 									)
 								}
@@ -123,6 +128,9 @@ const styles = EStyleSheet.create({
 	filterIcon: {
 		paddingTop: 3,
 		marginLeft: 5,
+	},
+	userBlock: {
+		marginBottom: 20
 	},
 	noProviderContainer: {
 		alignItems: 'center'

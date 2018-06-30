@@ -105,23 +105,15 @@ class RegisterForm extends Component {
 	openImagePicker() {
 		ImagePicker.launchImageLibraryAsync({
 			allowEdititing: true,
-			aspect: [1,1]
+			aspect: [4,3]
 		})
-		.then(image => {
-			if(!image.cancelled) {
-				const uri = image.uri.replace('file://', '')
-				fetch(uri)
-					.then(res => {
-						res.blob()
-							.then(blob => {
-								firebase.storage()
-									.ref('/images/')
-									.child('test')
-									.put(blob)
-							})
-					})
-			}
-		})
+		.then(image => this.uploadImage(image))
+	}
+
+	uploadImage(image) {
+		if(!image.cancelled) {
+			fetch(image.uri)
+		}
 	}
 
 	renderAlert() {
@@ -249,6 +241,7 @@ class RegisterForm extends Component {
 						<TextInput
 							style={styles.input}
 							keyboardType='email-address'
+							autoCapitalize='none'
 							onChangeText={this.onEmailChange.bind(this)}
 							value={this.props.email}
 							blurOnSubmit={ false }

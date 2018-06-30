@@ -282,6 +282,7 @@ export const addService = (navigation, user, addServiceSelected, addServicePrice
 		const id = firebase.auth().currentUser.uid
 		firebase.database().ref(`users/providers/${id}/services/${addServiceSelected}`)
 		.set({
+			title: addServiceSelected,
 			prices: addServicePrices || 'none',
 			days: addServiceDays || 'none'
 		})
@@ -293,8 +294,9 @@ export const addService = (navigation, user, addServiceSelected, addServicePrice
 			addServiceFail(dispatch)
 		});
 	} else {
+		console.log('!!!!!!!!!!!!!!!!!!')
 		const message = 'Selecteer een dienst'
-		addServiceFail(message)
+		addServiceFail(dispatch, message)
 	}
 }
 
@@ -331,7 +333,7 @@ const addServiceSuccess = (navigation, dispatch, user) => {
 
 };
 
-const addServiceFail = (message) => dispatch => {
+const addServiceFail = (dispatch, message) => {
 	dispatch({
 		type: ADD_SERVICE_FAIL,
 		payload: message

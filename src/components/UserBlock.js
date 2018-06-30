@@ -7,12 +7,13 @@ import { Tags, Write, Svg } from './common';
 import { person } from '../images';
 
 class UserBlock extends Component {
+
   render() {
     return (
       <TouchableWithoutFeedback
         onPress={this.props.onPress}
       >
-        <View style={styles.container}>
+        <View style={[styles.container, this.props.style]}>
           <UserImage
             small
             style={ styles.image }
@@ -34,9 +35,12 @@ class UserBlock extends Component {
                   />
                 </View>
       				}
-              {this.props.items &&
-                <Tags items={ this.props.items } />
+              {this.props.tags &&
+                <Tags items={ this.props.tags } />
       				}
+              {this.props.text &&
+                <Write>{this.props.text}</Write>
+              }
             </View>
           </View>
         </View>
@@ -48,7 +52,7 @@ class UserBlock extends Component {
 const styles = EStyleSheet.create({
 	container: {
     flexDirection: 'row',
-    marginBottom: 20
+    alignItems: 'center'
 	},
   image: {
     marginRight: 20

@@ -195,20 +195,22 @@ class Provider extends Component {
 									/>
 								)}
 								ListFooterComponent={() => {
-									if(!this.props.selectedProvider.reviews[this.props.user.id]) {
-										return (
-											<TouchableOpacity onPress={() => this.onAddReviewPress()}>
+									if(this.props.user) {
+										if(!this.props.selectedProvider.reviews[this.props.user.id]) {
+											return (
+												<TouchableOpacity onPress={() => this.onAddReviewPress()}>
 												<View style={styles.addReview}>
-													<Write style={styles.addReviewText}>Schrijf een recensie</Write>
-													<Svg
-														height={'25'}
-														width={'25'}
-														fill={ EStyleSheet.value('$primaryColor')}
-														source={ plus }
-													/>
+												<Write style={styles.addReviewText}>Schrijf een recensie</Write>
+												<Svg
+												height={'25'}
+												width={'25'}
+												fill={ EStyleSheet.value('$primaryColor')}
+												source={ plus }
+												/>
 												</View>
-											</TouchableOpacity>
-										)
+												</TouchableOpacity>
+											)
+										} else { return null }
 									} else { return null }
 								}}
 								keyExtractor={item => item.id}

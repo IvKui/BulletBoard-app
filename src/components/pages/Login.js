@@ -92,6 +92,7 @@ class Login extends Component {
 						<Write style={styles.label}>Email</Write>
 						<TextInput
 							style={styles.input}
+							autoCapitalize='none'
 							underlineColorAndroid='transparent'
 							keyboardType='email-address'
 							onChangeText={this.onEmailChange.bind(this)}

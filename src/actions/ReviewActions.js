@@ -11,7 +11,8 @@ import {
 	SET_REVIEW_ERROR,
 	ADD_REVIEW,
 	ADD_REVIEW_SUCCESS,
-	ADD_REVIEW_FAIL
+	ADD_REVIEW_FAIL,
+	SELECT_REVIEW
 } from './types';
 
 export const getProviderReviews = id => dispatch => {
@@ -24,7 +25,6 @@ export const getProviderReviews = id => dispatch => {
 }
 
 export const getConsumerReviews = id => dispatch => {
-	console.log(id)
 	dispatch({ type: GET_REVIEWS })
 	firebase.database()
 		.ref(`users/providers/`)
@@ -50,6 +50,13 @@ export const getConsumerReviews = id => dispatch => {
 		})
 		.catch(() => dispatch({ type: GET_REVIEWS_FAIL }))
 }
+
+export const selectReview = (review) => {
+	return {
+		type: SELECT_REVIEW,
+		payload: review
+	};
+};
 
 export const setReviewRating = (rating) => {
 	return {
@@ -102,10 +109,30 @@ export const addReview = (providerId, consumer, reviewRating, reviewText) => dis
 			rating: reviewRating,
 			text: reviewText,
 			image: consumer.image,
-			name: consumer.name
+			name: consumer.name,
+			provider: providerId
 		})
-		.then(() => addReviewSuccess(dispatch))
+		.then(() => addReviewSuccess(dispatch, providerId))
 		.catch(() => addReviewFail(dispatch))
+}
+
+const calculateRating = providerId => {
+	firebase.database()
+		.ref(`users/providers/${providerId}`)
+		.once('value')
+		.then(snapshot => {
+			if(snapshot.val()) {
+				let ratings = []
+				let total = 0
+				Object.values(snapshot.val().reviews).map(item => {
+					ratings.push(item.rating)
+					total += item.rating
+				})
+				let average = total / ratings.length
+				average = Math.round(average*2)/2
+				snapshot.ref.child('rating').set(average)
+			}
+		})
 }
 
 const getReviewsSuccess = (dispatch, reviews) => {
@@ -121,7 +148,8 @@ const getReviewsFail = (dispatch) => {
 	})
 }
 
-const addReviewSuccess = (dispatch) => {
+const addReviewSuccess = (dispatch, providerId) => {
+	calculateRating(providerId)
 	dispatch({
 		type: ADD_REVIEW_SUCCESS
 	})

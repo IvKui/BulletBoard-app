@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { getProviderReviews, getConsumerReviews } from '../../actions';
+import { getProviderReviews, getConsumerReviews, selectReview } from '../../actions';
 import Review from '../Review';
 import { Container, Write, Spinner, Button } from '../common';
 
 class MyReviews extends Component {
 	static navigationOptions = {
 		title: 'Mijn recensies'
+	}
+
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			reloadReviews: this.props.navigation.addListener(
+		    'willFocus', payload => {
+					this.props.selectReview(null)
+					if(this.props.user.role === 'provider') {
+						this.props.getProviderReviews(this.props.user.id)
+					} else {
+						this.props.getConsumerReviews(this.props.user.id)
+					}
+		    }
+		  )
+		}
 	}
 
 	componentWillMount() {
@@ -19,9 +36,17 @@ class MyReviews extends Component {
 		}
 	}
 
-  onReviewPress(reviewId) {
-		console.log('review pressed')
-		this.props.navigation.push('addReview')
+	componentWillUnmount() {
+		this.state.reloadReviews.remove()
+	}
+
+  onReviewPress(review) {
+		this.props.selectReview(review)
+		if(this.props.user.role === 'consumer') {
+			this.props.navigation.push('AddReview')
+		} else if (this.props.user.role === 'provider') {
+			this.props.navigation.push('Review')
+		}
   }
 
 	render() {
@@ -32,13 +57,14 @@ class MyReviews extends Component {
 				</Container>
 			)
 		} else {
-			if(this.props.reviews) {
+			if(this.props.reviews.length > 0) {
 				return (
 					<Container>
 						<FlatList
 							data={this.props.reviews}
 							renderItem={({item}) => (
 								<Review
+									onPress={() => this.onReviewPress(item)}
 									style={styles.review}
 									name={item.name}
 									image={item.image}
@@ -57,10 +83,13 @@ class MyReviews extends Component {
 						{this.props.user.role === 'provider' ?
 							<Write style={styles.noReviewsText}>Nog geen recensies ontvangen</Write>
 							:
-							<View>
+							<View style={styles.noReviewsContainer}>
 								<Write style={styles.noReviewsText}>Nog geen recensies gegeven</Write>
 								<Write style={styles.noReviewsSubText}>Geef een dienstverlener een recensie via hun profiel pagina</Write>
-								<Button onPress={() => this.props.navigation.push('AllProviders')}>Alle Dienstverleners</Button>
+								<Button onPress={() => {
+									this.props.navigation.navigate('ConsumerStack')
+									this.props.navigation.navigate('AllProviders')
+								}}>Alle Dienstverleners</Button>
 							</View>
 						}
 					</Container>
@@ -72,9 +101,8 @@ class MyReviews extends Component {
 }
 
 const styles = EStyleSheet.create({
-	review: {
-		flex: 1,
-		marginBottom: 20
+	noReviewsContainer: {
+		flex: 1
 	},
 	noReviewsText: {
 		fontSize: 16,
@@ -86,12 +114,17 @@ const styles = EStyleSheet.create({
 		fontSize: 14,
 		textAlign: 'center',
 		marginBottom: 15
+	},
+	review: {
+		marginBottom: 20,
+		flex: 1
 	}
 });
 
 const mapStateToProps = state => {
 	return {
 		user: state.auth.user,
+		providers: state.provider.providers,
 		reviews: state.review.reviews,
 		loading: state.review.loading
 	};
@@ -99,5 +132,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
 	getProviderReviews,
-	getConsumerReviews
+	getConsumerReviews,
+	selectReview
 })(MyReviews);

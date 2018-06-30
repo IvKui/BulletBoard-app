@@ -185,7 +185,7 @@ class AddService extends Component {
 						onValueChange={(service) => this.onServiceSelect(service)}
 						mode='dropdown'
 					>
-						<Picker.Item label='Kies een service' value={null} />
+						<Picker.Item label='Kies een dienst' value={null} />
 						{Object.values(this.props.services).map((service, index) => {
 							return (
 								<Picker.Item

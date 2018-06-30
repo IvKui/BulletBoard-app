@@ -9,17 +9,21 @@ class Review extends Component {
     return (
         <View style={this.props.style}>
           <UserBlock
+            onPress={this.props.onPress}
             name={this.props.name}
             image={this.props.image}
             rating={this.props.rating}
+            text={this.props.text}
           />
-          <Write>{this.props.text}</Write>
         </View>
     );
   }
 };
 
 const styles = EStyleSheet.create({
+  oneLine: {
+    flex: 1
+  }
 });
 
 export default Review;

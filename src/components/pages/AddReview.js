@@ -10,14 +10,28 @@ import {
 	setReviewTextError,
 	resetReviewErrors,
 	setReviewError,
-	addReview
+	addReview,
+	getProvider
 } from '../../actions';
 import UserBlock from '../UserBlock';
-import { Title, Container, Section, Button, Notify, Write} from '../common';
+import { Title, Container, Section, Button, Notify, Write, Spinner} from '../common';
 
 class AddReview extends Component {
 	static navigationOptions = {
 		title: 'Recensie toevoegen'
+	}
+
+	constructor(props) {
+		super(props)
+		if(this.props.selectedReview) {
+			console.log(this.props.selectedReview)
+			this.props.getProvider(this.props.selectedReview.provider)
+		}
+
+		if(this.props.selectedReview) {
+			this.props.setReviewText(this.props.selectedReview.text)
+			this.props.setReviewRating(this.props.selectedReview.rating)
+		}
 	}
 
 	onReviewSend() {
@@ -51,49 +65,59 @@ class AddReview extends Component {
 	}
 
 	render() {
-		return (
-			<Container>
-				{this.renderAlert()}
-				<Section>
-					<UserBlock
-						name={this.props.selectedProvider.name}
-						image={this.props.selectedProvider.image}
-					/>
-				</Section>
-				<Section>
-					<StarRating
-						buttonStyle={styles.star}
-						maxStars={5}
-						rating={this.props.reviewRating}
-						selectedStar={rating => this.props.setReviewRating(rating)}
-						starSize={40}
-						fullStarColor={EStyleSheet.value('$tertiairyColor')}
-						emptyStarColor={EStyleSheet.value('$tertiairyColor')}
-					/>
-					<Write style={styles.error}>{this.props.reviewRatingError}</Write>
-				</Section>
-				<Section>
-	        <TextInput
-	          multiline={true}
-						keyboardType='default'
-						style={styles.reviewText}
-						underlineColorAndroid='transparent'
-						value={this.props.reviewText}
-						onChangeText={text => this.props.setReviewText(text)}
-						placeholder='Schrijf uw recensie...'
-						onSubmitEditing={() => this.onReviewSend()}
-	        />
-					<Write style={styles.error}>{this.props.reviewTextError}</Write>
-				</Section>
-				<Button onPress={() => this.onReviewSend()}>Versturen</Button>
-			</Container>
-		);
+		if(this.props.loading) {
+			return (
+				<Container center>
+					<Spinner />
+				</Container>
+			)
+		} else {
+			return (
+				<Container>
+					{this.renderAlert()}
+					<Section>
+						<UserBlock
+							name={this.props.selectedProvider.name}
+							image={this.props.selectedProvider.image}
+						/>
+					</Section>
+					<Section>
+						<StarRating
+							containerStyle={EStyleSheet.flatten(styles.rating)}
+							buttonStyle={styles.star}
+							maxStars={5}
+							rating={this.props.reviewRating}
+							selectedStar={rating => this.props.setReviewRating(rating)}
+							starSize={40}
+							fullStarColor={EStyleSheet.value('$tertiairyColor')}
+							emptyStarColor={EStyleSheet.value('$tertiairyColor')}
+						/>
+						<Write style={styles.error}>{this.props.reviewRatingError}</Write>
+					</Section>
+					<Section>
+		        <TextInput
+		          multiline={true}
+							keyboardType='default'
+							style={styles.reviewText}
+							underlineColorAndroid='transparent'
+							value={this.props.reviewText}
+							onChangeText={text => this.props.setReviewText(text)}
+							placeholder='Schrijf uw recensie...'
+							onSubmitEditing={() => this.onReviewSend()}
+		        />
+						<Write style={styles.error}>{this.props.reviewTextError}</Write>
+					</Section>
+					<Button onPress={() => this.onReviewSend()}>Versturen</Button>
+				</Container>
+			);
+		}
 	}
 }
 
 const styles = EStyleSheet.create({
 	rating: {
-		maxWidth: 200
+		marginLeft: 'auto',
+		marginRight: 'auto'
 	},
 	star: {
 		marginLeft: 5,
@@ -120,7 +144,9 @@ const mapStateToProps = state => {
 		reviewText: state.review.reviewText,
 		reviewTextError: state.review.reviewTextError,
 		reviewError: state.review.reviewError,
-		selectedProvider: state.provider.selectedProvider
+		selectedProvider: state.provider.selectedProvider,
+		selectedReview: state.review.selectedReview,
+		loading: state.provider.loading
 	};
 };
 
@@ -131,5 +157,6 @@ export default connect(mapStateToProps, {
 	setReviewTextError,
 	resetReviewErrors,
 	setReviewError,
-	addReview
+	addReview,
+	getProvider
 })(AddReview);

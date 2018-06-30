@@ -11,7 +11,8 @@ import {
 	SET_REVIEW_ERROR,
 	ADD_REVIEW,
 	ADD_REVIEW_SUCCESS,
-	ADD_REVIEW_FAIL
+	ADD_REVIEW_FAIL,
+	SELECT_REVIEW
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -21,19 +22,20 @@ const INITIAL_STATE = {
 	reviewText: '',
 	reviewTextError: '',
 	reviewError: '',
-	loading: false
+	selectedReview: null,
+	loading: true
 };
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case GET_REVIEWS:
-			return { ...state, loading: true }
+			return { ...state, loading: true };
 
 		case GET_REVIEWS_SUCCESS:
-			return { ...state, loading: false, reviews: action.payload }
+			return { ...state, loading: false, reviews: action.payload };
 
 		case GET_REVIEWS_FAIL:
-			return { ...state, loading: false }
+			return { ...state, loading: false };
 
 		case SET_REVIEW_RATING:
 			return { ...state, reviewRating: action.payload };
@@ -61,6 +63,9 @@ export default (state = INITIAL_STATE, action) => {
 
 		case ADD_REVIEW_FAIL:
 			return { ...state, loading: false, reviewError: action.payload };
+
+		case SELECT_REVIEW:
+			return { ...state, selectedReview: action.payload };
 
 		default:
 			return state;
