@@ -108,7 +108,7 @@ export const addReview = (providerId, consumer, reviewRating, reviewText) => dis
 			id: `${providerId}-${consumer.id}`,
 			rating: reviewRating,
 			text: reviewText,
-			image: consumer.image,
+			image: consumer.image ? consumer.image : null,
 			name: consumer.name,
 			provider: providerId
 		})

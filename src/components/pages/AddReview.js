@@ -35,6 +35,7 @@ class AddReview extends Component {
 	}
 
 	onReviewSend() {
+		console.log('!!!!!!!!!!!!!@')
 		let errors = false
 		this.props.resetReviewErrors()
 		if(!this.props.reviewRating) {

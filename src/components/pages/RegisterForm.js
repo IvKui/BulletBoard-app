@@ -104,15 +104,28 @@ class RegisterForm extends Component {
 
 	openImagePicker() {
 		ImagePicker.launchImageLibraryAsync({
-			allowEdititing: true,
-			aspect: [4,3]
+			allowEdititing: false,
+			aspect: [4,3],
+			base64: true,
+			quality: 0.8
 		})
 		.then(image => this.uploadImage(image))
 	}
 
 	uploadImage(image) {
 		if(!image.cancelled) {
-			fetch(image.uri)
+			console.log(image.base64)
+			let t = image.base64.replace(/(\r\n\t|\n|\r\t)/gm,"")
+			let re = new RegExp("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$");
+			if (re.test(t)) {
+			    console.log("Valid");
+			} else {
+			    console.log("Invalid");
+			}
+			firebase.storage()
+				.ref()
+				.child('test.jpg')
+				.putString(t, 'base64')
 		}
 	}
 
@@ -155,47 +168,47 @@ class RegisterForm extends Component {
 			role
 		} = this.props;
 
-		if (name.length === 0) {
+		if (!name) {
 			this.props.nameError('Vul uw naam in');
 			isError = true
 		}
 
-		if (email.length === 0) {
+		if (!email) {
 			this.props.emailError('Vul een geldig emailadres in: gebruiker@domein.nl')
 			isError = true
 		}
 
-		if (phone.length === 0) {
+		if (!phone) {
 			this.props.phoneError('Vul een geldig telefoonnummer in: 0612345678')
 			isError = true
 		}
 
-		if (street.length === 0) {
+		if (!street) {
 			this.props.streetError('Vul uw straatnaam in')
 			isError = true
 		}
 
-		if (houseNr.length === 0) {
+		if (!houseNr) {
 			this.props.houseNrError('Vul uw huisnummer in')
 			isError = true
 		}
 
-		if (hometown.length === 0) {
+		if (!hometown) {
 			this.props.hometownError('Vul uw woonplaats in')
 			isError = true
 		}
 
-		if (postal.length === 0) {
+		if (!postal) {
 			this.props.postalError('Vul uw postcode in')
 			isError = true
 		}
 
-		if (postal.length > 0 && !postal.match(/^[1-9][0-9]{3}[ ]?([A-RT-Za-rt-z][A-Za-z]|[sS][BCbcE-Re-rT-Zt-z])$/) ) {
+		if (postal && !postal.match(/^[1-9][0-9]{3}[ ]?([A-RT-Za-rt-z][A-Za-z]|[sS][BCbcE-Re-rT-Zt-z])$/) ) {
 			this.props.postalError('Vul een geldige postcode in: 1234AB')
 			isError = true
 		}
 
-		if (password.length < 6) {
+		if (password && password.length < 6) {
 			if (password.length === 0) {
 				this.props.passwordError('Vul een wachtwoord in')
 			} else {
@@ -204,7 +217,7 @@ class RegisterForm extends Component {
 			isError = true
 		}
 
-		if(!password === passwordConfirm) {
+		if(password && password !== passwordConfirm) {
 			this.props.passwordConfirmError('De wachtwoorden komen niet overeen')
 			isError = true
 		}
@@ -216,7 +229,6 @@ class RegisterForm extends Component {
 		return (
 			<Container style={styles.container}>
 				{this.renderAlert()}
-				<Button onPress={() => this.openImagePicker()}>Image</Button>
 				<View style={styles.form}>
 					<View style={styles.inputContainer}>
 						<Write style={styles.label}>Naam</Write>

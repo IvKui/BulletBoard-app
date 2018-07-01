@@ -17,7 +17,6 @@ export const getChats = (user) => dispatch => {
 		.ref('chats/')
 		.on('value', snapshot => {
 			if(snapshot.val()) {
-				console.log('test')
 				const allMessages = snapshot.val()
 				let chats = []
 				Object.values(allMessages).map(item => {

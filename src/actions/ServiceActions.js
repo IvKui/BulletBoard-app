@@ -49,16 +49,18 @@ export const getServices = () => {
 
 export const getUserServices = (user) => {
 	return new Promise((resolve, reject) => {
-		const id = firebase.auth().currentUser.uid
 		firebase.database()
-			.ref(`users/providers/${id}/services`)
+			.ref(`users/providers/${user.id}`)
 			.once('value')
 			.then(snapshot => {
-				if(snapshot.val()) {
-					resolve(snapshot.val())
+				if(snapshot.val().services) {
+					resolve(snapshot.val().services)
+				} else {
+					resolve(null)
 				}
 			})
 			.catch(err => {
+				console.log('no services')
 				reject(err)
 			})
 	})
@@ -294,7 +296,6 @@ export const addService = (navigation, user, addServiceSelected, addServicePrice
 			addServiceFail(dispatch)
 		});
 	} else {
-		console.log('!!!!!!!!!!!!!!!!!!')
 		const message = 'Selecteer een dienst'
 		addServiceFail(dispatch, message)
 	}
@@ -363,11 +364,16 @@ const editServiceFail = (dispatch) => {
 };
 
 const deleteServiceSuccess = (navigation, dispatch, user) => {
+	console.log('delete succes')
 	let newUser = user
 
 	getUserServices(user)
 		.then(services => {
-			newUser.services = services
+			if(services) {
+				newUser.services = services
+			} else {
+				delete newUser.services
+			}
 			console.log(user)
 			console.log(newUser)
 			dispatch({

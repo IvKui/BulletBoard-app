@@ -238,7 +238,7 @@ export const updateUser = ({ name, email, phone, street, houseNr, hometown, post
 	}
 
 	const uid = firebase.auth().currentUser.uid
-	firebase.database().ref(`users/${role}s/${uid}`).update({
+	firebase.database().ref(`users/${user.role}s/${uid}`).update({
 		name,
 		email,
 		phone,
@@ -345,16 +345,14 @@ const registerUserSuccess = (navigation, dispatch, user, name, email, phone, str
 		street,
 		houseNr,
 		hometown,
-		postal
+		postal,
+		role,
+		id: user.uid
 	}
 
 	firebase.database().ref(`users/${role}s/${user.uid}`)
 	.set(newUser)
-	.then(() => {
-		newUser.role = role
-		newUser.id = user.uid
-		loginUserSuccess(navigation, dispatch, newUser, user.uid)
-	})
+	.then(() => loginUserSuccess(navigation, dispatch, newUser, user.uid))
 	.catch(() => loginUserFail(dispatch));
 };
 

@@ -44,38 +44,44 @@ class Messages extends Component {
 					<Spinner />
 				</Container>
 			)
-		}
-		return (
-			<Container>
-				{this.props.chats.length >= 1 ?
-					<FlatList
+		} else {
+			if(this.props.chats.length >= 1) {
+				return (
+					<Container>
+						<FlatList
 						data={this.props.chats}
 						renderItem={({item}) => {
 							return (
 								<ChatBlock
-									onPress={() => this.onChatClick(item)}
-									name={item.partnerName}
-									image={item.partnerImage}
-									message={item.lastMessage.text}
+								onPress={() => this.onChatClick(item)}
+								name={item.partnerName}
+								image={item.partnerImage}
+								message={item.lastMessage.text}
 								/>
 							)
 						}}
 						keyExtractor={item => item.chatId}
 						numColumns= {1}
-					/>
-					:
-					<View style={styles.noChatsContainer}>
-						<Write>Geen openstaande gesprekken gevonden</Write>
-					</View>
-				}
-			</Container>
-		);
+						/>
+					</Container>
+				)
+			} else {
+				return (
+					<Container center>
+						<Write style={styles.noMessagesText}>nog geen openstaande gesprekken</Write>
+					</Container>
+				)
+			}
+		}
 	}
 }
 
 const styles = EStyleSheet.create({
-	noChatsContainer: {
-		alignItems: 'center'
+	noMessagesText: {
+			fontSize: 16,
+			fontWeight: 'bold',
+			textAlign: 'center',
+			marginBottom: 15
 	}
 });
 

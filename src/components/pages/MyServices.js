@@ -57,6 +57,7 @@ class MyServices extends Component {
 				})
 		} else {
 			this.setState({
+				services: null,
 				servicesLoaded: true
 			})
 		}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Picker, TextInput, Alert } from 'react-native';
+import { View, Picker, TextInput, Alert, TimePickerAndroid, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import ServiceHeader from '../headers/ServiceHeader';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -159,6 +159,42 @@ class AddService extends Component {
 	deleteService() {
 		const {navigation, user, editServiceSelected} = this.props
 		this.props.deleteService(navigation, user, editServiceSelected)
+	}
+
+	openStartTimePicker() {
+		TimePickerAndroid.open({
+			hour: 0,
+			minute: 0,
+			is24Hour: true
+		})
+			.then(action => {
+				if (action.action != 'dismissedAction') {
+					let minute = action.minute
+					if(minute === 0) {
+						minute = '00'
+					}
+					const time = `${action.hour}:${minute}`
+					this.onDayStartChange(time)
+				}
+			})
+	}
+
+	openEndTimePicker() {
+		TimePickerAndroid.open({
+			hour: 0,
+			minute: 0,
+			is24Hour: true
+		})
+			.then(action => {
+				if (action !== 'dismissedAction') {
+					let minute = action.minute
+					if(minute === 0) {
+						minute = '00'
+					}
+					const time = `${action.hour}:${minute}`
+					this.onDayEndChange(time)
+				}
+			})
 	}
 
 	renderPrices() {
@@ -326,7 +362,7 @@ class AddService extends Component {
 							underlineColorAndroid='transparent'
 							placeholder='Vanaf'
 							keyboardType='default'
-							onChangeText={this.onDayStartChange.bind(this)}
+							onFocus={() => this.openStartTimePicker()}
 							value={this.props.dayStart}
 							blurOnSubmit={ false }
 							onSubmitEditing={() => {
@@ -342,11 +378,10 @@ class AddService extends Component {
 							underlineColorAndroid='transparent'
 							placeholder='Tot'
 							keyboardType='default'
-							onChangeText={this.onDayEndChange.bind(this)}
+							onFocus={() => this.openEndTimePicker()}
 							value={this.props.dayEnd}
 							blurOnSubmit={ false }
 							onSubmitEditing={() => {
-								this.focusNextField('dayStart');
 								this.onSubmitDay();
 							}}
 							returnKeyType={ "next" }
@@ -358,7 +393,6 @@ class AddService extends Component {
 							tiny
 							icon={check}
 							onPress={() => {
-								this.focusNextField('dayStart');
 								this.onSubmitDay()
 							}}
 							style={styles.submitBtn}

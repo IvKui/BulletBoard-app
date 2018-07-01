@@ -150,7 +150,7 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, loading: true, registerError: '' }
 
 		case UPDATE_USER_SUCCESS:
-			return { ...state, loading: false, updateError: '', updateConfirm: 'Geslaagd!', user: action.payload };
+			return { ...state, loading: false, updateError: '', updateConfirm: 'Wijzigingen succesvol opgeslagen!', user: action.payload };
 
 		case UPDATE_USER_FAIL:
 			return { ...state, loading: false, updateError: 'OEPS', updateConfirm: '' }

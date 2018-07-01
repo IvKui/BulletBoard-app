@@ -17,7 +17,7 @@ import {
 	hometownError,
 	postalChanged,
 	postalError,
-	resetErrors,
+	resetRegisterErrors,
 	updateUser
 } from '../../actions';
 import { Button, Container, Write, Notify, Spinner } from '../common';
@@ -138,7 +138,7 @@ class Profile extends Component {
 
 	validateForm() {
 		console.log('Validating...')
-		this.props.resetErrors();
+		this.props.resetRegisterErrors();
 		let isError = false;
 		const {
 			name,
@@ -412,6 +412,6 @@ export default connect(mapStateToProps, {
 	hometownError,
 	postalChanged,
 	postalError,
-	resetErrors,
+	resetRegisterErrors,
 	updateUser
 })(Profile);
